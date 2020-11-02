@@ -147,6 +147,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Sair");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			};
 		});
@@ -204,6 +205,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		btnVoltar = new JButton("");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Voltando!!");
 				Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
 				telaCadastroProfessor.setVisible(false);
 				dispose();
@@ -302,6 +304,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		btnSair = new JButton("");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});

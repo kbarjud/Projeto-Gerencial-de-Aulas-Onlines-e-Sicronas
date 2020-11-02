@@ -41,7 +41,7 @@ public class CoordenadorDAO {
 	}
 	public void Alterar (Coordenador coordenador) throws Exception {
 		try { 
-			String sql = "UPDATE atestado SET cod_coordenador=?, nome=?, senha=?, email=?, celular=?, status=? "
+			String sql = "UPDATE coordenador SET cod_coordenador=?, nome=?, senha=?, email=?, celular=?, status=? "
 					+ " WHERE id_coordenador=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setInt (1, coordenador.getCodCoordenador());

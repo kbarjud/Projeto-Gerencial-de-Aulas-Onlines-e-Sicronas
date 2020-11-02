@@ -25,6 +25,9 @@ import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_Inicial extends JFrame {
 
@@ -123,8 +126,10 @@ public class Tela_Inicial extends JFrame {
 		mnAjuda.add(separator);
 		
 		mnSair = new JMenuItem("Sair");
+		mnSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -187,6 +192,7 @@ public class Tela_Inicial extends JFrame {
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});

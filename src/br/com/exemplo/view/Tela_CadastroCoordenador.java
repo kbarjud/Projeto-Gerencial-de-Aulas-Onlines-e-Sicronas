@@ -98,18 +98,48 @@ public class Tela_CadastroCoordenador extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Cadastro");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "==================================================================================Cadastro=================================================================================="
+						+ "\n Nesta Área Você Poderá: "
+						+ "\n 1. Se Cadastrar Caso Ainda Não Tenha Feito isso"
+						+ "\n 2. Alterar Seu Cadastro"
+						+ "\n 3. Consultar Seu Cadastro"
+						+ "\n\n=================================================================================Informações================================================================================"
+						+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
+						+ "\n** O ID do Coordenador é Diferente do Código do Coordenador, se Necessário Faça Primeiro uma Consulta com o Código do Coordenador e irá Retornar Todas as Informações Desse Coordenador, Inclusive o ID"
+						+ "\n===========================================================================================================================================================================");
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String osName = System.getProperty("os.name");
+				String osVersion = System.getProperty("os.version");
+				String javaI = System.getProperty("java.version");
+				String javaRE = System.getProperty("java.runtime.version");
+				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+						+ "\n Instalado: " + osName + " e Versão: " + osVersion
+						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
+						+ "\n=====================================================");
+			}
+		});
 		mnNewMenu_1.add(mntmNewMenuItem);
 		
 		separator = new JSeparator();
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_1 = new JMenuItem("Sair");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
@@ -199,20 +229,20 @@ public class Tela_CadastroCoordenador extends JFrame {
 					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 					coordenadorDao.Salvar(coordenador);
 					
-					List<Professores> lista = new ArrayList<Professores>();
-					ProfessoresDAO professorDao1 = new ProfessoresDAO();
-					lista = professorDao1.ListarTodos1(Integer.parseInt(txtCodProfessor.getText()));
-					DefaultTableModel model = (DefaultTableModel) tabCadastroProfessor.getModel();
+					List<Coordenador> lista = new ArrayList<Coordenador>();
+					CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
+					lista = coordenadorDAO.ListarTodos1(Integer.parseInt(txtCodCoordenador.getText()));
+					DefaultTableModel model = (DefaultTableModel) tabCadastroCoordenador.getModel();
 					model.setNumRows(0);
-					for (Professores professor1 : lista) {
+					for (Coordenador coordenador1 : lista) {
 						model.addRow (new Object[] {
-								professor1.getIdProfessor(),
-								professor1.getCodProfessor(),
-								professor1.getNome(),
-								professor1.getSenha(),
-								professor1.getEmail(),
-								professor1.getCelular(),
-								professor1.getStatus(),
+								coordenador1.getIdCoordenador(),
+								coordenador1.getCodCoordenador(),
+								coordenador1.getNome(),
+								coordenador1.getSenha(),
+								coordenador1.getEmail(),
+								coordenador1.getCelular(),
+								coordenador1.getStatus(),
 							});
 					} 
 					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
@@ -230,30 +260,125 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnSalvar);
 		
 		btnNovo = new JButton("");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtCodCoordenador.setText(null);
+				passSenha.setText(null);
+				txtNomeCoordenador.setText(null);
+				txtEmail.setText(null);
+				ftfCelular.setText(null);
+				((DefaultTableModel) tabCadastroCoordenador.getModel()).removeRow(0);
+			}
+		});
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/novo.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(20, 437, 60, 43);
 		contentPane.add(btnNovo);
 		
 		btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
+				telaCadastroCoordenador.setVisible(false);
+				dispose();
+				Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();
+				telaInicialCoordenador.setVisible(true);
+			}
+		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar.setBounds(90, 437, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int codCoordenador = Integer.parseInt(txtCodCoordenador.getText());
+					
+					CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
+					Coordenador coordenador = new Coordenador();
+					coordenador = coordenadorDAO.Consultar(codCoordenador);
+					 
+					if (codCoordenador == coordenador.getCodCoordenador()) {
+						List<Coordenador> lista = new ArrayList<Coordenador>();
+						CoordenadorDAO coordenadorDao = new CoordenadorDAO();
+						lista = coordenadorDao.ListarTodos1(codCoordenador);
+						DefaultTableModel model = (DefaultTableModel) tabCadastroCoordenador.getModel();
+						model.setNumRows(0);
+						for (Coordenador coordenador1 : lista) {
+							model.addRow (new Object[] {
+									coordenador1.getIdCoordenador(),
+									coordenador1.getCodCoordenador(),
+									coordenador1.getNome(),
+									coordenador1.getSenha(),
+									coordenador1.getEmail(),
+									coordenador1.getCelular(),
+									coordenador1.getStatus(),
+								});
+						} 
+						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+					}
+					else {
+						JOptionPane.showMessageDialog (null, "Coordenador Não Cadastrado");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Consultar!!. "
+							+ "\n1. Para Fazer Uma Consulta Informe o Código do Professor"
+							+ "\n2. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(160, 437, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Coordenador coordenador = new Coordenador();
+					coordenador.setCodCoordenador(Integer.parseInt(txtCodCoordenador.getText()));
+					coordenador.setNome(txtNomeCoordenador.getText());
+					coordenador.setSenha(String.valueOf(passSenha.getPassword()));
+					coordenador.setEmail(txtEmail.getText());
+					coordenador.setCelular(ftfCelular.getText());
+					coordenador.setStatus("Ativo");
+					
+					String id = JOptionPane.showInputDialog(null, "Qual o ID do Coordenador: ");
+					int idCoordenador = Integer.parseInt(id);
+					coordenador.setIdCoordenador(idCoordenador);
+						
+					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
+					// alterar
+					coordenadorDao.Alterar(coordenador);
+					JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
+							+ "\n2. Caso Tenha Sido, Verifique se o ID Foi Digitado Corretamente."
+							+ "\n3. Caso Você Não Saiba o ID, Faça Uma Consulta Usando o Código Do Coordenador e Assim Retornará Todos os Dados Do Coordenador, Inclusive o ID"
+							+ "\n\n===========================================================================Informações=========================================================================="
+							+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
+							+ "\n** O ID do Coordenador é Diferente do Código do Coordenador"
+							+ "\n==============================================================================================================================================================="
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(230, 437, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnSair.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/sair.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(302, 437, 60, 43);

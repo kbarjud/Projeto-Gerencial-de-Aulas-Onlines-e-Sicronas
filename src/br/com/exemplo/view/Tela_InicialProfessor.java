@@ -37,6 +37,9 @@ import br.com.exemplo.dao.TurmaDAO;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_InicialProfessor extends JFrame {
 
@@ -135,8 +138,10 @@ public class Tela_InicialProfessor extends JFrame {
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_3 = new JMenuItem("Sair");
+		mntmNewMenuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});

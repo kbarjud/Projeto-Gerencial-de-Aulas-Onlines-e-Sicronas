@@ -17,6 +17,8 @@ import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Tela_MenuCoordenador extends JFrame {
 
@@ -122,16 +124,43 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(lblOQueGostaria);
 		
 		btnDados = new JButton("Clique Aqui!");
+		btnDados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_DadosAulas telaDadosAulas = new Tela_DadosAulas();
+				telaDadosAulas.setVisible(true);
+			}
+		});
 		btnDados.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnDados.setBounds(250, 102, 103, 30);
 		contentPane.add(btnDados);
 		
 		btnCursos = new JButton("Clique Aqui!");
+		btnCursos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_CadastroCurso telaCadastroCurso = new Tela_CadastroCurso();
+				telaCadastroCurso.setVisible(true);
+			}
+		});
 		btnCursos.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCursos.setBounds(250, 144, 103, 30);
 		contentPane.add(btnCursos);
 		
 		btnProfessores = new JButton("Clique Aqui!");
+		btnProfessores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_ConsultarProfessor telaConsultarProfessor = new Tela_ConsultarProfessor();
+				telaConsultarProfessor.setVisible(true);
+			}
+		});
 		btnProfessores.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnProfessores.setBounds(250, 226, 103, 30);
 		contentPane.add(btnProfessores);
@@ -165,6 +194,15 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnTurmas = new JButton("Clique Aqui!");
+		btnTurmas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_CadastroTurma telaCadastroTurma = new Tela_CadastroTurma();
+				telaCadastroTurma.setVisible(true);
+			}
+		});
 		btnTurmas.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnTurmas.setBounds(250, 185, 103, 30);
 		contentPane.add(btnTurmas);
@@ -176,6 +214,15 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(lblCadastrarCursosE_1);
 		
 		btnCoordenadores = new JButton("Clique Aqui!");
+		btnCoordenadores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_ConsultarCoordenador telaConsultarCoordenador = new Tela_ConsultarCoordenador();
+				telaConsultarCoordenador.setVisible(true);
+			}
+		});
 		btnCoordenadores.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCoordenadores.setBounds(250, 267, 103, 30);
 		contentPane.add(btnCoordenadores);
