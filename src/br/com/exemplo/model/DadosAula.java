@@ -13,7 +13,7 @@ public class DadosAula {
 	private String horarioInicio;
 	private String horarioTermino;
 	private String assunto;
-	private String qtdAlunos;
+	private int qtdAlunos;
 	private String materiaisDisponibilizados;
 	private String linkSessao;
 	private String linkGravacao;
@@ -34,7 +34,7 @@ public class DadosAula {
 	
 	public DadosAula(int idAula, String curso, String disciplina, String turma, String periodo, String semestreLetivo,
 			String dataAula, boolean teveAula, String justificativa, String horarioInicio, String horarioTermino,
-			String assunto, String qtdAlunos, String materiaisDisponibilizados, String linkSessao, String linkGravacao,
+			String assunto, int qtdAlunos, String materiaisDisponibilizados, String linkSessao, String linkGravacao,
 			String obs, boolean atividadeSolicitada, String dataEntrega, String qtdPessoas, String descricao,
 			int idCursoDisciplina, int idTurma, int idProfessor) {
 		super();
@@ -160,11 +160,11 @@ public class DadosAula {
 		this.assunto = assunto;
 	}
 
-	public String getQtdAlunos() {
+	public int getQtdAlunos() {
 		return qtdAlunos;
 	}
 
-	public void setQtdAlunos(String qtdAlunos) {
+	public void setQtdAlunos(int qtdAlunos) {
 		this.qtdAlunos = qtdAlunos;
 	}
 

@@ -179,10 +179,15 @@ public class TurmaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public List ListarTodos2() throws Exception {
+	public List ListarTodos2(String nomeCurso, String disciplina, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
+		List<Turma> lista2 = new ArrayList<Turma>();
+		List<Turma> lista3 = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY turma");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String turma1 = rs.getString ("turma");
@@ -194,10 +199,14 @@ public class TurmaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public List ListarTodos3() throws Exception {
+	public List ListarTodos3(String nomeCurso, String disciplina, String turmaCod, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND status LIKE ? GROUP BY semestre_letivo");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, turmaCod);
+			ps.setString (4, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String semetreLetivo = rs.getString ("semestre_letivo");
@@ -209,10 +218,51 @@ public class TurmaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public List ListarTodos4() throws Exception {
+	public List ListarTodos4(String nomeCurso, String disciplina, String turmaCod, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND status LIKE ? GROUP BY periodo");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, turmaCod);
+			ps.setString (4, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String periodo = rs.getString ("periodo");
+				turma = new Turma (periodo);
+				lista.add(turma);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	
+	public List ListarTodos5(String nomeCurso, String disciplina, String status) throws Exception {
+		List<Turma> lista = new ArrayList<Turma>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY semestre_letivo");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String semetreLetivo = rs.getString ("semestre_letivo");
+				turma = new Turma (semetreLetivo);
+				lista.add(turma);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos6(String nomeCurso, String disciplina, String status) throws Exception {
+		List<Turma> lista = new ArrayList<Turma>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY periodo");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String periodo = rs.getString ("periodo");

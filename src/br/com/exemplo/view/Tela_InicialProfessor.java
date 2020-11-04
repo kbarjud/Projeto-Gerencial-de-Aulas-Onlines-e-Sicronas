@@ -69,6 +69,7 @@ public class Tela_InicialProfessor extends JFrame {
 	private JScrollPane scrollPane;
 	private JTable tabProfessor;
 	private JButton btnNovo;
+	private JMenuItem mnEntrar;
 
 	/**
 	 * Launch the application.
@@ -145,6 +146,44 @@ public class Tela_InicialProfessor extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		mnEntrar = new JMenuItem("Entrar");
+		mnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int codProfessor = Integer.parseInt(txtCodProfessor.getText());
+					String senha = String.valueOf(passSenha.getPassword());
+					
+					ProfessoresDAO professorDAO = new ProfessoresDAO();
+					Professores professor = new Professores();
+					professor = professorDAO.Login(codProfessor, senha);
+					 
+					if (codProfessor == professor.getCodProfessor() && senha.equals(professor.getSenha())) {
+						String nome = professor.getNome();
+						JOptionPane.showMessageDialog (null, "Seja Bem Vindo Professor(a): " + nome);
+						Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();			
+						telaInicialProfessor.setVisible (false);
+						dispose();
+						Tela_CadastroAulaProfessor telaCadastroAula = new Tela_CadastroAulaProfessor();
+						String codigoProf = Integer.toString(codProfessor);
+						telaCadastroAula.txtCodProfessor.setText(codigoProf);
+						telaCadastroAula.txtSenhaProf.setText(senha);
+						telaCadastroAula.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog (null, "Professor Não Cadastrado");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Login!!. "
+						+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
+						+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Você Fez Seu Cadastro"
+						+ "\n3. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
+						+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		mnEntrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		mnNewMenu_1.add(mnEntrar);
 		mnNewMenu_1.add(mntmNewMenuItem_3);
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
@@ -191,6 +230,7 @@ public class Tela_InicialProfessor extends JFrame {
 		btnCadastreSe.setToolTipText("Bot\u00E3o Cadastre-se Aqui");
 		btnCadastreSe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();
 				telaInicialProfessor.setVisible(false);
 				dispose();
@@ -292,6 +332,7 @@ public class Tela_InicialProfessor extends JFrame {
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();
 				telaInicialProfessor.setVisible(false);
 				dispose();
@@ -316,6 +357,7 @@ public class Tela_InicialProfessor extends JFrame {
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});

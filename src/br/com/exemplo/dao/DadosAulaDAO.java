@@ -39,7 +39,7 @@ public class DadosAulaDAO {
 			ps.setString (9, dadosAula.getHorarioInicio());
 			ps.setString (10, dadosAula.getHorarioTermino());
 			ps.setString (11, dadosAula.getAssunto());
-			ps.setString (12, dadosAula.getQtdAlunos());
+			ps.setInt (12, dadosAula.getQtdAlunos());
 			ps.setString (13, dadosAula.getMateriaisDisponibilizados());
 			ps.setString (14, dadosAula.getLinkSessao());
 			ps.setString (15, dadosAula.getLinkGravacao());
@@ -94,7 +94,7 @@ public class DadosAulaDAO {
 			ps.setString (9, dadosAula.getHorarioInicio());
 			ps.setString (10, dadosAula.getHorarioTermino());
 			ps.setString (11, dadosAula.getAssunto());
-			ps.setString (12, dadosAula.getQtdAlunos());
+			ps.setInt (12, dadosAula.getQtdAlunos());
 			ps.setString (13, dadosAula.getMateriaisDisponibilizados());
 			ps.setString (14, dadosAula.getLinkSessao());
 			ps.setString (15, dadosAula.getLinkGravacao());
@@ -141,7 +141,7 @@ public class DadosAulaDAO {
 				String horarioInicio = rs.getString ("horario_inicio");
 				String horarioTermino = rs.getString ("horario_termino");
 				String assunto = rs.getString ("assunto");
-				String qtdAlunos = rs.getString ("qtd_alunos");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
 				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
 				String linkSessao = rs.getString ("link_sessao");
 				String linkGravacao = rs.getString ("linkGravacao");
@@ -178,7 +178,7 @@ public class DadosAulaDAO {
 				String horarioInicio = rs.getString ("horario_inicio");
 				String horarioTermino = rs.getString ("horario_termino");
 				String assunto = rs.getString ("assunto");
-				String qtdAlunos = rs.getString ("qtd_alunos");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
 				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
 				String linkSessao = rs.getString ("link_sessao");
 				String linkGravacao = rs.getString ("linkGravacao");
@@ -218,7 +218,7 @@ public class DadosAulaDAO {
 				String horarioInicio = rs.getString ("horario_inicio");
 				String horarioTermino = rs.getString ("horario_termino");
 				String assunto = rs.getString ("assunto");
-				String qtdAlunos = rs.getString ("qtd_alunos");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
 				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
 				String linkSessao = rs.getString ("link_sessao");
 				String linkGravacao = rs.getString ("linkGravacao");

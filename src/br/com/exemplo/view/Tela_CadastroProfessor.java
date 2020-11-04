@@ -34,6 +34,9 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_CadastroProfessor extends JFrame {
 
@@ -110,15 +113,15 @@ public class Tela_CadastroProfessor extends JFrame {
 		mntmNewMenuItem = new JMenuItem("Cadastro");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "============================================================================Cadastro============================================================================"
+				JOptionPane.showMessageDialog(null, "=============================================================================Cadastro============================================================================="
 						+ "\n Nesta Área Você Poderá: "
 						+ "\n 1. Se Cadastrar Caso Ainda Não Tenha Feito isso"
 						+ "\n 2. Alterar Seu Cadastro"
 						+ "\n 3. Consultar Seu Cadastro"
-						+ "\n\n===========================================================================Informações=========================================================================="
+						+ "\n\n============================================================================Informações==========================================================================="
 						+ "\n* O Código do Professor Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Professor Usa na Faculdade"
 						+ "\n** O ID do Professor é Diferente do Código do Professor, se Necessário Faça Primeiro uma Consulta com o Código do Professor e irá Retornar Todas as Informações Desse Professor, Inclusive o ID"
-						+ "\n===============================================================================================================================================================");
+						+ "\n=================================================================================================================================================================");
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -145,6 +148,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Sair");
+		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Saindo!!");
@@ -203,6 +207,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnVoltar = new JButton("");
+		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Voltando!!");
@@ -219,6 +224,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
+		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -264,6 +270,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -280,8 +287,28 @@ public class Tela_CadastroProfessor extends JFrame {
 					professor.setIdProfessor(idProfessor);
 						
 					ProfessoresDAO professoresDao = new ProfessoresDAO();
+					
 					// alterar
 					professoresDao.Alterar(professor);
+					
+					int codProfessor = Integer.parseInt(txtCodProfessor.getText());
+					
+					List<Professores> lista = new ArrayList<Professores>();
+					ProfessoresDAO professorDao = new ProfessoresDAO();
+					lista = professorDao.ListarTodos1(codProfessor);
+					DefaultTableModel model = (DefaultTableModel) tabCadastroProfessor.getModel();
+					model.setNumRows(0);
+					for (Professores professor1 : lista) {
+						model.addRow (new Object[] {
+								professor1.getIdProfessor(),
+								professor1.getCodProfessor(),
+								professor1.getNome(),
+								professor1.getSenha(),
+								professor1.getEmail(),
+								professor1.getCelular(),
+								professor1.getStatus(),
+							});
+					} 
 					JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
@@ -302,6 +329,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
+		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Saindo!!");
@@ -338,6 +366,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(ftfCelular);
 		
 		btnSalvar = new JButton("");
+		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -383,6 +412,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnSalvar);
 		
 		btnNovo = new JButton("");
+		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtCodProfessor.setText(null);

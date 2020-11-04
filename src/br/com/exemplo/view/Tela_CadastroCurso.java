@@ -128,12 +128,12 @@ public class Tela_CadastroCurso extends JFrame {
 		
 		btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCadastrar.setBounds(307, 50, 108, 30);
+		btnCadastrar.setBounds(307, 66, 108, 30);
 		contentPane.add(btnCadastrar);
 		
-		btnNovoCurso = new JButton("Novo Curso");
+		btnNovoCurso = new JButton("Cursos");
 		btnNovoCurso.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovoCurso.setBounds(307, 7, 108, 30);
+		btnNovoCurso.setBounds(307, 23, 108, 30);
 		contentPane.add(btnNovoCurso);
 		
 		scrollPane = new JScrollPane();

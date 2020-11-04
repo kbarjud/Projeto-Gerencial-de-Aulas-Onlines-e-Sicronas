@@ -1,6 +1,7 @@
 package br.com.exemplo.view;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -59,13 +60,16 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_CadastroAulaProfessor extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblTeveAula;
 	private JRadioButton btnNaoAula;
-	private JTabbedPane tabbedPane;
+	private JTabbedPane painelBase;
 	private JPanel curso;
 	private JLabel lblPeriodo;
 	private JLabel lblTurma;
@@ -95,7 +99,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 	private JRadioButton btnSimAtividade;
 	private JRadioButton btnNaoAtividade;
 	private JLabel lblDataDeEntrega_1;
-	private JDateChooser dteDataEntregaAtividade;
+	private JDateChooser dteDataAtividade;
 	private JLabel lblDescrio;
 	private JLabel lblObs;
 	private JLabel lblCurso_1;
@@ -127,6 +131,9 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 	private JTextArea txtDescricao;
 	JTextField txtCodProfessor;
 	JTextField txtSenhaProf;
+	private JTextField txtQtdPessoas;
+	private JButton btnVoltar2;
+	private JButton btnVoltar3;
 
 	/**
 	 * Launch the application.
@@ -150,7 +157,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 	public Tela_CadastroAulaProfessor() {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 505, 459);
+		setBounds(100, 100, 505, 460);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -161,12 +168,12 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		mntmNewMenuItem_1 = new JMenuItem("Cadastro");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=======================================================================Cadastro======================================================================="
+				JOptionPane.showMessageDialog(null, "=========================================Cadastro========================================="
 						+ "\n Nesta Área Você Poderá: "
 						+ "\n 1. Cadastrar os Dados Referente ao Curso"
 						+ "\n 2. Se Caso Não Tenha Tido Aula, Será Necessario Preencher Somente a aba de Cursos, Disciplina e Turma"
 						+ "\n 3. Caso a Aula Tenha Ocorrido, Será Necessario Preencher a aba dos Dados da Aula e Atividades Também"
-						+ "\n======================================================================================================================================================");
+						+ "\n==========================================================================================");
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -193,6 +200,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_3 = new JMenuItem("Sair");
+		mntmNewMenuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -204,12 +212,12 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 469, 321);
-		contentPane.add(tabbedPane);
+		painelBase = new JTabbedPane(JTabbedPane.TOP);
+		painelBase.setBounds(10, 11, 469, 321);
+		contentPane.add(painelBase);
 		
 		curso = new JPanel();
-		tabbedPane.addTab("Curso, Disciplina e Turma", null, curso, null);
+		painelBase.addTab("Curso, Disciplina e Turma", null, curso, null);
 		curso.setFont(new Font("Arial", Font.PLAIN, 14));
 		curso.setLayout(null);
 		
@@ -238,7 +246,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 					txtObs.setEnabled(true);
 					btnSimAtividade.setEnabled(true);
 					btnNaoAtividade.setEnabled(true);
-					dteDataEntregaAtividade.setEnabled(true);
+					dteDataAtividade.setEnabled(true);
 					btnGrupo.setEnabled(true);
 					btnIndividual.setEnabled(true);
 					txtDescricao.setEnabled(true);
@@ -268,7 +276,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 					txtObs.setEnabled(false);
 					btnSimAtividade.setEnabled(false);
 					btnNaoAtividade.setEnabled(false);
-					dteDataEntregaAtividade.setEnabled(false);
+					dteDataAtividade.setEnabled(false);
 					btnGrupo.setEnabled(false);
 					btnIndividual.setEnabled(false);
 					txtDescricao.setEnabled(false);
@@ -281,6 +289,70 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		btnNaoAula.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		cmbDisciplina = new JComboBox();
+		cmbDisciplina.addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent event) {
+				try {
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					String status = "Ativo";
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			public void ancestorMoved(AncestorEvent event) {
+			}
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+		});
+		cmbDisciplina.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					String status = "Ativo";
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		cmbDisciplina.setForeground(Color.BLACK);
 		cmbDisciplina.setBounds(267, 13, 187, 21);
 		curso.add(cmbDisciplina);
@@ -297,12 +369,33 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 			public void itemStateChanged(ItemEvent arg0) {
 				try {
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String status = "Ativo";
 					
 					List<Curso> lista1 = new ArrayList<Curso>();
 					CursoDAO cursoDao1 = new CursoDAO();
 					lista1 = cursoDao1.ListarTodos3(nomeCurso);
 					DefaultComboBoxModel model1 = new DefaultComboBoxModel(lista1.toArray());
 					cmbDisciplina.setModel(model1);
+					
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -319,12 +412,33 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 					cmbCurso.setModel(model);
 
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String status = "Ativo";
 					
 					List<Curso> lista1 = new ArrayList<Curso>();
 					CursoDAO cursoDao1 = new CursoDAO();
 					lista1 = cursoDao1.ListarTodos3(nomeCurso);
 					DefaultComboBoxModel model1 = new DefaultComboBoxModel(lista1.toArray());
 					cmbDisciplina.setModel(model1);
+					
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -359,24 +473,6 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		lblPeriodo.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		
 		cmbPeriodo = new JComboBox();
-		cmbPeriodo.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				try {
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao2 = new TurmaDAO();
-					lista3 = turmaDao2.ListarTodos3();
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
 		cmbPeriodo.setForeground(Color.BLACK);
 		cmbPeriodo.setBounds(290, 60, 95, 21);
 		curso.add(cmbPeriodo);
@@ -389,24 +485,6 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		lblSemestre.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		
 		cmbSemestreLetivo = new JComboBox();
-		cmbSemestreLetivo.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				try {
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista4 = turmaDao3.ListarTodos4();
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
 		cmbSemestreLetivo.setForeground(Color.BLACK);
 		cmbSemestreLetivo.setBounds(139, 104, 105, 21);
 		curso.add(cmbSemestreLetivo);
@@ -439,11 +517,22 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		cmbTurma.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				try {
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos2();
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					String turmaCod = cmbTurma.getSelectedItem().toString();
+					String status = "Ativo";
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos3(nomeCurso, disciplina, turmaCod, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos4(nomeCurso, disciplina, turmaCod, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -454,12 +543,38 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
+		cmbTurma.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					String turmaCod = cmbTurma.getSelectedItem().toString();
+					String status = "Ativo";
+					
+					List<Turma> lista3 = new ArrayList<Turma>();
+					TurmaDAO turmaDao3 = new TurmaDAO();
+					lista3 = turmaDao3.ListarTodos3(nomeCurso, disciplina, turmaCod, status);
+					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+					cmbSemestreLetivo.setModel(model3);
+					
+					List<Turma> lista4 = new ArrayList<Turma>();
+					TurmaDAO turmaDao4 = new TurmaDAO();
+					lista4 = turmaDao4.ListarTodos4(nomeCurso, disciplina, turmaCod, status);
+					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+					cmbPeriodo.setModel(model4);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		cmbTurma.setForeground(Color.BLACK);
 		cmbTurma.setFont(new Font("Arial", Font.PLAIN, 14));
 		cmbTurma.setBounds(128, 60, 94, 21);
 		curso.add(cmbTurma);
 		
 		btnSalvar = new JButton("");
+		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -534,6 +649,33 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 									dadosAulaDao.Salvar1(dadosAula);
 										
 									JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+									
+									cmbCurso.setSelectedIndex(0);
+									cmbDisciplina.setSelectedIndex(0);
+									cmbTurma.setSelectedIndex(0);
+									cmbPeriodo.setSelectedIndex(0);
+									cmbSemestreLetivo.setSelectedIndex(0);
+									dteDataAula.setDate(null);
+									btnSimAula.setSelected(false);
+									btnNaoAula.setSelected(false);
+									txtJustificativa.setText(null);
+									cmbHorarioInicio.setSelectedIndex(0);
+									cmbHorarioTermino.setSelectedIndex(0);
+									txtAssunto.setText(null);
+									txtQtdAluno.setText(null);
+									txtMateriaisDisponibilizados.setText(null);
+									txtLinkSessao.setText(null);
+									txtLinkGravacao.setText(null);
+									txtObs.setText(null);
+									btnSimAtividade.setSelected(false);
+									btnNaoAtividade.setSelected(false);
+									dteDataAtividade.setDate(null);
+									btnGrupo.setSelected(false);
+									btnIndividual.setSelected(false);
+									txtDescricao.setText(null);
+									lblJustificativa.setVisible(false);
+									txtJustificativa.setVisible(false);
+									btnSalvar.setVisible(false);
 								}
 								else if (decisao == 2) {
 									JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
@@ -568,6 +710,14 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		curso.add(btnSalvar);
 		
 		btnAvancar = new JButton("");
+		btnAvancar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				curso.setVisible(false);
+				dispose();
+				dados.setVisible(true);
+			}
+		});
+		btnAvancar.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnAvancar.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
 		btnAvancar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAvancar.setBounds(394, 239, 60, 43);
@@ -588,7 +738,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		curso.add(txtSenhaProf);
 		
 		dados = new JPanel();
-		tabbedPane.addTab("Dados da Aula", null, dados, null);
+		painelBase.addTab("Dados da Aula", null, dados, null);
 		dados.setLayout(null);
 		
 		lblConteudoMinistrado = new JLabel("Assunto");
@@ -676,6 +826,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		dados.add(cmbHorarioInicio);
 		
 		btnAvancar2 = new JButton("");
+		btnAvancar2.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnAvancar2.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
 		btnAvancar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAvancar2.setBounds(394, 239, 60, 43);
@@ -691,8 +842,15 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		txtObs.setBounds(56, 167, 398, 49);
 		dados.add(txtObs);
 		
+		btnVoltar2 = new JButton("");
+		btnVoltar2.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
+		btnVoltar2.setToolTipText("Bot\u00E3o Voltar ");
+		btnVoltar2.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnVoltar2.setBounds(324, 239, 60, 43);
+		dados.add(btnVoltar2);
+		
 		atividade = new JPanel();
-		tabbedPane.addTab("Atividades", null, atividade, null);
+		painelBase.addTab("Atividades", null, atividade, null);
 		atividade.setLayout(null);
 		
 		lblAtividadesSolicitadas_1 = new JLabel("Atividades Solicitadas Durante a Aula?");
@@ -706,7 +864,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (btnSimAtividade.isSelected()) {
 					btnNaoAtividade.setSelected(false);
-					dteDataEntregaAtividade.setEnabled(true);
+					dteDataAtividade.setEnabled(true);
 					btnGrupo.setEnabled(true);
 					btnIndividual.setEnabled(true);
 					txtDescricao.setEnabled(true);
@@ -722,11 +880,11 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (btnNaoAtividade.isSelected()) {
 					btnSimAtividade.setSelected(false);
-					dteDataEntregaAtividade.setDate(null);
+					dteDataAtividade.setDate(null);
 					btnGrupo.setSelected(false);
 					btnIndividual.setSelected(false);
 					txtDescricao.setText(null);
-					dteDataEntregaAtividade.setEnabled(false);
+					dteDataAtividade.setEnabled(false);
 					btnGrupo.setEnabled(false);
 					btnIndividual.setEnabled(false);
 					txtDescricao.setEnabled(false);
@@ -743,10 +901,10 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		lblDataDeEntrega_1.setBounds(11, 59, 120, 21);
 		atividade.add(lblDataDeEntrega_1);
 		
-		dteDataEntregaAtividade = new JDateChooser();
-		dteDataEntregaAtividade.setEnabled(false);
-		dteDataEntregaAtividade.setBounds(131, 60, 108, 20);
-		atividade.add(dteDataEntregaAtividade);
+		dteDataAtividade = new JDateChooser();
+		dteDataAtividade.setEnabled(false);
+		dteDataAtividade.setBounds(131, 60, 108, 20);
+		atividade.add(dteDataAtividade);
 		
 		lblDescrio = new JLabel("Descri\u00E7\u00E3o ");
 		lblDescrio.setHorizontalAlignment(SwingConstants.LEFT);
@@ -781,6 +939,297 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		atividade.add(btnIndividual);
 		
 		btnSalvar2 = new JButton("");
+		btnSalvar2.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try { 
+					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					String data, dataAtividade;
+					data = formatarData.format(dteDataAula.getDate());
+					data.toString();
+					
+					DadosAula dadosAula = new DadosAula();
+					dadosAula.setCurso(cmbCurso.getSelectedItem().toString());
+					dadosAula.setDisciplina(cmbDisciplina.getSelectedItem().toString());
+					dadosAula.setTurma(cmbTurma.getSelectedItem().toString());
+					dadosAula.setPeriodo(cmbPeriodo.getSelectedItem().toString());
+					dadosAula.setSemestreLetivo(cmbSemestreLetivo.getSelectedItem().toString());
+					dadosAula.setDataAula(data);
+					dadosAula.setTeveAula(true);
+					dadosAula.setJustificativa(null);
+					dadosAula.setHorarioInicio(cmbHorarioInicio.getSelectedItem().toString());
+					dadosAula.setHorarioTermino(cmbHorarioTermino.getSelectedItem().toString());
+					dadosAula.setAssunto(txtAssunto.getText());
+					dadosAula.setQtdAlunos(Integer.parseInt(txtQtdAluno.getText()));
+					dadosAula.setMateriaisDisponibilizados(txtMateriaisDisponibilizados.getText());
+					dadosAula.setLinkSessao(txtLinkSessao.getText());
+					dadosAula.setLinkGravacao(txtLinkGravacao.getText());
+					dadosAula.setObs(txtObs.getText());
+					
+					if (btnSimAtividade.isSelected()) {
+						dadosAula.setAtividadeSolicitada(true);
+						
+						dataAtividade = formatarData.format(dteDataAtividade.getDate());
+						dataAtividade.toString();
+						
+						dadosAula.setDataEntrega(dataAtividade);
+						
+						if (btnGrupo.isSelected()) {
+							dadosAula.setQtdPessoas("Grupo");
+							txtQtdPessoas.setText("Grupo");
+						}
+						else if (btnIndividual.isSelected()) {
+							dadosAula.setQtdPessoas("Individual");
+							txtQtdPessoas.setText("Individual");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Selecione se o a Atividade é em Grupo ou Individual");
+						}
+						
+						dadosAula.setDescricao(txtDescricao.getText());
+						
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						
+						CursoDAO cursoDao = new CursoDAO();
+						Curso curso = new Curso();
+						curso = cursoDao.Consultar1(nomeCurso, disciplina);
+						 
+						if (nomeCurso.equals(curso.getNomeCurso()) && disciplina.equals(curso.getDisciplina())) {
+							int idCursoDisciplina = curso.getIdCursoDisciplina();
+							dadosAula.setIdCursoDisciplina(idCursoDisciplina);	
+							
+							int codProf = Integer.parseInt(txtCodProfessor.getText());
+							String senha = txtSenhaProf.getText();
+							
+							ProfessoresDAO professoresDao = new ProfessoresDAO();
+							Professores professores = new Professores();
+							professores = professoresDao.Login(codProf, senha);
+							 
+							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+								int idProfessor = professores.getIdProfessor();
+								dadosAula.setIdProfessor(idProfessor);
+								
+								String turmaCod = cmbTurma.getSelectedItem().toString();
+								String periodo = cmbPeriodo.getSelectedItem().toString();
+								String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
+								String status = "Ativo";
+								
+								TurmaDAO turmaDao = new TurmaDAO();
+								Turma turma = new Turma();
+								turma = turmaDao.Consultar1(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+								
+								if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
+									int idTurma = turma.getIdTurma();
+									dadosAula.setIdTurma(idTurma);
+								
+									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
+											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
+											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
+											+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
+											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
+											+ "\nData da Aula: " + data
+											+ "\nTeve Aula?: Sim"
+											+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
+											+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
+											+ "\nAssunto: " + txtAssunto.getText()
+											+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
+											+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
+											+ "\nLink da Sessão: " + txtLinkSessao.getText()
+											+ "\nLink da Gravação: " + txtLinkGravacao.getText()
+											+ "\nObs: " + txtObs.getText()
+											+ "\nAtividade Solicitada: Sim"
+											+ "\nData de Entrega: " + dataAtividade
+											+ "\nQuantidade de Pessoas: " + txtQtdPessoas.getText()
+											+ "\nDescrição: " + txtDescricao.getText()
+											+ "\n====================================================="
+											+ "\n\n====================================================="
+											+ "\nDigite 1 Para Salvar"
+											+ "\nDigite 2 Para Alterar Alguma Informação"
+											+ "\n=====================================================");
+										
+									int decisao = Integer.parseInt(resposta);
+									if (decisao == 1) {
+										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
+										dadosAulaDao.Salvar(dadosAula);
+											
+										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+										
+										cmbCurso.setSelectedIndex(0);
+										cmbDisciplina.setSelectedIndex(0);
+										cmbTurma.setSelectedIndex(0);
+										cmbPeriodo.setSelectedIndex(0);
+										cmbSemestreLetivo.setSelectedIndex(0);
+										dteDataAula.setDate(null);
+										btnSimAula.setSelected(false);
+										btnNaoAula.setSelected(false);
+										txtJustificativa.setText(null);
+										cmbHorarioInicio.setSelectedIndex(0);
+										cmbHorarioTermino.setSelectedIndex(0);
+										txtAssunto.setText(null);
+										txtQtdAluno.setText(null);
+										txtMateriaisDisponibilizados.setText(null);
+										txtLinkSessao.setText(null);
+										txtLinkGravacao.setText(null);
+										txtObs.setText(null);
+										btnSimAtividade.setSelected(false);
+										btnNaoAtividade.setSelected(false);
+										dteDataAtividade.setDate(null);
+										btnGrupo.setSelected(false);
+										btnIndividual.setSelected(false);
+										txtDescricao.setText(null);
+										lblJustificativa.setVisible(false);
+										txtJustificativa.setVisible(false);
+										btnSalvar.setVisible(false);
+									}
+									else if (decisao == 2) {
+										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+									}
+									else {
+										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+									}
+								}
+								else {
+									JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+								}
+							}
+							else {
+								JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+						}
+					}
+					else if (btnNaoAtividade.isSelected()) {
+						dadosAula.setAtividadeSolicitada(false);
+						dadosAula.setDataEntrega(null);
+						dadosAula.setQtdPessoas(null);
+						dadosAula.setDescricao(null);
+						
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						
+						CursoDAO cursoDao = new CursoDAO();
+						Curso curso = new Curso();
+						curso = cursoDao.Consultar1(nomeCurso, disciplina);
+						 
+						if (nomeCurso.equals(curso.getNomeCurso()) && disciplina.equals(curso.getDisciplina())) {
+							int idCursoDisciplina = curso.getIdCursoDisciplina();
+							dadosAula.setIdCursoDisciplina(idCursoDisciplina);	
+							
+							int codProf = Integer.parseInt(txtCodProfessor.getText());
+							String senha = txtSenhaProf.getText();
+							
+							ProfessoresDAO professoresDao = new ProfessoresDAO();
+							Professores professores = new Professores();
+							professores = professoresDao.Login(codProf, senha);
+							 
+							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+								int idProfessor = professores.getIdProfessor();
+								dadosAula.setIdProfessor(idProfessor);
+								
+								String turmaCod = cmbTurma.getSelectedItem().toString();
+								String periodo = cmbPeriodo.getSelectedItem().toString();
+								String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
+								String status = "Ativo";
+								
+								TurmaDAO turmaDao = new TurmaDAO();
+								Turma turma = new Turma();
+								turma = turmaDao.Consultar1(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+								
+								if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
+									int idTurma = turma.getIdTurma();
+									dadosAula.setIdTurma(idTurma);
+								
+									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
+											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
+											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
+											+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
+											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
+											+ "\nData da Aula: " + data
+											+ "\nTeve Aula?: Sim"
+											+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
+											+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
+											+ "\nAssunto: " + txtAssunto.getText()
+											+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
+											+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
+											+ "\nLink da Sessão: " + txtLinkSessao.getText()
+											+ "\nLink da Gravação: " + txtLinkGravacao.getText()
+											+ "\nObs: " + txtObs.getText()
+											+ "\nAtividade Solicitada: Não"
+											+ "\n====================================================="
+											+ "\n\n====================================================="
+											+ "\nDigite 1 Para Salvar"
+											+ "\nDigite 2 Para Alterar Alguma Informação"
+											+ "\n=====================================================");
+										
+									int decisao = Integer.parseInt(resposta);
+									if (decisao == 1) {
+										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
+										dadosAulaDao.Salvar(dadosAula);
+											
+										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+										
+										cmbCurso.setSelectedIndex(0);
+										cmbDisciplina.setSelectedIndex(0);
+										cmbTurma.setSelectedIndex(0);
+										cmbPeriodo.setSelectedIndex(0);
+										cmbSemestreLetivo.setSelectedIndex(0);
+										dteDataAula.setDate(null);
+										btnSimAula.setSelected(false);
+										btnNaoAula.setSelected(false);
+										txtJustificativa.setText(null);
+										cmbHorarioInicio.setSelectedIndex(0);
+										cmbHorarioTermino.setSelectedIndex(0);
+										txtAssunto.setText(null);
+										txtQtdAluno.setText(null);
+										txtMateriaisDisponibilizados.setText(null);
+										txtLinkSessao.setText(null);
+										txtLinkGravacao.setText(null);
+										txtObs.setText(null);
+										btnSimAtividade.setSelected(false);
+										btnNaoAtividade.setSelected(false);
+										dteDataAtividade.setDate(null);
+										btnGrupo.setSelected(false);
+										btnIndividual.setSelected(false);
+										txtDescricao.setText(null);
+										lblJustificativa.setVisible(false);
+										txtJustificativa.setVisible(false);
+										btnSalvar.setVisible(false);
+									}
+									else if (decisao == 2) {
+										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+									}
+									else {
+										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+									}
+								}
+								else {
+									JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+								}
+							}
+							else {
+								JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Selecione se Teve ou Não Atividade Solicitada");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro da Aula!!. "
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
+							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnSalvar2.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
 		btnSalvar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar2.setBounds(201, 208, 60, 43);
@@ -791,9 +1240,25 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		txtDescricao.setBounds(89, 109, 365, 54);
 		atividade.add(txtDescricao);
 		
+		txtQtdPessoas = new JTextField();
+		txtQtdPessoas.setVisible(false);
+		txtQtdPessoas.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtQtdPessoas.setBounds(11, 262, 176, 20);
+		atividade.add(txtQtdPessoas);
+		txtQtdPessoas.setColumns(10);
+		
+		btnVoltar3 = new JButton("");
+		btnVoltar3.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
+		btnVoltar3.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar3.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnVoltar3.setBounds(394, 239, 60, 43);
+		atividade.add(btnVoltar3);
+		
 		btnSair = new JButton("");
+		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -803,18 +1268,21 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		btnAlterar = new JButton("");
+		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setBounds(280, 343, 60, 43);
 		contentPane.add(btnAlterar);
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		btnConsultar = new JButton("");
+		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.setBounds(210, 343, 60, 43);
 		contentPane.add(btnConsultar);
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroAulaProfessor.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		btnVoltar = new JButton("");
+		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Voltando!!");
@@ -831,6 +1299,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		btnNovo = new JButton("");
+		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cmbCurso.setSelectedIndex(0);
@@ -852,7 +1321,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 				txtObs.setText(null);
 				btnSimAtividade.setSelected(false);
 				btnNaoAtividade.setSelected(false);
-				dteDataEntregaAtividade.setDate(null);
+				dteDataAtividade.setDate(null);
 				btnGrupo.setSelected(false);
 				btnIndividual.setSelected(false);
 				txtDescricao.setText(null);
