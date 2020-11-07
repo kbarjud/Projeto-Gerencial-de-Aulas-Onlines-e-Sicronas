@@ -29,11 +29,11 @@ public class CursoDAO {
 	}
 	public void Salvar (Curso curso) throws Exception {
 		try {
-			String sql = "INSERT INTO curso (curso, disciplina ) "
+			String sql = "INSERT INTO curso (curso, status ) "
 					+ " values (?, ? )";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, curso.getNomeCurso());
-			ps.setString (2, curso.getDisciplina());
+			ps.setString (2, curso.getStatus());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
@@ -41,56 +41,56 @@ public class CursoDAO {
 	}
 	public void Alterar (Curso curso) throws Exception {
 		try { 
-			String sql = "UPDATE curso SET curso=?, disciplina=? "
-					+ " WHERE id_curso_disciplina=? ";
+			String sql = "UPDATE curso SET curso=?, status=? "
+					+ " WHERE id_curso=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, curso.getNomeCurso());
-			ps.setString (2, curso.getDisciplina());
-			ps.setInt (3, curso.getIdCursoDisciplina());
+			ps.setString (2, curso.getStatus());
+			ps.setInt (3, curso.getIdCurso());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public void Excluir (int idCursoDisciplina) throws Exception {
+	public void Excluir (int idCurso) throws Exception {
 		try {
-			String sql = "DELETE FROM curso WHERE id_curso_disciplina=? ";
+			String sql = "DELETE FROM curso WHERE id_curso=? ";
 			ps = conn.prepareStatement(sql);
-			ps.setInt (1, idCursoDisciplina);
+			ps.setInt (1, idCurso);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public Curso Consultar (int idCursoDisciplina) throws Exception {
+	public Curso Consultar (int idCurso) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM curso "
-					+ " WHERE id_curso_disciplina=?"); 
-			ps.setInt (1, idCursoDisciplina);
+					+ " WHERE id_curso=?"); 
+			ps.setInt (1, idCurso);
 			rs= ps.executeQuery();
 			if(rs.next()) {
-				int idCursoDisciplina1 = rs.getInt ("id_curso_disciplina");
+				int idCurso1 = rs.getInt ("id_curso");
 				String curso1 = rs.getString ("curso");
-				String disciplina = rs.getString ("disciplina");
-				curso = new Curso (idCursoDisciplina1, curso1, disciplina);
+				String status = rs.getString ("status");
+				curso = new Curso (idCurso1, curso1, status);
 			}
 				return curso;
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public Curso Consultar1 (String nomeCurso, String disciplina) throws Exception {
+	public Curso Consultar1 (String nomeCurso, String status) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM curso "
-					+ " WHERE curso=? AND disciplina=? "); 
+					+ " WHERE curso=? AND status=? "); 
 			ps.setString (1, nomeCurso);
-			ps.setString (2, disciplina);
+			ps.setString (2, status);
 			rs= ps.executeQuery();
 			if(rs.next()) {
-				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idCurso = rs.getInt ("id_curso");
 				String curso1 = rs.getString ("curso");
-				String disciplina1 = rs.getString ("disciplina");
-				curso = new Curso (idCursoDisciplina, curso1, disciplina1);
+				String status1 = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status1);
 			}
 				return curso;
 		} catch (Exception e) {
@@ -103,10 +103,10 @@ public class CursoDAO {
 			ps = conn.prepareStatement ("SELECT * FROM curso");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idCurso = rs.getInt ("id_curso");
 				String curso1 = rs.getString ("curso");
-				String disciplina = rs.getString ("disciplina");
-				curso = new Curso (idCursoDisciplina, curso1, disciplina);
+				String status = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status);
 				lista.add(curso);
 			}
 			return lista;
@@ -114,18 +114,18 @@ public class CursoDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public List ListarTodos1(int idCursoDisciplina) throws Exception {
+	public List ListarTodos1(int idCurso) throws Exception {
 		List<Curso> lista = new ArrayList<Curso>();
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM curso "
-					+ " WHERE id_curso_disciplina=?");
-			ps.setInt (1, idCursoDisciplina);
+					+ " WHERE id_curso=?");
+			ps.setInt (1, idCurso);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				int idCursoDisciplina1 = rs.getInt ("id_curso_disciplina");
+				int idCurso1 = rs.getInt ("id_curso");
 				String curso1 = rs.getString ("curso");
-				String disciplina = rs.getString ("disciplina");
-				curso = new Curso (idCursoDisciplina1, curso1, disciplina);
+				String status = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status);
 				lista.add(curso);
 			}
 			return lista;
@@ -133,30 +133,15 @@ public class CursoDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public List ListarTodos2() throws Exception {
+	public List ListarTodos2(String status) throws Exception {
 		List<Curso> lista = new ArrayList<Curso>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso GROUP BY curso");
+			ps = conn.prepareStatement ("SELECT * FROM curso WHERE status LIKE ? GROUP BY curso");
+			ps.setString (1, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String nomeCurso = rs.getString ("curso");
 				curso = new Curso (nomeCurso);
-				lista.add(curso);
-			}
-			return lista;
-		}catch (Exception e) {
-			throw new Exception (e.getMessage());
-		}
-	}
-	public List ListarTodos3(String nomeCurso) throws Exception {
-		List<Curso> lista = new ArrayList<Curso>();
-		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso WHERE curso LIKE ?");
-			ps.setString (1, nomeCurso);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				String disciplina = rs.getString ("disciplina");
-				curso = new Curso (disciplina);
 				lista.add(curso);
 			}
 			return lista;

@@ -25,8 +25,8 @@ public class TurmaDAO {
 	}
 	public void Salvar (Turma turma) throws Exception {
 		try {
-			String sql = "INSERT INTO turma (curso, disciplina, turma, alunos_matriculados, periodo, semestre_letivo, id_curso_disciplina, status ) "
-					+ " values (?, ?, ?, ?, ?, ?, ? )";
+			String sql = "INSERT INTO turma (curso, disciplina, turma, alunos_matriculados, periodo, semestre_letivo, id_curso_disciplina, idSemestre, status ) "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ? )";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, turma.getNomeCurso());
 			ps.setString (2, turma.getDisciplina());
@@ -35,7 +35,8 @@ public class TurmaDAO {
 			ps.setString (5, turma.getPeriodo());
 			ps.setString (6, turma.getSemestreLetivo());
 			ps.setInt (7, turma.getIdCursoDisciplina());
-			ps.setString (8, turma.getStatus());
+			ps.setInt (8, turma.getIdSemestre());
+			ps.setString (9, turma.getStatus());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
@@ -43,7 +44,7 @@ public class TurmaDAO {
 	}
 	public void Alterar (Turma turma) throws Exception {
 		try { 
-			String sql = "UPDATE turma SET curso=?, disciplina=?, turma=?, alunos_matriculados=?, periodo=?, semestre_letivo=?, id_curso_disciplina=?, status=? "
+			String sql = "UPDATE turma SET curso=?, disciplina=?, turma=?, alunos_matriculados=?, periodo=?, semestre_letivo=?, id_curso_disciplina=?, idSemestre=?, status=? "
 					+ " WHERE id_turma=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, turma.getNomeCurso());
@@ -53,8 +54,9 @@ public class TurmaDAO {
 			ps.setString (5, turma.getPeriodo());
 			ps.setString (6, turma.getSemestreLetivo());
 			ps.setInt (7, turma.getIdCursoDisciplina());
-			ps.setString (8, turma.getStatus());
-			ps.setInt (9, turma.getIdTurma());
+			ps.setInt (8, turma.getIdSemestre());
+			ps.setString (9, turma.getStatus());
+			ps.setInt (10, turma.getIdTurma());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
@@ -85,8 +87,9 @@ public class TurmaDAO {
 				String periodo = rs.getString ("periodo");
 				String semestreLetivo = rs.getString ("semestre_letivo");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
 				String status = rs.getString ("status");
-				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, status);
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status);
 			}
 				return turma;
 		} catch (Exception e) {
@@ -133,8 +136,9 @@ public class TurmaDAO {
 				String periodo = rs.getString ("periodo");
 				String semestreLetivo = rs.getString ("semestre_letivo");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
 				String status = rs.getString ("status");
-				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, status);
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status);
 				lista.add(turma);
 			}
 			return lista;
@@ -158,8 +162,9 @@ public class TurmaDAO {
 				String periodo = rs.getString ("periodo");
 				String semestreLetivo = rs.getString ("semestre_letivo");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
 				String status = rs.getString ("status");
-				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, status);
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status);
 				lista.add(turma);
 			}
 			return lista;
@@ -181,8 +186,6 @@ public class TurmaDAO {
 	}
 	public List ListarTodos2(String nomeCurso, String disciplina, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
-		List<Turma> lista2 = new ArrayList<Turma>();
-		List<Turma> lista3 = new ArrayList<Turma>();
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY turma");
 			ps.setString (1, nomeCurso);
@@ -241,7 +244,7 @@ public class TurmaDAO {
 	public List ListarTodos5(String nomeCurso, String disciplina, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY semestre_letivo");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status=? GROUP BY semestre_letivo");
 			ps.setString (1, nomeCurso);
 			ps.setString (2, disciplina);
 			ps.setString (3, status);
@@ -259,7 +262,7 @@ public class TurmaDAO {
 	public List ListarTodos6(String nomeCurso, String disciplina, String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status LIKE ? GROUP BY periodo");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND status=? GROUP BY periodo");
 			ps.setString (1, nomeCurso);
 			ps.setString (2, disciplina);
 			ps.setString (3, status);

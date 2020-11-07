@@ -9,6 +9,7 @@ public class Turma {
 	private String periodo;
 	private String semestreLetivo;
 	private int idCursoDisciplina;
+	private int idSemestre;
 	private String status;
 
 	public Turma() {
@@ -16,7 +17,7 @@ public class Turma {
 	}
 	
 	public Turma(int idTurma, String nomeCurso, String disciplina, String turmaCod, int alunosMatriculados, String periodo, String semestreLetivo,
-			int idCursoDisciplina, String status) {
+			int idCursoDisciplina, int idSemestre, String status) {
 		super();
 		this.idTurma = idTurma;
 		this.nomeCurso = nomeCurso;
@@ -26,6 +27,7 @@ public class Turma {
 		this.periodo = periodo;
 		this.semestreLetivo = semestreLetivo;
 		this.idCursoDisciplina = idCursoDisciplina;
+		this.idSemestre = idSemestre;
 		this.status = status;
 	}
 	
@@ -117,6 +119,14 @@ public class Turma {
 		this.status = status;
 	}
 	
+	public int getIdSemestre() {
+		return idSemestre;
+	}
+
+	public void setIdSemestre(int idSemestre) {
+		this.idSemestre = idSemestre;
+	}
+
 	@Override
 	public  String toString() {
 		return turmaCod;

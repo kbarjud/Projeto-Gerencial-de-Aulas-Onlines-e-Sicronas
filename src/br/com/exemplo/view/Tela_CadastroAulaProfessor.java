@@ -36,12 +36,16 @@ import javax.swing.JSpinner;
 import com.toedter.components.JSpinField;
 
 import br.com.exemplo.dao.CursoDAO;
+import br.com.exemplo.dao.CursoDisciplinaDAO;
 import br.com.exemplo.dao.DadosAulaDAO;
 import br.com.exemplo.dao.ProfessoresDAO;
+import br.com.exemplo.dao.SemestreLetivoDAO;
 import br.com.exemplo.dao.TurmaDAO;
 import br.com.exemplo.model.Curso;
+import br.com.exemplo.model.CursoDisciplina;
 import br.com.exemplo.model.DadosAula;
 import br.com.exemplo.model.Professores;
+import br.com.exemplo.model.SemestreLetivo;
 import br.com.exemplo.model.Turma;
 
 import javax.swing.JToggleButton;
@@ -222,7 +226,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		curso.setLayout(null);
 		
 		lblTeveAula = new JLabel("Teve Aula?");
-		lblTeveAula.setBounds(116, 135, 80, 30);
+		lblTeveAula.setBounds(139, 135, 80, 30);
 		curso.add(lblTeveAula);
 		lblTeveAula.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTeveAula.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
@@ -254,7 +258,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 				}
 			}
 		});
-		btnSimAula.setBounds(202, 136, 54, 30);
+		btnSimAula.setBounds(225, 136, 54, 30);
 		curso.add(btnSimAula);
 		btnSimAula.setFont(new Font("Arial", Font.PLAIN, 14));
 		
@@ -284,7 +288,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 				}
 			}
 		});
-		btnNaoAula.setBounds(258, 136, 54, 30);
+		btnNaoAula.setBounds(281, 136, 54, 30);
 		curso.add(btnNaoAula);
 		btnNaoAula.setFont(new Font("Arial", Font.PLAIN, 14));
 		
@@ -371,9 +375,9 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
 					String status = "Ativo";
 					
-					List<Curso> lista1 = new ArrayList<Curso>();
-					CursoDAO cursoDao1 = new CursoDAO();
-					lista1 = cursoDao1.ListarTodos3(nomeCurso);
+					List<CursoDisciplina> lista1 = new ArrayList<CursoDisciplina>();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					lista1 = cursoDisciplinaDao.ListarTodos3(nomeCurso, status);
 					DefaultComboBoxModel model1 = new DefaultComboBoxModel(lista1.toArray());
 					cmbDisciplina.setModel(model1);
 					
@@ -405,18 +409,19 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		cmbCurso.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent arg0) {
 				try {
+					String status = "Ativo";
+					
 					List<Curso> lista = new ArrayList<Curso>();
 					CursoDAO cursoDao = new CursoDAO();
-					lista = cursoDao.ListarTodos2();
+					lista = cursoDao.ListarTodos2(status);
 					DefaultComboBoxModel model = new DefaultComboBoxModel(lista.toArray());
 					cmbCurso.setModel(model);
 
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
-					String status = "Ativo";
 					
-					List<Curso> lista1 = new ArrayList<Curso>();
-					CursoDAO cursoDao1 = new CursoDAO();
-					lista1 = cursoDao1.ListarTodos3(nomeCurso);
+					List<CursoDisciplina> lista1 = new ArrayList<CursoDisciplina>();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					lista1 = cursoDisciplinaDao.ListarTodos3(nomeCurso, status);
 					DefaultComboBoxModel model1 = new DefaultComboBoxModel(lista1.toArray());
 					cmbDisciplina.setModel(model1);
 					
@@ -594,14 +599,15 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 					dadosAula.setJustificativa(txtJustificativa.getText());
 					
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
-					String disciplina = cmbDisciplina.getSelectedItem().toString();
+					String nomeDisciplina = cmbDisciplina.getSelectedItem().toString();
+					String status = "Ativo";
 					
-					CursoDAO cursoDao = new CursoDAO();
-					Curso curso = new Curso();
-					curso = cursoDao.Consultar1(nomeCurso, disciplina);
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					cursoDisciplina = cursoDisciplinaDao.Consultar1(nomeCurso, nomeDisciplina, status);
 					 
-					if (nomeCurso.equals(curso.getNomeCurso()) && disciplina.equals(curso.getDisciplina())) {
-						int idCursoDisciplina = curso.getIdCursoDisciplina();
+					if (nomeCurso.equals(cursoDisciplina.getNomeCurso()) && nomeDisciplina.equals(cursoDisciplina.getNomeDisciplina()) && status.equals(cursoDisciplina.getStatus())) {
+						int idCursoDisciplina = cursoDisciplina.getIdCursoDisciplina();
 						dadosAula.setIdCursoDisciplina(idCursoDisciplina);	
 						
 						int codProf = Integer.parseInt(txtCodProfessor.getText());
@@ -618,70 +624,81 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 							String turmaCod = cmbTurma.getSelectedItem().toString();
 							String periodo = cmbPeriodo.getSelectedItem().toString();
 							String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
-							String status = "Ativo";
 							
 							TurmaDAO turmaDao = new TurmaDAO();
 							Turma turma = new Turma();
-							turma = turmaDao.Consultar1(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+							turma = turmaDao.Consultar1(nomeCurso, nomeDisciplina, turmaCod, periodo, semestreLetivo, status);
 							
-							if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
+							if (nomeCurso.equals(turma.getNomeCurso()) && nomeDisciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
 								int idTurma = turma.getIdTurma();
 								dadosAula.setIdTurma(idTurma);
 							
-								String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
-										+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
-										+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
-										+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
-										+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
-										+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
-										+ "\nData da Aula: " + data
-										+ "\nTeve Aula?: Não"
-										+ "\nJustificativa: " + txtJustificativa.getText()
-										+ "\n====================================================="
-										+ "\n\n====================================================="
-										+ "\nDigite 1 Para Salvar"
-										+ "\nDigite 2 Para Alterar Alguma Informação"
-										+ "\n=====================================================");
+								SemestreLetivoDAO semestreLetivoDao = new SemestreLetivoDAO();
+								SemestreLetivo semestreLetivo1 = new SemestreLetivo();
+								semestreLetivo1 = semestreLetivoDao.Consultar2(semestreLetivo, status);
+								
+								if (semestreLetivo.equals(semestreLetivo1.getSemestre()) && status.equals(semestreLetivo1.getStatus())) {
+									int idSemestre = semestreLetivo1.getIdSemestre();
+									dadosAula.setIdSemestre(idSemestre);
 									
-								int decisao = Integer.parseInt(resposta);
-								if (decisao == 1) {
-									DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
-									dadosAulaDao.Salvar1(dadosAula);
+									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
+											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
+											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
+											+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
+											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
+											+ "\nData da Aula: " + data
+											+ "\nTeve Aula?: Não"
+											+ "\nJustificativa: " + txtJustificativa.getText()
+											+ "\n====================================================="
+											+ "\n\n====================================================="
+											+ "\nDigite 1 Para Salvar"
+											+ "\nDigite 2 Para Alterar Alguma Informação"
+											+ "\n=====================================================");
 										
-									JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
-									
-									cmbCurso.setSelectedIndex(0);
-									cmbDisciplina.setSelectedIndex(0);
-									cmbTurma.setSelectedIndex(0);
-									cmbPeriodo.setSelectedIndex(0);
-									cmbSemestreLetivo.setSelectedIndex(0);
-									dteDataAula.setDate(null);
-									btnSimAula.setSelected(false);
-									btnNaoAula.setSelected(false);
-									txtJustificativa.setText(null);
-									cmbHorarioInicio.setSelectedIndex(0);
-									cmbHorarioTermino.setSelectedIndex(0);
-									txtAssunto.setText(null);
-									txtQtdAluno.setText(null);
-									txtMateriaisDisponibilizados.setText(null);
-									txtLinkSessao.setText(null);
-									txtLinkGravacao.setText(null);
-									txtObs.setText(null);
-									btnSimAtividade.setSelected(false);
-									btnNaoAtividade.setSelected(false);
-									dteDataAtividade.setDate(null);
-									btnGrupo.setSelected(false);
-									btnIndividual.setSelected(false);
-									txtDescricao.setText(null);
-									lblJustificativa.setVisible(false);
-									txtJustificativa.setVisible(false);
-									btnSalvar.setVisible(false);
-								}
-								else if (decisao == 2) {
-									JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+									int decisao = Integer.parseInt(resposta);
+									if (decisao == 1) {
+										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
+										dadosAulaDao.Salvar1(dadosAula);
+											
+										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+										
+										cmbCurso.setSelectedIndex(0);
+										cmbDisciplina.setSelectedIndex(0);
+										cmbTurma.setSelectedIndex(0);
+										cmbPeriodo.setSelectedIndex(0);
+										cmbSemestreLetivo.setSelectedIndex(0);
+										dteDataAula.setDate(null);
+										btnSimAula.setSelected(false);
+										btnNaoAula.setSelected(false);
+										txtJustificativa.setText(null);
+										cmbHorarioInicio.setSelectedIndex(0);
+										cmbHorarioTermino.setSelectedIndex(0);
+										txtAssunto.setText(null);
+										txtQtdAluno.setText(null);
+										txtMateriaisDisponibilizados.setText(null);
+										txtLinkSessao.setText(null);
+										txtLinkGravacao.setText(null);
+										txtObs.setText(null);
+										btnSimAtividade.setSelected(false);
+										btnNaoAtividade.setSelected(false);
+										dteDataAtividade.setDate(null);
+										btnGrupo.setSelected(false);
+										btnIndividual.setSelected(false);
+										txtDescricao.setText(null);
+										lblJustificativa.setVisible(false);
+										txtJustificativa.setVisible(false);
+										btnSalvar.setVisible(false);
+									}
+									else if (decisao == 2) {
+										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+									}
+									else {
+										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+									JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
 								}
 							}
 							else {
@@ -750,7 +767,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		txtAssunto = new JTextField();
 		txtAssunto.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtAssunto.setColumns(10);
-		txtAssunto.setBounds(76, 39, 157, 20);
+		txtAssunto.setBounds(76, 39, 164, 20);
 		dados.add(txtAssunto);
 		
 		lblMateriaisDisponibilizados = new JLabel("Materiais Disponibilizados");
@@ -821,7 +838,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		
 		cmbHorarioInicio = new JComboBox();
 		cmbHorarioInicio.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbHorarioInicio.setModel(new DefaultComboBoxModel(new String[] {"", "08:30", "09:55", "14:00", "15:25", "19:10", "20:35"}));
+		cmbHorarioInicio.setModel(new DefaultComboBoxModel(new String[] {"08:30", "09:55", "14:00", "15:25", "19:10", "20:35"}));
 		cmbHorarioInicio.setBounds(138, 10, 69, 20);
 		dados.add(cmbHorarioInicio);
 		
@@ -833,7 +850,7 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 		dados.add(btnAvancar2);
 		
 		cmbHorarioTermino = new JComboBox();
-		cmbHorarioTermino.setModel(new DefaultComboBoxModel(new String[] {"", "09:45", "11:10", "15:15", "16:40", "20:25", "21:50"}));
+		cmbHorarioTermino.setModel(new DefaultComboBoxModel(new String[] {"09:45", "11:10", "15:15", "16:40", "20:25", "21:50"}));
 		cmbHorarioTermino.setFont(new Font("Arial", Font.PLAIN, 14));
 		cmbHorarioTermino.setBounds(385, 8, 69, 20);
 		dados.add(cmbHorarioTermino);
@@ -989,14 +1006,15 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 						dadosAula.setDescricao(txtDescricao.getText());
 						
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
-						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						String nomeDisciplina = cmbDisciplina.getSelectedItem().toString();
+						String status = "Ativo";
 						
-						CursoDAO cursoDao = new CursoDAO();
-						Curso curso = new Curso();
-						curso = cursoDao.Consultar1(nomeCurso, disciplina);
+						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+						CursoDisciplina cursoDisciplina = new CursoDisciplina();
+						cursoDisciplina = cursoDisciplinaDao.Consultar1(nomeCurso, nomeDisciplina, status);
 						 
-						if (nomeCurso.equals(curso.getNomeCurso()) && disciplina.equals(curso.getDisciplina())) {
-							int idCursoDisciplina = curso.getIdCursoDisciplina();
+						if (nomeCurso.equals(cursoDisciplina.getNomeCurso()) && nomeDisciplina.equals(cursoDisciplina.getNomeDisciplina()) && status.equals(cursoDisciplina.getStatus())) {
+							int idCursoDisciplina = cursoDisciplina.getIdCursoDisciplina();
 							dadosAula.setIdCursoDisciplina(idCursoDisciplina);	
 							
 							int codProf = Integer.parseInt(txtCodProfessor.getText());
@@ -1013,81 +1031,92 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 								String turmaCod = cmbTurma.getSelectedItem().toString();
 								String periodo = cmbPeriodo.getSelectedItem().toString();
 								String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
-								String status = "Ativo";
 								
 								TurmaDAO turmaDao = new TurmaDAO();
 								Turma turma = new Turma();
-								turma = turmaDao.Consultar1(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+								turma = turmaDao.Consultar1(nomeCurso, nomeDisciplina, turmaCod, periodo, semestreLetivo, status);
 								
-								if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
+								if (nomeCurso.equals(turma.getNomeCurso()) && nomeDisciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
 									int idTurma = turma.getIdTurma();
 									dadosAula.setIdTurma(idTurma);
 								
-									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
-											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
-											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
-											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
-											+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
-											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
-											+ "\nData da Aula: " + data
-											+ "\nTeve Aula?: Sim"
-											+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
-											+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
-											+ "\nAssunto: " + txtAssunto.getText()
-											+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
-											+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
-											+ "\nLink da Sessão: " + txtLinkSessao.getText()
-											+ "\nLink da Gravação: " + txtLinkGravacao.getText()
-											+ "\nObs: " + txtObs.getText()
-											+ "\nAtividade Solicitada: Sim"
-											+ "\nData de Entrega: " + dataAtividade
-											+ "\nQuantidade de Pessoas: " + txtQtdPessoas.getText()
-											+ "\nDescrição: " + txtDescricao.getText()
-											+ "\n====================================================="
-											+ "\n\n====================================================="
-											+ "\nDigite 1 Para Salvar"
-											+ "\nDigite 2 Para Alterar Alguma Informação"
-											+ "\n=====================================================");
+									SemestreLetivoDAO semestreLetivoDao = new SemestreLetivoDAO();
+									SemestreLetivo semestreLetivo1 = new SemestreLetivo();
+									semestreLetivo1 = semestreLetivoDao.Consultar2(semestreLetivo, status);
+									
+									if (semestreLetivo.equals(semestreLetivo1.getSemestre()) && status.equals(semestreLetivo1.getStatus())) {
+										int idSemestre = semestreLetivo1.getIdSemestre();
+										dadosAula.setIdSemestre(idSemestre);
 										
-									int decisao = Integer.parseInt(resposta);
-									if (decisao == 1) {
-										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
-										dadosAulaDao.Salvar(dadosAula);
+										String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+												+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
+												+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
+												+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
+												+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
+												+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
+												+ "\nData da Aula: " + data
+												+ "\nTeve Aula?: Sim"
+												+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
+												+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
+												+ "\nAssunto: " + txtAssunto.getText()
+												+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
+												+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
+												+ "\nLink da Sessão: " + txtLinkSessao.getText()
+												+ "\nLink da Gravação: " + txtLinkGravacao.getText()
+												+ "\nObs: " + txtObs.getText()
+												+ "\nAtividade Solicitada: Sim"
+												+ "\nData de Entrega: " + dataAtividade
+												+ "\nQuantidade de Pessoas: " + txtQtdPessoas.getText()
+												+ "\nDescrição: " + txtDescricao.getText()
+												+ "\n====================================================="
+												+ "\n\n====================================================="
+												+ "\nDigite 1 Para Salvar"
+												+ "\nDigite 2 Para Alterar Alguma Informação"
+												+ "\n=====================================================");
 											
-										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
-										
-										cmbCurso.setSelectedIndex(0);
-										cmbDisciplina.setSelectedIndex(0);
-										cmbTurma.setSelectedIndex(0);
-										cmbPeriodo.setSelectedIndex(0);
-										cmbSemestreLetivo.setSelectedIndex(0);
-										dteDataAula.setDate(null);
-										btnSimAula.setSelected(false);
-										btnNaoAula.setSelected(false);
-										txtJustificativa.setText(null);
-										cmbHorarioInicio.setSelectedIndex(0);
-										cmbHorarioTermino.setSelectedIndex(0);
-										txtAssunto.setText(null);
-										txtQtdAluno.setText(null);
-										txtMateriaisDisponibilizados.setText(null);
-										txtLinkSessao.setText(null);
-										txtLinkGravacao.setText(null);
-										txtObs.setText(null);
-										btnSimAtividade.setSelected(false);
-										btnNaoAtividade.setSelected(false);
-										dteDataAtividade.setDate(null);
-										btnGrupo.setSelected(false);
-										btnIndividual.setSelected(false);
-										txtDescricao.setText(null);
-										lblJustificativa.setVisible(false);
-										txtJustificativa.setVisible(false);
-										btnSalvar.setVisible(false);
-									}
-									else if (decisao == 2) {
-										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+										int decisao = Integer.parseInt(resposta);
+										if (decisao == 1) {
+											DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
+											dadosAulaDao.Salvar(dadosAula);
+												
+											JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+											
+											cmbCurso.setSelectedIndex(0);
+											cmbDisciplina.setSelectedIndex(0);
+											cmbTurma.setSelectedIndex(0);
+											cmbPeriodo.setSelectedIndex(0);
+											cmbSemestreLetivo.setSelectedIndex(0);
+											dteDataAula.setDate(null);
+											btnSimAula.setSelected(false);
+											btnNaoAula.setSelected(false);
+											txtJustificativa.setText(null);
+											cmbHorarioInicio.setSelectedIndex(0);
+											cmbHorarioTermino.setSelectedIndex(0);
+											txtAssunto.setText(null);
+											txtQtdAluno.setText(null);
+											txtMateriaisDisponibilizados.setText(null);
+											txtLinkSessao.setText(null);
+											txtLinkGravacao.setText(null);
+											txtObs.setText(null);
+											btnSimAtividade.setSelected(false);
+											btnNaoAtividade.setSelected(false);
+											dteDataAtividade.setDate(null);
+											btnGrupo.setSelected(false);
+											btnIndividual.setSelected(false);
+											txtDescricao.setText(null);
+											lblJustificativa.setVisible(false);
+											txtJustificativa.setVisible(false);
+											btnSalvar.setVisible(false);
+										}
+										else if (decisao == 2) {
+											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+										}
+										else {
+											JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
 									}
 								}
 								else {
@@ -1109,14 +1138,15 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 						dadosAula.setDescricao(null);
 						
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
-						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						String nomeDisciplina = cmbDisciplina.getSelectedItem().toString();
+						String status = "Ativo";
 						
-						CursoDAO cursoDao = new CursoDAO();
-						Curso curso = new Curso();
-						curso = cursoDao.Consultar1(nomeCurso, disciplina);
+						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+						CursoDisciplina cursoDisciplina = new CursoDisciplina();
+						cursoDisciplina = cursoDisciplinaDao.Consultar1(nomeCurso, nomeDisciplina, status);
 						 
-						if (nomeCurso.equals(curso.getNomeCurso()) && disciplina.equals(curso.getDisciplina())) {
-							int idCursoDisciplina = curso.getIdCursoDisciplina();
+						if (nomeCurso.equals(cursoDisciplina.getNomeCurso()) && nomeDisciplina.equals(cursoDisciplina.getNomeDisciplina()) && status.equals(cursoDisciplina.getStatus())) {
+							int idCursoDisciplina = cursoDisciplina.getIdCursoDisciplina();
 							dadosAula.setIdCursoDisciplina(idCursoDisciplina);	
 							
 							int codProf = Integer.parseInt(txtCodProfessor.getText());
@@ -1133,78 +1163,89 @@ public class Tela_CadastroAulaProfessor extends JFrame {
 								String turmaCod = cmbTurma.getSelectedItem().toString();
 								String periodo = cmbPeriodo.getSelectedItem().toString();
 								String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
-								String status = "Ativo";
 								
 								TurmaDAO turmaDao = new TurmaDAO();
 								Turma turma = new Turma();
-								turma = turmaDao.Consultar1(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+								turma = turmaDao.Consultar1(nomeCurso, nomeDisciplina, turmaCod, periodo, semestreLetivo, status);
 								
-								if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
+								if (nomeCurso.equals(turma.getNomeCurso()) && nomeDisciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
 									int idTurma = turma.getIdTurma();
 									dadosAula.setIdTurma(idTurma);
 								
-									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
-											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
-											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
-											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
-											+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
-											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
-											+ "\nData da Aula: " + data
-											+ "\nTeve Aula?: Sim"
-											+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
-											+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
-											+ "\nAssunto: " + txtAssunto.getText()
-											+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
-											+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
-											+ "\nLink da Sessão: " + txtLinkSessao.getText()
-											+ "\nLink da Gravação: " + txtLinkGravacao.getText()
-											+ "\nObs: " + txtObs.getText()
-											+ "\nAtividade Solicitada: Não"
-											+ "\n====================================================="
-											+ "\n\n====================================================="
-											+ "\nDigite 1 Para Salvar"
-											+ "\nDigite 2 Para Alterar Alguma Informação"
-											+ "\n=====================================================");
+									SemestreLetivoDAO semestreLetivoDao = new SemestreLetivoDAO();
+									SemestreLetivo semestreLetivo1 = new SemestreLetivo();
+									semestreLetivo1 = semestreLetivoDao.Consultar2(semestreLetivo, status);
+									
+									if (semestreLetivo.equals(semestreLetivo1.getSemestre()) && status.equals(semestreLetivo1.getStatus())) {
+										int idSemestre = semestreLetivo1.getIdSemestre();
+										dadosAula.setIdSemestre(idSemestre);
 										
-									int decisao = Integer.parseInt(resposta);
-									if (decisao == 1) {
-										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
-										dadosAulaDao.Salvar(dadosAula);
+										String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+												+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
+												+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
+												+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
+												+ "\nPeriodo: " + cmbPeriodo.getSelectedItem().toString()
+												+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
+												+ "\nData da Aula: " + data
+												+ "\nTeve Aula?: Sim"
+												+ "\nHorario Inicio: " + cmbHorarioInicio.getSelectedItem().toString()
+												+ "\nHorario Termino: " + cmbHorarioTermino.getSelectedItem().toString()
+												+ "\nAssunto: " + txtAssunto.getText()
+												+ "\nQuantidade de Alunos: " + txtQtdAluno.getText()
+												+ "\nMateriais Disponibilizados: " + txtMateriaisDisponibilizados.getText()
+												+ "\nLink da Sessão: " + txtLinkSessao.getText()
+												+ "\nLink da Gravação: " + txtLinkGravacao.getText()
+												+ "\nObs: " + txtObs.getText()
+												+ "\nAtividade Solicitada: Não"
+												+ "\n====================================================="
+												+ "\n\n====================================================="
+												+ "\nDigite 1 Para Salvar"
+												+ "\nDigite 2 Para Alterar Alguma Informação"
+												+ "\n=====================================================");
 											
-										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
-										
-										cmbCurso.setSelectedIndex(0);
-										cmbDisciplina.setSelectedIndex(0);
-										cmbTurma.setSelectedIndex(0);
-										cmbPeriodo.setSelectedIndex(0);
-										cmbSemestreLetivo.setSelectedIndex(0);
-										dteDataAula.setDate(null);
-										btnSimAula.setSelected(false);
-										btnNaoAula.setSelected(false);
-										txtJustificativa.setText(null);
-										cmbHorarioInicio.setSelectedIndex(0);
-										cmbHorarioTermino.setSelectedIndex(0);
-										txtAssunto.setText(null);
-										txtQtdAluno.setText(null);
-										txtMateriaisDisponibilizados.setText(null);
-										txtLinkSessao.setText(null);
-										txtLinkGravacao.setText(null);
-										txtObs.setText(null);
-										btnSimAtividade.setSelected(false);
-										btnNaoAtividade.setSelected(false);
-										dteDataAtividade.setDate(null);
-										btnGrupo.setSelected(false);
-										btnIndividual.setSelected(false);
-										txtDescricao.setText(null);
-										lblJustificativa.setVisible(false);
-										txtJustificativa.setVisible(false);
-										btnSalvar.setVisible(false);
-									}
-									else if (decisao == 2) {
-										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+										int decisao = Integer.parseInt(resposta);
+										if (decisao == 1) {
+											DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
+											dadosAulaDao.Salvar(dadosAula);
+												
+											JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+											
+											cmbCurso.setSelectedIndex(0);
+											cmbDisciplina.setSelectedIndex(0);
+											cmbTurma.setSelectedIndex(0);
+											cmbPeriodo.setSelectedIndex(0);
+											cmbSemestreLetivo.setSelectedIndex(0);
+											dteDataAula.setDate(null);
+											btnSimAula.setSelected(false);
+											btnNaoAula.setSelected(false);
+											txtJustificativa.setText(null);
+											cmbHorarioInicio.setSelectedIndex(0);
+											cmbHorarioTermino.setSelectedIndex(0);
+											txtAssunto.setText(null);
+											txtQtdAluno.setText(null);
+											txtMateriaisDisponibilizados.setText(null);
+											txtLinkSessao.setText(null);
+											txtLinkGravacao.setText(null);
+											txtObs.setText(null);
+											btnSimAtividade.setSelected(false);
+											btnNaoAtividade.setSelected(false);
+											dteDataAtividade.setDate(null);
+											btnGrupo.setSelected(false);
+											btnIndividual.setSelected(false);
+											txtDescricao.setText(null);
+											lblJustificativa.setVisible(false);
+											txtJustificativa.setVisible(false);
+											btnSalvar.setVisible(false);
+										}
+										else if (decisao == 2) {
+											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
+										}
+										else {
+											JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
 									}
 								}
 								else {

@@ -25,6 +25,7 @@ public class DadosAula {
 	private int idCursoDisciplina;
 	private int idTurma;
 	private int idProfessor;
+	private int idSemestre;
 	private int codProfessor;
 	private String passSenha;
 	
@@ -36,7 +37,7 @@ public class DadosAula {
 			String dataAula, boolean teveAula, String justificativa, String horarioInicio, String horarioTermino,
 			String assunto, int qtdAlunos, String materiaisDisponibilizados, String linkSessao, String linkGravacao,
 			String obs, boolean atividadeSolicitada, String dataEntrega, String qtdPessoas, String descricao,
-			int idCursoDisciplina, int idTurma, int idProfessor) {
+			int idCursoDisciplina, int idTurma, int idProfessor, int idSemestre) {
 		super();
 		this.idAula = idAula;
 		this.curso = curso;
@@ -62,6 +63,7 @@ public class DadosAula {
 		this.idCursoDisciplina = idCursoDisciplina;
 		this.idTurma = idTurma;
 		this.idProfessor = idProfessor;
+		this.idSemestre = idSemestre;
 	}
 	
 	public int getIdAula() {
@@ -254,5 +256,13 @@ public class DadosAula {
 
 	public void setIdProfessor(int idProfessor) {
 		this.idProfessor = idProfessor;
+	}
+
+	public int getIdSemestre() {
+		return idSemestre;
+	}
+
+	public void setIdSemestre(int idSemestre) {
+		this.idSemestre = idSemestre;
 	}
 }

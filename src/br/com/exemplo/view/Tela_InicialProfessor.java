@@ -80,6 +80,7 @@ public class Tela_InicialProfessor extends JFrame {
 				try {
 					Tela_InicialProfessor frame = new Tela_InicialProfessor();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -94,6 +95,7 @@ public class Tela_InicialProfessor extends JFrame {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 381, 423);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -164,7 +166,7 @@ public class Tela_InicialProfessor extends JFrame {
 						Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();			
 						telaInicialProfessor.setVisible (false);
 						dispose();
-						Tela_CadastroAulaProfessor telaCadastroAula = new Tela_CadastroAulaProfessor();
+						Tela_CadastroAula telaCadastroAula = new Tela_CadastroAula();
 						String codigoProf = Integer.toString(codProfessor);
 						telaCadastroAula.txtCodProfessor.setText(codigoProf);
 						telaCadastroAula.txtSenhaProf.setText(senha);
@@ -306,7 +308,7 @@ public class Tela_InicialProfessor extends JFrame {
 						Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();			
 						telaInicialProfessor.setVisible (false);
 						dispose();
-						Tela_CadastroAulaProfessor telaCadastroAula = new Tela_CadastroAulaProfessor();
+						Tela_CadastroAula telaCadastroAula = new Tela_CadastroAula();
 						String codigoProf = Integer.toString(codProfessor);
 						telaCadastroAula.txtCodProfessor.setText(codigoProf);
 						telaCadastroAula.txtSenhaProf.setText(senha);

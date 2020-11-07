@@ -1,19 +1,19 @@
 package br.com.exemplo.model;
 
 public class Curso {
-	private int idCursoDisciplina;
+	private int idCurso;
 	private String nomeCurso;
-	private String disciplina;
+	private String status;
 	
 	public Curso () {
 			
 		}
 	
-	public Curso(int idCursoDisciplina, String nomeCurso, String disciplina) {
+	public Curso(int idCurso, String nomeCurso, String status) {
 		super();
-		this.idCursoDisciplina = idCursoDisciplina;
+		this.idCurso = idCurso;
 		this.nomeCurso = nomeCurso;
-		this.disciplina = disciplina;
+		this.status = status;
 	}
 	
 	public Curso(String nomeCurso) {
@@ -21,12 +21,12 @@ public class Curso {
 		this.nomeCurso = nomeCurso;
 	}
 	
-	public int getIdCursoDisciplina() {
-		return idCursoDisciplina;
+	public int getIdCurso() {
+		return idCurso;
 	}
 	
-	public void setIdCursoDisciplina(int idCursoDisciplina) {
-		this.idCursoDisciplina = idCursoDisciplina;
+	public void setIdCurso(int idCurso) {
+		this.idCurso = idCurso;
 	}
 	
 	public String getNomeCurso() {
@@ -37,20 +37,16 @@ public class Curso {
 		this.nomeCurso = nomeCurso;
 	}
 	
-	public String getDisciplina() {
-		return disciplina;
+	public String getStatus() {
+		return status;
 	}
 	
-	public void setDisciplina(String disciplina) {
-		this.disciplina = disciplina;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return nomeCurso ;
-	}
-	
-	public String toString2() {
-		return disciplina ;
 	}
 }
