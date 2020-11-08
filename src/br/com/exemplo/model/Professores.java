@@ -71,4 +71,8 @@ public class Professores {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String toString() {
+		return nome;
+	}
 }

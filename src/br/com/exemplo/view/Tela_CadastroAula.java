@@ -144,6 +144,7 @@ public class Tela_CadastroAula extends JFrame {
 				try {
 					Tela_CadastroAula frame = new Tela_CadastroAula();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -158,6 +159,7 @@ public class Tela_CadastroAula extends JFrame {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 505, 460);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -259,7 +261,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Voltando!!");
-				Tela_CadastroAulaProfessor telaCadastroAula = new Tela_CadastroAulaProfessor();
+				Tela_CadastroAula telaCadastroAula = new Tela_CadastroAula();
 				telaCadastroAula.setVisible(false);
 				dispose();
 				Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();
@@ -1207,19 +1209,6 @@ public class Tela_CadastroAula extends JFrame {
 		lblJustificativa.setBounds(10, 196, 94, 21);
 		curso.add(lblJustificativa);
 		
-		btnConsultar_1 = new JButton("Avan\u00E7ar");
-		btnConsultar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout c = (CardLayout)(contentPane.getLayout());
-				c.show(contentPane, "dados");
-			}
-		});
-		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
-		btnConsultar_1.setToolTipText("Bot\u00E3o Avan\u00E7ar");
-		btnConsultar_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar_1.setBounds(319, 242, 135, 43);
-		curso.add(btnConsultar_1);
-		
 		btnSalvar = new JButton("");
 		btnSalvar.setVisible(false);
 		btnSalvar.addActionListener(new ActionListener() {
@@ -1396,6 +1385,19 @@ public class Tela_CadastroAula extends JFrame {
 		
 		txtJustificativa = new JTextArea();
 		scrJustificativa.setViewportView(txtJustificativa);
+		
+		btnConsultar_1 = new JButton("");
+		btnConsultar_1.setBounds(394, 242, 60, 43);
+		curso.add(btnConsultar_1);
+		btnConsultar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c = (CardLayout)(contentPane.getLayout());
+				c.show(contentPane, "dados");
+			}
+		});
+		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
+		btnConsultar_1.setToolTipText("Bot\u00E3o Avan\u00E7ar");
+		btnConsultar_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtJustificativa.setVisible(false);
 		
 		tabDados = new JTabbedPane(JTabbedPane.TOP);
@@ -1495,7 +1497,7 @@ public class Tela_CadastroAula extends JFrame {
 		lblObs.setBounds(10, 194, 36, 21);
 		dados.add(lblObs);
 		
-		btnVoltar2 = new JButton("Voltar");
+		btnVoltar2 = new JButton("");
 		btnVoltar2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
@@ -1505,10 +1507,10 @@ public class Tela_CadastroAula extends JFrame {
 		btnVoltar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
 		btnVoltar2.setToolTipText("Bot\u00E3o Voltar ");
 		btnVoltar2.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar2.setBounds(10, 242, 135, 43);
+		btnVoltar2.setBounds(10, 242, 60, 43);
 		dados.add(btnVoltar2);
 		
-		btnAvancar2 = new JButton("Avan\u00E7ar");
+		btnAvancar2 = new JButton("");
 		btnAvancar2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
@@ -1518,7 +1520,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnAvancar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
 		btnAvancar2.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnAvancar2.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAvancar2.setBounds(319, 242, 135, 43);
+		btnAvancar2.setBounds(394, 242, 60, 43);
 		dados.add(btnAvancar2);
 		
 		scrollPane_1 = new JScrollPane();
@@ -1941,7 +1943,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnSalvar2.setBounds(201, 211, 60, 43);
 		atividade.add(btnSalvar2);
 		
-		btnVoltar3 = new JButton("Voltar");
+		btnVoltar3 = new JButton("");
 		btnVoltar3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
@@ -1951,7 +1953,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnVoltar3.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
 		btnVoltar3.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar3.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar3.setBounds(10, 242, 135, 43);
+		btnVoltar3.setBounds(10, 242, 60, 43);
 		atividade.add(btnVoltar3);
 		
 		txtQtdPessoas = new JTextField();

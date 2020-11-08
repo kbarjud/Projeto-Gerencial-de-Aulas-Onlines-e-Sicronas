@@ -24,6 +24,7 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.com.exemplo.dao.CoordenadorDAO;
 import br.com.exemplo.dao.ProfessoresDAO;
@@ -34,6 +35,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_CadastroCoordenador extends JFrame {
 
@@ -65,7 +69,8 @@ public class Tela_CadastroCoordenador extends JFrame {
 	private JButton btnSair;
 	private JSeparator separator_2;
 	private JScrollPane scrollPane;
-	private JTable tabCadastroCoordenador;
+	private JTable tabCoordenador;
+	JTextField txtControle;
 
 	/**
 	 * Launch the application.
@@ -76,11 +81,21 @@ public class Tela_CadastroCoordenador extends JFrame {
 				try {
 					Tela_CadastroCoordenador frame = new Tela_CadastroCoordenador();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+	
+	private void formatarCampo() {
+		try {
+			MaskFormatter formatarCelular = new MaskFormatter ("(##) #####-####");
+			formatarCelular.install(ftfCelular);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao formatar o campo: Erro: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -90,6 +105,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 402, 551);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -135,8 +151,10 @@ public class Tela_CadastroCoordenador extends JFrame {
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_1 = new JMenuItem("Sair");
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -146,7 +164,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblBemVindoA = new JLabel("Bem Vindo a Tela de Cadastro");
+		lblBemVindoA = new JLabel("Bem Vindo a Tela de Cadastro e Altera\u00E7\u00E3o");
 		lblBemVindoA.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBemVindoA.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		lblBemVindoA.setBounds(10, 11, 365, 30);
@@ -211,10 +229,12 @@ public class Tela_CadastroCoordenador extends JFrame {
 		
 		ftfCelular = new JFormattedTextField();
 		ftfCelular.setFont(new Font("Arial", Font.PLAIN, 14));
+		formatarCampo();
 		ftfCelular.setBounds(182, 221, 155, 30);
 		contentPane.add(ftfCelular);
 		
 		btnSalvar = new JButton("");
+		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -232,7 +252,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 					List<Coordenador> lista = new ArrayList<Coordenador>();
 					CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
 					lista = coordenadorDAO.ListarTodos1(Integer.parseInt(txtCodCoordenador.getText()));
-					DefaultTableModel model = (DefaultTableModel) tabCadastroCoordenador.getModel();
+					DefaultTableModel model = (DefaultTableModel) tabCoordenador.getModel();
 					model.setNumRows(0);
 					for (Coordenador coordenador1 : lista) {
 						model.addRow (new Object[] {
@@ -246,6 +266,11 @@ public class Tela_CadastroCoordenador extends JFrame {
 							});
 					} 
 					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+					txtCodCoordenador.setText(null);
+					passSenha.setText(null);
+					txtNomeCoordenador.setText(null);
+					txtEmail.setText(null);
+					ftfCelular.setText(null);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro!!. "
 							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
@@ -260,6 +285,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnSalvar);
 		
 		btnNovo = new JButton("");
+		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtCodCoordenador.setText(null);
@@ -267,7 +293,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 				txtNomeCoordenador.setText(null);
 				txtEmail.setText(null);
 				ftfCelular.setText(null);
-				((DefaultTableModel) tabCadastroCoordenador.getModel()).removeRow(0);
+				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 			}
 		});
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/novo.png")));
@@ -276,13 +302,25 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnNovo);
 		
 		btnVoltar = new JButton("");
+		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
-				telaCadastroCoordenador.setVisible(false);
-				dispose();
-				Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();
-				telaInicialCoordenador.setVisible(true);
+				if (txtControle.getText().equals("telaInicial")) {
+					JOptionPane.showMessageDialog(null, "Voltando!!");
+					Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
+					telaCadastroCoordenador.setVisible(false);
+					dispose();
+					Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();
+					telaInicialCoordenador.setVisible(true);
+				}
+				else if (txtControle.getText().equals("telaConsultarCoordenador")) {
+					JOptionPane.showMessageDialog(null, "Voltando!!");
+					Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
+					telaCadastroCoordenador.setVisible(false);
+					dispose();
+					Tela_ConsultarCoordenador telaConsultarCoordenador = new Tela_ConsultarCoordenador();
+					telaConsultarCoordenador.setVisible(true);
+				}
 			}
 		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/voltar.png")));
@@ -291,6 +329,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
+		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -304,7 +343,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 						List<Coordenador> lista = new ArrayList<Coordenador>();
 						CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 						lista = coordenadorDao.ListarTodos1(codCoordenador);
-						DefaultTableModel model = (DefaultTableModel) tabCadastroCoordenador.getModel();
+						DefaultTableModel model = (DefaultTableModel) tabCoordenador.getModel();
 						model.setNumRows(0);
 						for (Coordenador coordenador1 : lista) {
 							model.addRow (new Object[] {
@@ -316,6 +355,11 @@ public class Tela_CadastroCoordenador extends JFrame {
 									coordenador1.getCelular(),
 									coordenador1.getStatus(),
 								});
+							txtCodCoordenador.setText(String.valueOf(coordenador.getCodCoordenador()));
+							txtNomeCoordenador.setText(coordenador.getNome());
+							passSenha.setText(coordenador.getSenha());
+							txtEmail.setText(coordenador.getEmail());
+							ftfCelular.setText(coordenador.getCelular());
 						} 
 						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
 					}
@@ -336,6 +380,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -354,6 +399,25 @@ public class Tela_CadastroCoordenador extends JFrame {
 					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 					// alterar
 					coordenadorDao.Alterar(coordenador);
+					
+					int codCoordenador = Integer.parseInt(txtCodCoordenador.getText());
+					
+					List<Coordenador> lista = new ArrayList<Coordenador>();
+					lista = coordenadorDao.ListarTodos1(codCoordenador);
+					DefaultTableModel model = (DefaultTableModel) tabCoordenador.getModel();
+					model.setNumRows(0);
+					for (Coordenador coordenador1 : lista) {
+						model.addRow (new Object[] {
+								coordenador1.getIdCoordenador(),
+								coordenador1.getCodCoordenador(),
+								coordenador1.getNome(),
+								coordenador1.getSenha(),
+								coordenador1.getEmail(),
+								coordenador1.getCelular(),
+								coordenador1.getStatus(),
+							});
+					}
+					
 					JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
@@ -374,8 +438,10 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
+		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -392,8 +458,8 @@ public class Tela_CadastroCoordenador extends JFrame {
 		scrollPane.setBounds(10, 329, 366, 84);
 		contentPane.add(scrollPane);
 		
-		tabCadastroCoordenador = new JTable();
-		tabCadastroCoordenador.setModel(new DefaultTableModel(
+		tabCoordenador = new JTable();
+		tabCoordenador.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
@@ -413,14 +479,21 @@ public class Tela_CadastroCoordenador extends JFrame {
 					return columnEditables[column];
 				}
 		});
-		tabCadastroCoordenador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tabCadastroCoordenador.getColumnModel().getColumn(0).setPreferredWidth(120);
-		tabCadastroCoordenador.getColumnModel().getColumn(1).setPreferredWidth(180);
-		tabCadastroCoordenador.getColumnModel().getColumn(2).setPreferredWidth(200);
-		tabCadastroCoordenador.getColumnModel().getColumn(3).setPreferredWidth(100);
-		tabCadastroCoordenador.getColumnModel().getColumn(4).setPreferredWidth(120);
-		tabCadastroCoordenador.getColumnModel().getColumn(5).setPreferredWidth(110);
-		tabCadastroCoordenador.getColumnModel().getColumn(6).setPreferredWidth(100);
-		scrollPane.setViewportView(tabCadastroCoordenador);
+		tabCoordenador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabCoordenador.getColumnModel().getColumn(0).setPreferredWidth(120);
+		tabCoordenador.getColumnModel().getColumn(1).setPreferredWidth(180);
+		tabCoordenador.getColumnModel().getColumn(2).setPreferredWidth(200);
+		tabCoordenador.getColumnModel().getColumn(3).setPreferredWidth(100);
+		tabCoordenador.getColumnModel().getColumn(4).setPreferredWidth(120);
+		tabCoordenador.getColumnModel().getColumn(5).setPreferredWidth(110);
+		tabCoordenador.getColumnModel().getColumn(6).setPreferredWidth(100);
+		scrollPane.setViewportView(tabCoordenador);
+		
+		txtControle = new JTextField();
+		txtControle.setVisible(false);
+		txtControle.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtControle.setColumns(10);
+		txtControle.setBounds(10, 275, 135, 30);
+		contentPane.add(txtControle);
 	}
 }

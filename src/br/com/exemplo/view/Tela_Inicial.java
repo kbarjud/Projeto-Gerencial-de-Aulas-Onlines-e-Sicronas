@@ -56,6 +56,7 @@ public class Tela_Inicial extends JFrame {
 				try {
 					Tela_Inicial frame = new Tela_Inicial();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,6 +72,7 @@ public class Tela_Inicial extends JFrame {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 331, 273);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

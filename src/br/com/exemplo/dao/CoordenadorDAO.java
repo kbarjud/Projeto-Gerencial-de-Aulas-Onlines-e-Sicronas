@@ -87,6 +87,27 @@ public class CoordenadorDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
+	public Coordenador Consultar2 (String nomeCoordenador) throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM coordenador "
+					+ " WHERE nome=?"); 
+			ps.setString (1, nomeCoordenador);
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idCoordenador = rs.getInt ("id_coordenador");
+				int codCoordenador1 = rs.getInt ("cod_coordenador");
+				String nome = rs.getString ("nome");
+				String senha = rs.getString ("senha");
+				String email = rs.getString ("email");
+				String celular = rs.getString ("celular");
+				String status = rs.getString ("status");
+				coordenador = new Coordenador (idCoordenador, codCoordenador1, nome, senha, email, celular, status);
+			}
+				return coordenador;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
 	public List ListarTodos() throws Exception {
 		List<Coordenador> lista = new ArrayList<Coordenador>();
 		try {
@@ -101,6 +122,22 @@ public class CoordenadorDAO {
 				String celular = rs.getString ("celular");
 				String status = rs.getString ("status");
 				coordenador = new Coordenador (idCoordenador, codCoordenador, nome, senha, email, celular, status);
+				lista.add(coordenador);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos2(String status) throws Exception {
+		List<Coordenador> lista = new ArrayList<Coordenador>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM coordenador WHERE status LIKE ?");
+			ps.setString (1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String nome = rs.getString ("nome");
+				coordenador = new Coordenador (nome);
 				lista.add(coordenador);
 			}
 			return lista;
@@ -131,9 +168,55 @@ public class CoordenadorDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public void Desativar (Coordenador coordenador) throws Exception {
+	public List ListarTodos3(String nomeCoordenador) throws Exception {
+		List<Coordenador> lista = new ArrayList<Coordenador>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM coordenador "
+					+ " WHERE nome=?");
+			ps.setString (1, nomeCoordenador);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idCoordenador = rs.getInt ("id_coordenador");
+				int codCoordenador1 = rs.getInt ("cod_coordenador");
+				String nome = rs.getString ("nome");
+				String senha = rs.getString ("senha");
+				String email = rs.getString ("email");
+				String celular = rs.getString ("celular");
+				String status = rs.getString ("status");
+				coordenador = new Coordenador (idCoordenador, codCoordenador1, nome, senha, email, celular, status);
+				lista.add(coordenador);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos4(String status) throws Exception {
+		List<Coordenador> lista = new ArrayList<Coordenador>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM coordenador "
+					+ " WHERE status=?");
+			ps.setString (1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idCoordenador = rs.getInt ("id_coordenador");
+				int codCoordenador1 = rs.getInt ("cod_coordenador");
+				String nome = rs.getString ("nome");
+				String senha = rs.getString ("senha");
+				String email = rs.getString ("email");
+				String celular = rs.getString ("celular");
+				String status1 = rs.getString ("status");
+				coordenador = new Coordenador (idCoordenador, codCoordenador1, nome, senha, email, celular, status1);
+				lista.add(coordenador);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public void AtivarDesativar (Coordenador coordenador) throws Exception {
 		try { 
-			String sql = "UPDATE atestado SET status=? "
+			String sql = "UPDATE coordenador SET status=? "
 					+ " WHERE id_coordenador=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, coordenador.getStatus());

@@ -237,6 +237,7 @@ public class Tela_InicialProfessor extends JFrame {
 				telaInicialProfessor.setVisible(false);
 				dispose();
 				Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
+				telaCadastroProfessor.txtControle.setText("telaInicial");
 				telaCadastroProfessor.setVisible(true);
 			}
 		});
@@ -272,6 +273,7 @@ public class Tela_InicialProfessor extends JFrame {
 										professor1.getStatus(),
 									});
 							} 
+							passSenha.setText(professor.getSenha());
 							JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
 						}
 						else {
@@ -339,6 +341,7 @@ public class Tela_InicialProfessor extends JFrame {
 				telaInicialProfessor.setVisible(false);
 				dispose();
 				Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
+				telaCadastroProfessor.txtControle.setText("telaInicial");
 				telaCadastroProfessor.setVisible(true);
 			}
 		});

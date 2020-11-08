@@ -33,6 +33,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_InicialCoordenador extends JFrame {
 
@@ -62,6 +65,7 @@ public class Tela_InicialCoordenador extends JFrame {
 	private JSeparator separator_3;
 	private JScrollPane scrollPane;
 	private JTable tabCoordenador;
+	private JMenuItem mntmNewMenuItem_3;
 
 	/**
 	 * Launch the application.
@@ -72,6 +76,7 @@ public class Tela_InicialCoordenador extends JFrame {
 				try {
 					Tela_InicialCoordenador frame = new Tela_InicialCoordenador();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -85,7 +90,8 @@ public class Tela_InicialCoordenador extends JFrame {
 	public Tela_InicialCoordenador() {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 395, 423);
+		setBounds(100, 100, 389, 423);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -133,11 +139,48 @@ public class Tela_InicialCoordenador extends JFrame {
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Sair");
+		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
+		
+		mntmNewMenuItem_3 = new JMenuItem("Entrar");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int codCoordenador = Integer.parseInt(txtCodCoordenador.getText());
+					String senha = String.valueOf(passSenha.getPassword());
+					
+					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
+					Coordenador coordenador = new Coordenador();
+					coordenador = coordenadorDao.Login(codCoordenador, senha);
+					 
+					if (codCoordenador == coordenador.getCodCoordenador() && senha.equals(coordenador.getSenha())) {
+						String nome = coordenador.getNome();
+						JOptionPane.showMessageDialog (null, "Seja Bem Vindo(a) Coordenador(a): " + nome);
+						Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();			
+						telaInicialCoordenador.setVisible (false);
+						dispose();
+						Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+						telaMenuCoordenador.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog (null, "Coordenador Não Cadastrado");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Login!!. "
+						+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
+						+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Você Fez Seu Cadastro"
+						+ "\n3. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
+						+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		mntmNewMenuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		mnNewMenu_1.add(mntmNewMenuItem_3);
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
@@ -183,10 +226,12 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnCadastreSe.setToolTipText("Bot\u00E3o Cadastre-se Aqui");
 		btnCadastreSe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();
 				telaInicialCoordenador.setVisible(false);
 				dispose();
 				Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
+				telaCadastroCoordenador.txtControle.setText("telaInicial");
 				telaCadastroCoordenador.setVisible(true);
 			}
 		});
@@ -204,7 +249,7 @@ public class Tela_InicialCoordenador extends JFrame {
 					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 					Coordenador coordenador = new Coordenador();
 					coordenador = coordenadorDao.Login(codCoordenador, senha);
-					 
+					
 					if (codCoordenador == coordenador.getCodCoordenador() && senha.equals(coordenador.getSenha())) {
 						String nome = coordenador.getNome();
 						JOptionPane.showMessageDialog (null, "Seja Bem Vindo(a) Coordenador(a): " + nome);
@@ -212,9 +257,6 @@ public class Tela_InicialCoordenador extends JFrame {
 						telaInicialCoordenador.setVisible (false);
 						dispose();
 						Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
-						//String codigoProf = Integer.toString(codProfessor);
-						//telaCadastroAula.txtCodProfessor.setText(codigoProf);
-						//telaCadastroAula.txtSenhaProf.setText(senha);
 						telaMenuCoordenador.setVisible(true);
 					}
 					else {
@@ -245,6 +287,7 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnSair = new JButton("");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -257,10 +300,12 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnAlterar = new JButton("");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_InicialCoordenador telaInicialCoordenador = new Tela_InicialCoordenador();
 				telaInicialCoordenador.setVisible(false);
 				dispose();
 				Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
+				telaCadastroCoordenador.txtControle.setText("telaInicial");
 				telaCadastroCoordenador.setVisible(true);
 			}
 		});
@@ -296,6 +341,7 @@ public class Tela_InicialCoordenador extends JFrame {
 									coordenador1.getStatus(),
 								});
 						} 
+						passSenha.setText(coordenador.getSenha());
 						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
 					}
 					else {
@@ -351,7 +397,7 @@ public class Tela_InicialCoordenador extends JFrame {
 		contentPane.add(separator_3);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 147, 359, 86);
+		scrollPane.setBounds(10, 147, 353, 86);
 		contentPane.add(scrollPane);
 		
 		tabCoordenador = new JTable();

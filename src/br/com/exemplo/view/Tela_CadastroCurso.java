@@ -6,6 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.exemplo.dao.CursoDAO;
+import br.com.exemplo.dao.CursoDisciplinaDAO;
+import br.com.exemplo.dao.DisciplinaDAO;
+import br.com.exemplo.dao.TurmaDAO;
+import br.com.exemplo.model.Curso;
+import br.com.exemplo.model.CursoDisciplina;
+import br.com.exemplo.model.Disciplina;
+import br.com.exemplo.model.Turma;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -14,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
@@ -21,20 +32,26 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
+import javax.swing.event.AncestorListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.event.AncestorEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Tela_CadastroCurso extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel lblCurso;
-	private JComboBox cmbCurso;
-	private JLabel lblMateria;
-	private JTextField txtDisciplina;
 	private JMenuBar menuBar;
 	private JMenu mnNewMenu;
 	private JMenu mnNewMenu_1;
@@ -42,17 +59,25 @@ public class Tela_CadastroCurso extends JFrame {
 	private JMenuItem mntmNewMenuItem_1;
 	private JSeparator separator;
 	private JMenuItem mntmNewMenuItem_2;
-	private JButton btnCadastrar;
-	private JButton btnNovoCurso;
-	private JScrollPane scrollPane;
-	private JTable tabCursosDisciplinas;
 	private JSeparator separator_1;
-	private JButton btnExcluir;
 	private JButton btnConsultar;
 	private JButton btnVoltar;
 	private JButton btnSair;
 	private JButton btnAlterar;
-	private JComboBox cmbCurso_1;
+	private JLabel lblBemVindoA_1;
+	private JLabel lblCurso;
+	private JTextField txtCurso;
+	private JButton btnSalvar;
+	private JSeparator separator_2;
+	private JScrollPane scrollPane;
+	private JTable tabCurso;
+	private JButton btnNovo;
+	private JButton btnAtivar;
+	private JButton btnDesativar;
+	private JSeparator separator_3;
+	private JButton btnListarCoordenadoresAtivos;
+	private JButton btnListarDesativados;
+	private JButton btnListarTodos;
 
 	/**
 	 * Launch the application.
@@ -63,6 +88,7 @@ public class Tela_CadastroCurso extends JFrame {
 				try {
 					Tela_CadastroCurso frame = new Tela_CadastroCurso();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,7 +102,8 @@ public class Tela_CadastroCurso extends JFrame {
 	public Tela_CadastroCurso() {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 443, 446);
+		setBounds(100, 100, 424, 485);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -84,102 +111,205 @@ public class Tela_CadastroCurso extends JFrame {
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
 		menuBar.add(mnNewMenu);
 		
-		mntmNewMenuItem_2 = new JMenuItem("Cursos e Disciplinas");
+		mntmNewMenuItem_2 = new JMenuItem("Cursos");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "==============Cursos=============="
+						+ "\n Nesta Área Você Poderá: "
+						+ "\n 1. Cadastrar os Cursos"
+						+ "\n 2. Manter os Cursos ou Desativa-los"
+						+ "\n==================================");
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String osName = System.getProperty("os.name");
+				String osVersion = System.getProperty("os.version");
+				String javaI = System.getProperty("java.version");
+				String javaRE = System.getProperty("java.runtime.version");
+				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+						+ "\n Instalado: " + osName + " e Versão: " + osVersion
+						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
+						+ "\n=====================================================");
+			}
+		});
 		mnNewMenu_1.add(mntmNewMenuItem);
 		
 		separator = new JSeparator();
 		mnNewMenu_1.add(separator);
 		
 		mntmNewMenuItem_1 = new JMenuItem("Sair");
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblCurso = new JLabel("Curso");
-		lblCurso.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblCurso.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblCurso.setBounds(10, 11, 56, 21);
-		contentPane.add(lblCurso);
-		
-		cmbCurso = new JComboBox();
-		cmbCurso.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbCurso.setBounds(92, 13, 187, 21);
-		contentPane.add(cmbCurso);
-		
-		lblMateria = new JLabel("Disciplina");
-		lblMateria.setHorizontalAlignment(SwingConstants.LEFT);
-		lblMateria.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblMateria.setBounds(10, 54, 72, 21);
-		contentPane.add(lblMateria);
-		
-		txtDisciplina = new JTextField();
-		txtDisciplina.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtDisciplina.setColumns(10);
-		txtDisciplina.setBounds(92, 55, 187, 20);
-		contentPane.add(txtDisciplina);
-		
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCadastrar.setBounds(307, 66, 108, 30);
-		contentPane.add(btnCadastrar);
-		
-		btnNovoCurso = new JButton("Cursos");
-		btnNovoCurso.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovoCurso.setBounds(307, 23, 108, 30);
-		contentPane.add(btnNovoCurso);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 117, 405, 178);
-		contentPane.add(scrollPane);
-		
-		tabCursosDisciplinas = new JTable();
-		scrollPane.setViewportView(tabCursosDisciplinas);
-		
 		separator_1 = new JSeparator();
-		separator_1.setBounds(0, 317, 425, 2);
+		separator_1.setBounds(0, 355, 447, 2);
 		contentPane.add(separator_1);
 		
-		btnExcluir = new JButton("");
-		btnExcluir.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/excluir.png")));
-		btnExcluir.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnExcluir.setBounds(114, 330, 60, 43);
-		contentPane.add(btnExcluir);
-		
 		btnConsultar = new JButton("");
+		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar.setBounds(254, 330, 60, 43);
+		btnConsultar.setBounds(339, 46, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnVoltar = new JButton("");
+		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_CadastroCurso telaCadastroCurso = new Tela_CadastroCurso();
+				telaCadastroCurso.setVisible(false);
+				dispose();
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(true);
+			}
+		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(44, 330, 60, 43);
+		btnVoltar.setBounds(19, 368, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnSair = new JButton("");
+		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnSair.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/sair.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(324, 330, 60, 43);
+		btnSair.setBounds(335, 368, 60, 43);
 		contentPane.add(btnSair);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(184, 330, 60, 43);
+		btnAlterar.setBounds(256, 368, 60, 43);
 		contentPane.add(btnAlterar);
 		
-		cmbCurso_1 = new JComboBox();
-		cmbCurso_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbCurso_1.setBounds(92, 85, 187, 21);
-		contentPane.add(cmbCurso_1);
+		lblBemVindoA_1 = new JLabel("Bem Vindo a Tela de Cadastro de Curso");
+		lblBemVindoA_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBemVindoA_1.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+		lblBemVindoA_1.setBounds(10, 11, 395, 30);
+		contentPane.add(lblBemVindoA_1);
+		
+		lblCurso = new JLabel("Curso");
+		lblCurso.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCurso.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		lblCurso.setBounds(10, 52, 42, 30);
+		contentPane.add(lblCurso);
+		
+		txtCurso = new JTextField();
+		txtCurso.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtCurso.setColumns(10);
+		txtCurso.setBounds(62, 52, 267, 30);
+		contentPane.add(txtCurso);
+		
+		btnSalvar = new JButton("");
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnSalvar.setBounds(210, 101, 60, 43);
+		contentPane.add(btnSalvar);
+		
+		separator_2 = new JSeparator();
+		separator_2.setBounds(0, 202, 447, 2);
+		contentPane.add(separator_2);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 215, 389, 129);
+		contentPane.add(scrollPane);
+		
+		tabCurso = new JTable();
+		tabCurso.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabCurso.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID Curso", "Curso", "Status"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tabCurso.getColumnModel().getColumn(0).setPreferredWidth(80);
+		tabCurso.getColumnModel().getColumn(1).setPreferredWidth(203);
+		tabCurso.getColumnModel().getColumn(2).setPreferredWidth(105);
+		scrollPane.setViewportView(tabCurso);
+		
+		btnNovo = new JButton("");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtCurso.setText(null);
+				((DefaultTableModel) tabCurso.getModel()).setRowCount(0);
+			}
+		});
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnNovo.setBounds(140, 101, 60, 43);
+		contentPane.add(btnNovo);
+		
+		btnAtivar = new JButton("");
+		btnAtivar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/ativar.png")));
+		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
+		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnAtivar.setBounds(98, 368, 60, 43);
+		contentPane.add(btnAtivar);
+		
+		btnDesativar = new JButton("");
+		btnDesativar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/desativar.png")));
+		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
+		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnDesativar.setBounds(177, 368, 60, 43);
+		contentPane.add(btnDesativar);
+		
+		separator_3 = new JSeparator();
+		separator_3.setBounds(0, 155, 447, 2);
+		contentPane.add(separator_3);
+		
+		btnListarCoordenadoresAtivos = new JButton("Listar Ativos");
+		btnListarCoordenadoresAtivos.setToolTipText("Bot\u00E3o Listar Cursos Ativos");
+		btnListarCoordenadoresAtivos.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnListarCoordenadoresAtivos.setBounds(10, 168, 123, 23);
+		contentPane.add(btnListarCoordenadoresAtivos);
+		
+		btnListarDesativados = new JButton("Listar Inativos");
+		btnListarDesativados.setToolTipText("Bot\u00E3o Listar Cursos Inativos");
+		btnListarDesativados.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnListarDesativados.setBounds(143, 168, 123, 23);
+		contentPane.add(btnListarDesativados);
+		
+		btnListarTodos = new JButton("Listar Todos");
+		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos os Cursos");
+		btnListarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnListarTodos.setBounds(276, 168, 123, 23);
+		contentPane.add(btnListarTodos);
 	}
 }

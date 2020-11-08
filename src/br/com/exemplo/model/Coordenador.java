@@ -25,11 +25,16 @@ public class Coordenador {
 		this.status = status;
 	}
 	
-	public Coordenador(int idProfessor, int codProfessor, String senha, String nome) {
+	public Coordenador(int idProfessor, int codCoordenador, String senha, String nome) {
 		super();
 		this.idCoordenador = idCoordenador;
 		this.codCoordenador = codCoordenador;
 		this.senha = senha;
+		this.nome = nome;
+	}
+	
+	public Coordenador(String nome) {
+		super();
 		this.nome = nome;
 	}
 
@@ -87,5 +92,9 @@ public class Coordenador {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String toString() {
+		return nome;
 	}
 }

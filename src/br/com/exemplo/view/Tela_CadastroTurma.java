@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -32,21 +33,19 @@ public class Tela_CadastroTurma extends JFrame {
 	private JComboBox cmbCurso;
 	private JLabel lblAlunosMatriculados;
 	private JTextField txtQtdAluno;
-	private JButton btnCadastrar;
+	private JButton btnSalvar;
 	private JScrollPane scrollPane;
 	private JSeparator separator;
 	private JLabel lblSemestreLetivo;
-	private JTable table;
+	private JTable tabTurma;
 	private JLabel lblPeriodo;
 	private JComboBox cmbPeriodo;
 	private JComboBox cmbSemestreLetivo;
 	private JButton btnNovoSemestre;
-	private JTextField txtTurma;
 	private JLabel lblTurma;
 	private JComboBox cmbDisciplina;
 	private JLabel lblDisciplina;
 	private JButton btnVoltar;
-	private JButton btnExcluir;
 	private JButton btnAlterar;
 	private JButton btnConsultar;
 	private JButton btnSair;
@@ -57,6 +56,12 @@ public class Tela_CadastroTurma extends JFrame {
 	private JMenuItem mntmNewMenuItem_1;
 	private JSeparator separator_1;
 	private JMenuItem mntmNewMenuItem_2;
+	private JLabel lblBemVindoA_1;
+	private JTextField txtTurma;
+	private JButton btnNovo;
+	private JButton btnDesativar;
+	private JButton btnAtivar;
+	private JSeparator separator_2;
 
 	/**
 	 * Launch the application.
@@ -80,7 +85,7 @@ public class Tela_CadastroTurma extends JFrame {
 	public Tela_CadastroTurma() {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 521, 360);
+		setBounds(100, 100, 521, 522);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -110,125 +115,181 @@ public class Tela_CadastroTurma extends JFrame {
 		lblCurso = new JLabel("Curso");
 		lblCurso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurso.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblCurso.setBounds(10, 15, 56, 21);
+		lblCurso.setBounds(41, 52, 56, 21);
 		contentPane.add(lblCurso);
 		
 		cmbCurso = new JComboBox();
 		cmbCurso.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbCurso.setBounds(85, 17, 192, 21);
+		cmbCurso.setBounds(137, 52, 331, 21);
 		contentPane.add(cmbCurso);
 		
 		lblAlunosMatriculados = new JLabel("Qtd. Alunos");
 		lblAlunosMatriculados.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAlunosMatriculados.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblAlunosMatriculados.setBounds(139, 81, 81, 21);
+		lblAlunosMatriculados.setBounds(330, 119, 81, 21);
 		contentPane.add(lblAlunosMatriculados);
 		
 		txtQtdAluno = new JTextField();
 		txtQtdAluno.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtQtdAluno.setColumns(10);
-		txtQtdAluno.setBounds(230, 82, 47, 20);
+		txtQtdAluno.setBounds(419, 119, 49, 20);
 		contentPane.add(txtQtdAluno);
 		
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
+		btnSalvar = new JButton("");
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCadastrar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCadastrar.setBounds(154, 190, 123, 30);
-		contentPane.add(btnCadastrar);
+		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnSalvar.setBounds(220, 196, 60, 43);
+		contentPane.add(btnSalvar);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(294, 15, 201, 205);
+		scrollPane.setBounds(10, 263, 485, 121);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		tabTurma = new JTable();
+		tabTurma.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabTurma.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Turma", "Curso", "Disciplina", "Qtd Alunos", "Periodo", "Semestre", "Status", "Id Turma"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, Integer.class, String.class, String.class, String.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		
+		tabTurma.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tabTurma.getColumnModel().getColumn(1).setPreferredWidth(180);
+		tabTurma.getColumnModel().getColumn(2).setPreferredWidth(180);
+		tabTurma.getColumnModel().getColumn(3).setPreferredWidth(70);
+		tabTurma.getColumnModel().getColumn(4).setPreferredWidth(100);
+		tabTurma.getColumnModel().getColumn(5).setPreferredWidth(100);
+		tabTurma.getColumnModel().getColumn(6).setPreferredWidth(100);
+		tabTurma.getColumnModel().getColumn(7).setPreferredWidth(70);
+		scrollPane.setViewportView(tabTurma);
 		
 		separator = new JSeparator();
-		separator.setBounds(0, 237, 505, 2);
+		separator.setBounds(0, 395, 505, 2);
 		contentPane.add(separator);
 		
 		lblSemestreLetivo = new JLabel("Semestre Letivo");
 		lblSemestreLetivo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSemestreLetivo.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblSemestreLetivo.setBounds(38, 145, 118, 21);
+		lblSemestreLetivo.setBounds(265, 151, 112, 23);
 		contentPane.add(lblSemestreLetivo);
 		
 		lblPeriodo = new JLabel("Periodo");
 		lblPeriodo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPeriodo.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblPeriodo.setBounds(64, 113, 56, 21);
+		lblPeriodo.setBounds(46, 152, 56, 21);
 		contentPane.add(lblPeriodo);
 		
 		cmbPeriodo = new JComboBox();
-		cmbPeriodo.setModel(new DefaultComboBoxModel(new String[] {"", "Matutino", "Vespertino", "Noturno"}));
+		cmbPeriodo.setModel(new DefaultComboBoxModel(new String[] {"Vespertino", "Noturno"}));
 		cmbPeriodo.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbPeriodo.setBounds(132, 113, 96, 21);
+		cmbPeriodo.setBounds(137, 152, 112, 21);
 		contentPane.add(cmbPeriodo);
 		
 		cmbSemestreLetivo = new JComboBox();
+		cmbSemestreLetivo.setModel(new DefaultComboBoxModel(new String[] {"2020/02"}));
 		cmbSemestreLetivo.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbSemestreLetivo.setBounds(166, 146, 81, 21);
+		cmbSemestreLetivo.setBounds(387, 151, 81, 22);
 		contentPane.add(cmbSemestreLetivo);
 		
 		btnNovoSemestre = new JButton("Novo Semestre");
 		btnNovoSemestre.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovoSemestre.setBounds(10, 190, 134, 30);
+		btnNovoSemestre.setBounds(334, 202, 134, 30);
 		contentPane.add(btnNovoSemestre);
-		
-		txtTurma = new JTextField();
-		txtTurma.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtTurma.setColumns(10);
-		txtTurma.setBounds(76, 82, 53, 20);
-		contentPane.add(txtTurma);
 		
 		lblTurma = new JLabel("Turma");
 		lblTurma.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTurma.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblTurma.setBounds(10, 81, 56, 21);
+		lblTurma.setBounds(45, 119, 56, 21);
 		contentPane.add(lblTurma);
 		
 		cmbDisciplina = new JComboBox();
 		cmbDisciplina.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbDisciplina.setBounds(85, 49, 192, 21);
+		cmbDisciplina.setBounds(137, 85, 331, 21);
 		contentPane.add(cmbDisciplina);
 		
 		lblDisciplina = new JLabel("Disciplina");
 		lblDisciplina.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDisciplina.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblDisciplina.setBounds(10, 47, 70, 21);
+		lblDisciplina.setBounds(37, 85, 70, 21);
 		contentPane.add(lblDisciplina);
 		
 		btnVoltar = new JButton("");
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(85, 250, 60, 43);
+		btnVoltar.setBounds(80, 408, 60, 43);
 		contentPane.add(btnVoltar);
-		
-		btnExcluir = new JButton("");
-		btnExcluir.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/excluir.png")));
-		btnExcluir.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnExcluir.setBounds(155, 250, 60, 43);
-		contentPane.add(btnExcluir);
 		
 		btnAlterar = new JButton("");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(225, 250, 60, 43);
+		btnAlterar.setBounds(290, 408, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnConsultar = new JButton("");
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar.setBounds(295, 250, 60, 43);
+		btnConsultar.setBounds(360, 408, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnSair = new JButton("");
 		btnSair.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/sair.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(365, 250, 60, 43);
+		btnSair.setBounds(430, 408, 60, 43);
 		contentPane.add(btnSair);
+		
+		lblBemVindoA_1 = new JLabel("Bem Vindo a Tela de Cadastro de Turma");
+		lblBemVindoA_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBemVindoA_1.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+		lblBemVindoA_1.setBounds(10, 11, 485, 30);
+		contentPane.add(lblBemVindoA_1);
+		
+		txtTurma = new JTextField();
+		txtTurma.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtTurma.setColumns(10);
+		txtTurma.setBounds(137, 121, 90, 20);
+		contentPane.add(txtTurma);
+		
+		btnNovo = new JButton("");
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnNovo.setBounds(10, 408, 60, 43);
+		contentPane.add(btnNovo);
+		
+		btnDesativar = new JButton("");
+		btnDesativar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/desativar.png")));
+		btnDesativar.setToolTipText("btnDesativar");
+		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnDesativar.setBounds(220, 408, 60, 43);
+		contentPane.add(btnDesativar);
+		
+		btnAtivar = new JButton("");
+		btnAtivar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/ativar.png")));
+		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
+		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnAtivar.setBounds(150, 408, 60, 43);
+		contentPane.add(btnAtivar);
+		
+		separator_2 = new JSeparator();
+		separator_2.setBounds(0, 250, 505, 2);
+		contentPane.add(separator_2);
 	}
 }

@@ -69,6 +69,7 @@ public class Tela_CadastroProfessor extends JFrame {
 	private JSeparator separator_2;
 	private JScrollPane scrollPane;
 	private JTable tabCadastroProfessor;
+	JTextField txtControle;
 
 	
 	private void formatarCampo() {
@@ -89,6 +90,7 @@ public class Tela_CadastroProfessor extends JFrame {
 				try {
 					Tela_CadastroProfessor frame = new Tela_CadastroProfessor();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -103,6 +105,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 402, 551);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -196,7 +199,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		txtNomeProfessor.setBounds(182, 52, 155, 30);
 		contentPane.add(txtNomeProfessor);
 		
-		lblBemVindoA = new JLabel("Bem Vindo a Tela de Cadastro");
+		lblBemVindoA = new JLabel("Bem Vindo a Tela de Cadastro e Altera\u00E7\u00E3o");
 		lblBemVindoA.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBemVindoA.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		lblBemVindoA.setBounds(10, 11, 365, 30);
@@ -210,12 +213,22 @@ public class Tela_CadastroProfessor extends JFrame {
 		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Voltando!!");
-				Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
-				telaCadastroProfessor.setVisible(false);
-				dispose();
-				Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();
-				telaInicialProfessor.setVisible(true);
+				if (txtControle.getText().equals("telaInicial")) {
+					JOptionPane.showMessageDialog(null, "Voltando!!");
+					Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
+					telaCadastroProfessor.setVisible(false);
+					dispose();
+					Tela_InicialProfessor telaInicialProfessor = new Tela_InicialProfessor();
+					telaInicialProfessor.setVisible(true);
+				}
+				else if (txtControle.getText().equals("telaConsultaProfessor")) {
+					JOptionPane.showMessageDialog(null, "Voltando!!");
+					Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
+					telaCadastroProfessor.setVisible(false);
+					dispose();
+					Tela_ConsultarProfessor telaConsultarProfessor = new Tela_ConsultarProfessor();
+					telaConsultarProfessor.setVisible(true);
+				}
 			}
 		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroProfessor.class.getResource("/br/com/exemplo/view/images/voltar.png")));
@@ -250,6 +263,11 @@ public class Tela_CadastroProfessor extends JFrame {
 									professor1.getCelular(),
 									professor1.getStatus(),
 								});
+							txtCodProfessor.setText(String.valueOf(professor.getCodProfessor()));
+							txtNomeProfessor.setText(professor.getNome());
+							passSenha.setText(professor.getSenha());
+							txtEmail.setText(professor.getEmail());
+							ftfCelular.setText(professor.getCelular());
 						} 
 						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
 					}
@@ -398,6 +416,11 @@ public class Tela_CadastroProfessor extends JFrame {
 							});
 					} 
 					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+					txtCodProfessor.setText(null);
+					passSenha.setText(null);
+					txtNomeProfessor.setText(null);
+					txtEmail.setText(null);
+					ftfCelular.setText(null);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro!!. "
 							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
@@ -420,7 +443,7 @@ public class Tela_CadastroProfessor extends JFrame {
 				txtNomeProfessor.setText(null);
 				txtEmail.setText(null);
 				ftfCelular.setText(null);
-				((DefaultTableModel) tabCadastroProfessor.getModel()).removeRow(0);
+				((DefaultTableModel) tabCadastroProfessor.getModel()).setRowCount(0);
 			}
 		});
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroProfessor.class.getResource("/br/com/exemplo/view/images/novo.png")));
@@ -466,6 +489,13 @@ public class Tela_CadastroProfessor extends JFrame {
 		tabCadastroProfessor.getColumnModel().getColumn(5).setPreferredWidth(110);
 		tabCadastroProfessor.getColumnModel().getColumn(6).setPreferredWidth(100);
 		scrollPane.setViewportView(tabCadastroProfessor);
+		
+		txtControle = new JTextField();
+		txtControle.setVisible(false);
+		txtControle.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtControle.setColumns(10);
+		txtControle.setBounds(10, 275, 140, 30);
+		contentPane.add(txtControle);
 	}
 }
 
