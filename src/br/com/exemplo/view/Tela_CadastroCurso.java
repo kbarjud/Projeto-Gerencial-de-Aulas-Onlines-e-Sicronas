@@ -7,13 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.com.exemplo.dao.CoordenadorDAO;
 import br.com.exemplo.dao.CursoDAO;
 import br.com.exemplo.dao.CursoDisciplinaDAO;
 import br.com.exemplo.dao.DisciplinaDAO;
+import br.com.exemplo.dao.ProfessoresDAO;
 import br.com.exemplo.dao.TurmaDAO;
+import br.com.exemplo.model.Coordenador;
 import br.com.exemplo.model.Curso;
 import br.com.exemplo.model.CursoDisciplina;
 import br.com.exemplo.model.Disciplina;
+import br.com.exemplo.model.Professores;
 import br.com.exemplo.model.Turma;
 
 import javax.swing.JLabel;
@@ -48,6 +52,7 @@ import java.awt.event.ItemEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class Tela_CadastroCurso extends JFrame {
 
@@ -100,15 +105,17 @@ public class Tela_CadastroCurso extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_CadastroCurso() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 424, 485);
+		setBounds(100, 100, 424, 493);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
+		mnNewMenu.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Cursos");
@@ -124,6 +131,7 @@ public class Tela_CadastroCurso extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
@@ -162,8 +170,40 @@ public class Tela_CadastroCurso extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnConsultar = new JButton("");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String nomeCurso = txtCurso.getText();
+					
+					CursoDAO cursoDao = new CursoDAO();
+					Curso curso = new Curso();
+					curso = cursoDao.Consultar2(nomeCurso);
+					 
+					if (nomeCurso.equals(curso.getNomeCurso())) {
+						List<Curso> lista = new ArrayList<Curso>();
+						lista = cursoDao.ListarTodos3(nomeCurso);
+						DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+						model.setNumRows(0);
+						for (Curso curso1 : lista) {
+							model.addRow (new Object[] {
+									curso1.getIdCurso(),
+									curso1.getNomeCurso(),
+									curso1.getStatus(),
+								});
+						} 
+						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+					}
+					else {
+						JOptionPane.showMessageDialog (null, "Curso Não Cadastrado");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Consultar Curso!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
-		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(339, 46, 60, 43);
 		contentPane.add(btnConsultar);
@@ -191,14 +231,64 @@ public class Tela_CadastroCurso extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(335, 368, 60, 43);
 		contentPane.add(btnSair);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Curso curso = new Curso();
+					curso.setNomeCurso(txtCurso.getText());
+					curso.setStatus("Ativo");
+					
+					String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
+					
+					if (nome.equals(txtCurso.getText())) {
+						JOptionPane.showMessageDialog (null, "Por Favor Digite Um Nome Diferente Do Que Já Está Cadastrado!!");
+					}
+					else {
+						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
+						int idCurso = Integer.parseInt(teste);
+						
+						curso.setIdCurso(idCurso);
+							
+						CursoDAO cursoDao = new CursoDAO();
+						// alterar
+						cursoDao.Alterar(curso);
+						
+						List<Curso> lista = new ArrayList<Curso>();
+						lista = cursoDao.ListarTodos1(idCurso);
+						
+						DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+						model.setNumRows(0);
+						for (Curso curso1 : lista) {
+							model.addRow (new Object[] {
+									curso1.getIdCurso(),
+									curso1.getNomeCurso(),
+									curso1.getStatus(),
+								});
+						}
+						
+						JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+					}
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
+							+ "\n2. Caso Tenha Sido, Verifique se o ID Foi Digitado Corretamente."
+							+ "\n3. Caso Você Não Saiba o ID, Faça Uma Consulta Usando o Código Do Coordenador e Assim Retornará Todos os Dados Do Coordenador, Inclusive o ID"
+							+ "\n\n===========================================================================Informações=========================================================================="
+							+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
+							+ "\n** O ID do Coordenador é Diferente do Código do Coordenador"
+							+ "\n==============================================================================================================================================================="
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
-		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(256, 368, 60, 43);
 		contentPane.add(btnAlterar);
@@ -222,7 +312,37 @@ public class Tela_CadastroCurso extends JFrame {
 		contentPane.add(txtCurso);
 		
 		btnSalvar = new JButton("");
-		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try { 
+					Curso curso = new Curso();
+					curso.setNomeCurso(txtCurso.getText());
+					curso.setStatus("Ativo");
+					
+					CursoDAO cursoDao = new CursoDAO();
+					cursoDao.Salvar(curso);
+					
+					List<Curso> lista = new ArrayList<Curso>();
+					lista = cursoDao.ListarTodos3(txtCurso.getText());
+					DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+					model.setNumRows(0);
+					for (Curso curso1 : lista) {
+						model.addRow (new Object[] {
+								curso1.getIdCurso(),
+								curso1.getNomeCurso(),
+								curso1.getStatus(),
+							});
+					} 
+					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+					txtCurso.setText(null);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Salvar!!. "
+							+ "\n1. Verifique se o cadastro desse já foi feito"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBounds(210, 101, 60, 43);
@@ -270,21 +390,149 @@ public class Tela_CadastroCurso extends JFrame {
 				((DefaultTableModel) tabCurso.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(140, 101, 60, 43);
 		contentPane.add(btnNovo);
 		
 		btnAtivar = new JButton("");
-		btnAtivar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/ativar.png")));
+		btnAtivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Curso curso = new Curso();
+					String status = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 2));
+					if (status.equals("Ativo")) {
+						JOptionPane.showMessageDialog(null, "O Curso Já Esta Ativo");
+					}
+					else if (status.equals("Desativado")) {
+						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
+						int idCurso = Integer.parseInt(teste);
+						
+						curso.setStatus("Ativo");
+						curso.setIdCurso(idCurso);
+						
+						String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Ativar O Curso " + nome
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							
+							CursoDAO cursoDao = new CursoDAO();
+							cursoDao.AtivarDesativar(curso);
+								
+							JOptionPane.showMessageDialog (null, "O Curso Já Foi Ativado");
+							
+							txtCurso.setText(null);
+							
+							String status1 = "Ativo";
+							
+							List<Curso> lista = new ArrayList<Curso>();
+							lista = cursoDao.ListarTodos4(status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+							model.setNumRows(0);
+							for (Curso curso1 : lista) {
+								model.addRow (new Object[] {
+										curso1.getIdCurso(),
+										curso1.getNomeCurso(),
+										curso1.getStatus(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Ativar o Curso ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Ativar Curso!!. "
+							+ "\n1. Verifique Se O Curso Já Esta Ativo"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnAtivar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAtivar.setBounds(98, 368, 60, 43);
 		contentPane.add(btnAtivar);
 		
 		btnDesativar = new JButton("");
-		btnDesativar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/desativar.png")));
+		btnDesativar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Curso curso = new Curso();
+					String status = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 2));
+					if (status.equals("Desativado")) {
+						JOptionPane.showMessageDialog(null, "O Curso Já Esta Desativado");
+					}
+					else if (status.equals("Ativo")) {
+						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
+						int idCurso = Integer.parseInt(teste);
+						
+						curso.setStatus("Desativado");
+						curso.setIdCurso(idCurso);
+						
+						String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Desativar O Curso " + nome
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							
+							CursoDAO cursoDao = new CursoDAO();
+							cursoDao.AtivarDesativar(curso);
+								
+							JOptionPane.showMessageDialog (null, "O Curso Já Foi Desativado");
+							
+							txtCurso.setText(null);
+							
+							String status1 = "Desativado";
+							
+							List<Curso> lista = new ArrayList<Curso>();
+							lista = cursoDao.ListarTodos4(status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+							model.setNumRows(0);
+							for (Curso curso1 : lista) {
+								model.addRow (new Object[] {
+										curso1.getIdCurso(),
+										curso1.getNomeCurso(),
+										curso1.getStatus(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Desativar o Curso ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Desativar Curso!!. "
+							+ "\n1. Verifique Se O Curso Já Esta Desativado"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnDesativar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(177, 368, 60, 43);
@@ -295,18 +543,94 @@ public class Tela_CadastroCurso extends JFrame {
 		contentPane.add(separator_3);
 		
 		btnListarCoordenadoresAtivos = new JButton("Listar Ativos");
+		btnListarCoordenadoresAtivos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String status = "Ativo";
+					
+					List<Curso> lista = new ArrayList<Curso>();
+					CursoDAO cursoDao = new CursoDAO();
+					lista = cursoDao.ListarTodos4(status);
+					
+					DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+					model.setNumRows(0);
+					for (Curso curso : lista) {
+						model.addRow (new Object[] {
+								curso.getIdCurso(),
+								curso.getNomeCurso(),
+								curso.getStatus(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Ativos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnListarCoordenadoresAtivos.setToolTipText("Bot\u00E3o Listar Cursos Ativos");
 		btnListarCoordenadoresAtivos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarCoordenadoresAtivos.setBounds(10, 168, 123, 23);
 		contentPane.add(btnListarCoordenadoresAtivos);
 		
 		btnListarDesativados = new JButton("Listar Inativos");
+		btnListarDesativados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String status = "Desativado";
+					
+					List<Curso> lista = new ArrayList<Curso>();
+					CursoDAO cursoDao = new CursoDAO();
+					lista = cursoDao.ListarTodos4(status);
+					
+					DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+					model.setNumRows(0);
+					for (Curso curso : lista) {
+						model.addRow (new Object[] {
+								curso.getIdCurso(),
+								curso.getNomeCurso(),
+								curso.getStatus(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Inativos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnListarDesativados.setToolTipText("Bot\u00E3o Listar Cursos Inativos");
 		btnListarDesativados.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarDesativados.setBounds(143, 168, 123, 23);
 		contentPane.add(btnListarDesativados);
 		
 		btnListarTodos = new JButton("Listar Todos");
+		btnListarTodos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					List<Curso> lista = new ArrayList<Curso>();
+					CursoDAO cursoDao = new CursoDAO();
+					lista = cursoDao.ListarTodos();
+					
+					DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+					model.setNumRows(0);
+					for (Curso curso : lista) {
+						model.addRow (new Object[] {
+								curso.getIdCurso(),
+								curso.getNomeCurso(),
+								curso.getStatus(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Todos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos os Cursos");
 		btnListarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarTodos.setBounds(276, 168, 123, 23);

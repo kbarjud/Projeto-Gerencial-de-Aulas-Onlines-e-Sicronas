@@ -41,6 +41,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class Tela_ConsultarProfessor extends JFrame {
 
@@ -91,15 +92,17 @@ public class Tela_ConsultarProfessor extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_ConsultarProfessor() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 446, 380);
+		setBounds(100, 100, 446, 389);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
+		mnNewMenu.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Professores");
@@ -115,6 +118,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
@@ -191,10 +195,10 @@ public class Tela_ConsultarProfessor extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(360, 263, 60, 43);
+		btnSair.setBounds(360, 266, 60, 43);
 		contentPane.add(btnSair);
 		
 		btnNovo = new JButton("");
@@ -204,10 +208,10 @@ public class Tela_ConsultarProfessor extends JFrame {
 				((DefaultTableModel) tabProfessor.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovo.setBounds(10, 263, 60, 43);
+		btnNovo.setBounds(80, 266, 60, 43);
 		contentPane.add(btnNovo);
 		
 		btnAlterar = new JButton("");
@@ -222,10 +226,10 @@ public class Tela_ConsultarProfessor extends JFrame {
 				telaCadastroProfessor.setVisible(true);
 			}
 		});
-		btnAlterar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/alterar usuario.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar ");
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(290, 263, 60, 43);
+		btnAlterar.setBounds(290, 266, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnDesativar = new JButton("");
@@ -298,10 +302,10 @@ public class Tela_ConsultarProfessor extends JFrame {
 				}
 			}
 		});
-		btnDesativar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/desativar usuario.png")));
+		btnDesativar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setToolTipText("Bot\u00E3o Desativar Professor");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnDesativar.setBounds(220, 263, 60, 43);
+		btnDesativar.setBounds(220, 266, 60, 43);
 		contentPane.add(btnDesativar);
 		
 		btnVoltar = new JButton("");
@@ -318,7 +322,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 		btnVoltar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(80, 263, 60, 43);
+		btnVoltar.setBounds(10, 266, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		separator_2 = new JSeparator();
@@ -395,10 +399,10 @@ public class Tela_ConsultarProfessor extends JFrame {
 				}
 			}
 		});
-		btnAtivar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/ativar usuario.png")));
+		btnAtivar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setToolTipText("Bot\u00E3o Ativar Professor");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAtivar.setBounds(150, 263, 60, 43);
+		btnAtivar.setBounds(150, 266, 60, 43);
 		contentPane.add(btnAtivar);
 		
 		btnListarTodos = new JButton("Listar Todos");
@@ -502,7 +506,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/consultar usuario.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_ConsultarProfessor.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(360, 11, 60, 43);

@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class Tela_MenuCoordenador extends JFrame {
 
@@ -76,15 +77,17 @@ public class Tela_MenuCoordenador extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_MenuCoordenador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_MenuCoordenador.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 364, 470);
+		setBounds(100, 100, 364, 479);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00F5es");
+		mnNewMenu.setIcon(new ImageIcon(Tela_MenuCoordenador.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem = new JMenuItem("Dados e Relatorios");
@@ -165,6 +168,7 @@ public class Tela_MenuCoordenador extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_5);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_MenuCoordenador.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem_3 = new JMenuItem("Sobre o Sistema");
@@ -224,7 +228,7 @@ public class Tela_MenuCoordenador extends JFrame {
 			}
 		});
 		btnDados.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnDados.setBounds(18, 252, 149, 30);
+		btnDados.setBounds(16, 252, 149, 30);
 		contentPane.add(btnDados);
 		
 		btnCursos = new JButton("Cursos");
@@ -240,7 +244,7 @@ public class Tela_MenuCoordenador extends JFrame {
 			}
 		});
 		btnCursos.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnCursos.setBounds(10, 147, 103, 30);
+		btnCursos.setBounds(9, 147, 103, 30);
 		contentPane.add(btnCursos);
 		
 		btnProfessores = new JButton("Professores");
@@ -256,7 +260,7 @@ public class Tela_MenuCoordenador extends JFrame {
 			}
 		});
 		btnProfessores.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnProfessores.setBounds(185, 252, 149, 30);
+		btnProfessores.setBounds(181, 252, 149, 30);
 		contentPane.add(btnProfessores);
 		
 		lblVerificarDadosE = new JLabel("Verificar");
@@ -305,7 +309,7 @@ public class Tela_MenuCoordenador extends JFrame {
 			}
 		});
 		btnTurmas.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnTurmas.setBounds(236, 147, 103, 30);
+		btnTurmas.setBounds(233, 147, 103, 30);
 		contentPane.add(btnTurmas);
 		
 		btnCoordenadores = new JButton("Coordenador");
@@ -321,7 +325,7 @@ public class Tela_MenuCoordenador extends JFrame {
 			}
 		});
 		btnCoordenadores.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnCoordenadores.setBounds(106, 293, 149, 30);
+		btnCoordenadores.setBounds(99, 293, 149, 30);
 		contentPane.add(btnCoordenadores);
 		
 		btnSair = new JButton("");
@@ -332,7 +336,7 @@ public class Tela_MenuCoordenador extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_MenuCoordenador.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_MenuCoordenador.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(184, 355, 60, 43);
 		contentPane.add(btnSair);
@@ -344,7 +348,7 @@ public class Tela_MenuCoordenador extends JFrame {
 		btnDisciplina = new JButton("Disciplina");
 		btnDisciplina.setToolTipText("Bot\u00E3o Cadastrar Disciplinas");
 		btnDisciplina.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnDisciplina.setBounds(123, 147, 103, 30);
+		btnDisciplina.setBounds(121, 147, 103, 30);
 		contentPane.add(btnDisciplina);
 		
 		separator_2 = new JSeparator();

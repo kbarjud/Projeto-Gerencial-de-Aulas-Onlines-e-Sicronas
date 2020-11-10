@@ -24,6 +24,10 @@ public class CursoDisciplina {
 	public CursoDisciplina (String nomeDisciplina) {
 		this.nomeDisciplina = nomeDisciplina;
 	}
+	public CursoDisciplina (String nomeDisciplina, String nomeCurso) {
+		this.nomeDisciplina = nomeDisciplina;
+		this.nomeCurso = nomeCurso;
+	}
 	public int getIdCursoDisciplina() {
 		return idCursoDisciplina;
 	}

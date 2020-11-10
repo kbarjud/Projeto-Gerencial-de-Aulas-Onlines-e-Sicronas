@@ -97,6 +97,23 @@ public class CursoDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
+	public Curso Consultar2 (String nomeCurso) throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM curso "
+					+ " WHERE curso=? "); 
+			ps.setString (1, nomeCurso);
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idCurso = rs.getInt ("id_curso");
+				String curso1 = rs.getString ("curso");
+				String status1 = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status1);
+			}
+				return curso;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
 	public List ListarTodos() throws Exception {
 		List<Curso> lista = new ArrayList<Curso>();
 		try {
@@ -146,6 +163,54 @@ public class CursoDAO {
 			}
 			return lista;
 		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos3(String nomeCurso) throws Exception {
+		List<Curso> lista = new ArrayList<Curso>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM curso WHERE curso LIKE ? GROUP BY curso");
+			ps.setString (1, nomeCurso);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idCurso = rs.getInt ("id_curso");
+				String curso1 = rs.getString ("curso");
+				String status = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status);
+				lista.add(curso);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos4(String status) throws Exception {
+		List<Curso> lista = new ArrayList<Curso>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM curso WHERE status LIKE ? ");
+			ps.setString (1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idCurso = rs.getInt ("id_curso");
+				String curso1 = rs.getString ("curso");
+				String status1 = rs.getString ("status");
+				curso = new Curso (idCurso, curso1, status1);
+				lista.add(curso);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public void AtivarDesativar (Curso curso) throws Exception {
+		try { 
+			String sql = "UPDATE curso SET status=? "
+					+ " WHERE id_curso=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString (1, curso.getStatus());
+			ps.setInt (2, curso.getIdCurso());
+			ps.executeUpdate();
+		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}

@@ -25,6 +25,7 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.Toolkit;
 
 public class Tela_CadastroTurma extends JFrame {
 
@@ -83,20 +84,23 @@ public class Tela_CadastroTurma extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_CadastroTurma() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 521, 522);
+		setBounds(100, 100, 521, 533);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00F5es");
+		mnNewMenu.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem = new JMenuItem("Turmas");
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem_1 = new JMenuItem("Sobre o Sistema");
@@ -136,7 +140,7 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(txtQtdAluno);
 		
 		btnSalvar = new JButton("");
-		btnSalvar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -235,23 +239,23 @@ public class Tela_CadastroTurma extends JFrame {
 		btnVoltar = new JButton("");
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(80, 408, 60, 43);
+		btnVoltar.setBounds(10, 408, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnAlterar = new JButton("");
-		btnAlterar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(290, 408, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnConsultar = new JButton("");
-		btnConsultar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(360, 408, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnSair = new JButton("");
-		btnSair.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(430, 408, 60, 43);
 		contentPane.add(btnSair);
@@ -269,20 +273,20 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(txtTurma);
 		
 		btnNovo = new JButton("");
-		btnNovo.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovo.setBounds(10, 408, 60, 43);
+		btnNovo.setBounds(80, 408, 60, 43);
 		contentPane.add(btnNovo);
 		
 		btnDesativar = new JButton("");
-		btnDesativar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/desativar.png")));
+		btnDesativar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setToolTipText("btnDesativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(220, 408, 60, 43);
 		contentPane.add(btnDesativar);
 		
 		btnAtivar = new JButton("");
-		btnAtivar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/ativar.png")));
+		btnAtivar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAtivar.setBounds(150, 408, 60, 43);

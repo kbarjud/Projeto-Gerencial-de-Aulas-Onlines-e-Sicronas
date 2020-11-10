@@ -38,6 +38,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class Tela_CadastroCoordenador extends JFrame {
 
@@ -102,15 +103,17 @@ public class Tela_CadastroCoordenador extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_CadastroCoordenador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 402, 551);
+		setBounds(100, 100, 402, 561);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
+		mnNewMenu.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Cadastro");
@@ -130,6 +133,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
@@ -279,7 +283,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 				}
 			}
 		});
-		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBounds(161, 262, 60, 43);
 		contentPane.add(btnSalvar);
@@ -296,9 +300,9 @@ public class Tela_CadastroCoordenador extends JFrame {
 				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovo.setBounds(20, 437, 60, 43);
+		btnNovo.setBounds(88, 437, 60, 43);
 		contentPane.add(btnNovo);
 		
 		btnVoltar = new JButton("");
@@ -325,7 +329,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(90, 437, 60, 43);
+		btnVoltar.setBounds(14, 437, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
@@ -374,9 +378,9 @@ public class Tela_CadastroCoordenador extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar.setBounds(160, 437, 60, 43);
+		btnConsultar.setBounds(162, 437, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
@@ -432,9 +436,9 @@ public class Tela_CadastroCoordenador extends JFrame {
 				}
 			}
 		});
-		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(230, 437, 60, 43);
+		btnAlterar.setBounds(236, 437, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
@@ -445,9 +449,9 @@ public class Tela_CadastroCoordenador extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_CadastroCoordenador.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(302, 437, 60, 43);
+		btnSair.setBounds(310, 437, 60, 43);
 		contentPane.add(btnSair);
 		
 		separator_2 = new JSeparator();

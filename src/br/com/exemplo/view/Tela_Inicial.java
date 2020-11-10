@@ -68,16 +68,17 @@ public class Tela_Inicial extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_Inicial() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/icone2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 331, 273);
+		setBounds(100, 100, 331, 275);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnInformacoes = new JMenu("Informa\u00E7\u00F5es");
+		mnInformacoes.setIcon(new ImageIcon(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnInformacoes);
 		
 		mnCoordenador = new JMenuItem("Coordenador(a)");
@@ -107,6 +108,7 @@ public class Tela_Inicial extends JFrame {
 		mnInformacoes.add(mnProfessor);
 		
 		mnAjuda = new JMenu("Ajuda");
+		mnAjuda.setIcon(new ImageIcon(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnAjuda);
 		
 		mnSobreSistema = new JMenuItem("Sobre o Sistema");
@@ -198,9 +200,9 @@ public class Tela_Inicial extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_Inicial.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(128, 159, 60, 43);
+		btnSair.setBounds(128, 150, 60, 43);
 		contentPane.add(btnSair);
 	}
 }

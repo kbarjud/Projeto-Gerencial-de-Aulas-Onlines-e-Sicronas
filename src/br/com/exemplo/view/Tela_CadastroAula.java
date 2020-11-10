@@ -54,6 +54,7 @@ import java.awt.event.ItemEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import javax.swing.JScrollPane;
+import java.awt.Toolkit;
 
 public class Tela_CadastroAula extends JFrame {
 
@@ -156,15 +157,17 @@ public class Tela_CadastroAula extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_CadastroAula() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 505, 460);
+		setBounds(100, 100, 505, 472);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
+		mnNewMenu.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		menuBar.add(mnNewMenu);
 		
 		mntmNewMenuItem_2 = new JMenuItem("Cadastro");
@@ -181,6 +184,7 @@ public class Tela_CadastroAula extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		mntmNewMenuItem = new JMenuItem("Sobre o Sistema");
@@ -251,10 +255,10 @@ public class Tela_CadastroAula extends JFrame {
 				scrJustificativa.setVisible(false);
 			}
 		});
-		btnNovo.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setToolTipText("Bot\u00E3o Novo");
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovo.setBounds(72, 346, 60, 43);
+		btnNovo.setBounds(122, 346, 60, 43);
 		panel.add(btnNovo);
 		
 		btnVoltar = new JButton("");
@@ -271,7 +275,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(142, 346, 60, 43);
+		btnVoltar.setBounds(31, 346, 60, 43);
 		panel.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
@@ -384,10 +388,10 @@ public class Tela_CadastroAula extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar.setBounds(212, 346, 60, 43);
+		btnConsultar.setBounds(213, 346, 60, 43);
 		panel.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
@@ -829,10 +833,10 @@ public class Tela_CadastroAula extends JFrame {
 				}
 			}
 		});
-		btnAlterar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(282, 346, 60, 43);
+		btnAlterar.setBounds(304, 346, 60, 43);
 		panel.add(btnAlterar);
 		
 		btnSair = new JButton("");
@@ -842,10 +846,10 @@ public class Tela_CadastroAula extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSair.setBounds(354, 346, 60, 43);
+		btnSair.setBounds(395, 346, 60, 43);
 		panel.add(btnSair);
 		
 		contentPane = new JPanel();
@@ -1351,7 +1355,7 @@ public class Tela_CadastroAula extends JFrame {
 				}
 			}
 		});
-		btnSalvar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBounds(198, 242, 60, 43);
@@ -1395,7 +1399,7 @@ public class Tela_CadastroAula extends JFrame {
 				c.show(contentPane, "dados");
 			}
 		});
-		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
+		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/right.png")));
 		btnConsultar_1.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnConsultar_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtJustificativa.setVisible(false);
@@ -1504,7 +1508,7 @@ public class Tela_CadastroAula extends JFrame {
 				c.show(contentPane, "curso");
 			}
 		});
-		btnVoltar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
+		btnVoltar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/left.png")));
 		btnVoltar2.setToolTipText("Bot\u00E3o Voltar ");
 		btnVoltar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar2.setBounds(10, 242, 60, 43);
@@ -1517,7 +1521,7 @@ public class Tela_CadastroAula extends JFrame {
 				c.show(contentPane, "atividade");
 			}
 		});
-		btnAvancar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/avan\u00E7ar.png")));
+		btnAvancar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/right.png")));
 		btnAvancar2.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnAvancar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAvancar2.setBounds(394, 242, 60, 43);
@@ -1937,7 +1941,7 @@ public class Tela_CadastroAula extends JFrame {
 				}
 			}
 		});
-		btnSalvar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/salvar2.png")));
+		btnSalvar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar2.setToolTipText("Bot\u00E3o Salvar");
 		btnSalvar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar2.setBounds(201, 211, 60, 43);
@@ -1950,7 +1954,7 @@ public class Tela_CadastroAula extends JFrame {
 				c.show(contentPane, "dados");
 			}
 		});
-		btnVoltar3.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar2.png")));
+		btnVoltar3.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/left.png")));
 		btnVoltar3.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar3.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar3.setBounds(10, 242, 60, 43);

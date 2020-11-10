@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
@@ -36,6 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class Tela_InicialCoordenador extends JFrame {
 
@@ -88,15 +90,17 @@ public class Tela_InicialCoordenador extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_InicialCoordenador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 389, 423);
+		setBounds(100, 100, 389, 434);
 		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		mnNewMenu = new JMenu("Informa\u00E7\u00E3o");
+		mnNewMenu.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/info30.png")));
 		mnNewMenu.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		menuBar.add(mnNewMenu);
 		
@@ -117,6 +121,7 @@ public class Tela_InicialCoordenador extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		mnNewMenu_1 = new JMenu("Ajuda");
+		mnNewMenu_1.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/help30.png")));
 		mnNewMenu_1.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		menuBar.add(mnNewMenu_1);
 		
@@ -214,12 +219,12 @@ public class Tela_InicialCoordenador extends JFrame {
 		txtCodCoordenador = new JTextField();
 		txtCodCoordenador.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtCodCoordenador.setColumns(10);
-		txtCodCoordenador.setBounds(147, 52, 129, 30);
+		txtCodCoordenador.setBounds(147, 52, 143, 30);
 		contentPane.add(txtCodCoordenador);
 		
 		passSenha = new JPasswordField();
 		passSenha.setFont(new Font("Arial", Font.PLAIN, 14));
-		passSenha.setBounds(147, 93, 129, 30);
+		passSenha.setBounds(147, 93, 143, 30);
 		contentPane.add(passSenha);
 		
 		btnCadastreSe = new JButton("Cadastre-se Aqui");
@@ -239,7 +244,8 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnCadastreSe.setBounds(203, 255, 149, 30);
 		contentPane.add(btnCadastreSe);
 		
-		btnEntrar = new JButton("Entrar");
+		btnEntrar = new JButton("");
+		btnEntrar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/enter-2.png")));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -263,17 +269,18 @@ public class Tela_InicialCoordenador extends JFrame {
 						JOptionPane.showMessageDialog (null, "Coordenador Não Cadastrado");
 					}
 				} catch (Exception e1) {
+					Icon figura = new ImageIcon (getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/novo.png"))); 
 					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Login!!. "
 						+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
 						+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Você Fez Seu Cadastro"
 						+ "\n3. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
-						+ "\n\nErro: " + e1);
+						+ "\n\nErro: " + e1, "Erro!!", JOptionPane.PLAIN_MESSAGE, figura);
 				}
 			}
 		});
 		btnEntrar.setToolTipText("Bot\u00E3o Entrar");
 		btnEntrar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnEntrar.setBounds(285, 75, 80, 30);
+		btnEntrar.setBounds(300, 67, 60, 43);
 		contentPane.add(btnEntrar);
 		
 		separator_1 = new JSeparator();
@@ -291,7 +298,7 @@ public class Tela_InicialCoordenador extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSair.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/sair.png")));
+		btnSair.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(300, 309, 60, 43);
@@ -309,10 +316,10 @@ public class Tela_InicialCoordenador extends JFrame {
 				telaCadastroCoordenador.setVisible(true);
 			}
 		});
-		btnAlterar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/atualizar.png")));
+		btnAlterar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnAlterar.setBounds(230, 309, 60, 43);
+		btnAlterar.setBounds(228, 309, 60, 43);
 		contentPane.add(btnAlterar);
 		
 		btnConsultar = new JButton("");
@@ -355,10 +362,10 @@ public class Tela_InicialCoordenador extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/consultar2.png")));
+		btnConsultar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnConsultar.setBounds(160, 309, 60, 43);
+		btnConsultar.setBounds(156, 309, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnVoltar = new JButton("");
@@ -375,7 +382,7 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnVoltar.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVoltar.setBounds(90, 309, 60, 43);
+		btnVoltar.setBounds(12, 309, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnNovo = new JButton("");
@@ -387,9 +394,9 @@ public class Tela_InicialCoordenador extends JFrame {
 			}
 		});
 		btnNovo.setToolTipText("Bot\u00E3o Novo");
-		btnNovo.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/novo.png")));
+		btnNovo.setIcon(new ImageIcon(Tela_InicialCoordenador.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnNovo.setBounds(20, 309, 60, 43);
+		btnNovo.setBounds(84, 309, 60, 43);
 		contentPane.add(btnNovo);
 		
 		separator_3 = new JSeparator();

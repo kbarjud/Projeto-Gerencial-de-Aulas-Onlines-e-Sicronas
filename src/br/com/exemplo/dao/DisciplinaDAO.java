@@ -60,7 +60,7 @@ public class DisciplinaDAO {
 	public Disciplina Consultar (int idDisciplina) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM disciplina "
-					+ " WHERE id_disciplina=?"); 
+					+ " WHERE disciplina=?"); 
 			ps.setInt (1, idDisciplina);
 			rs= ps.executeQuery();
 			if(rs.next()) {
@@ -68,6 +68,30 @@ public class DisciplinaDAO {
 				String nomeDisciplina = rs.getString ("disciplina");
 				String status = rs.getString ("status");
 				disciplina = new Disciplina (idDisciplina1, nomeDisciplina, status);
+			}
+				return disciplina;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public Disciplina Consultar2 (String nomeDisciplina, String status) throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM disciplina "
+					+ " WHERE disciplina=? AND status=?"); 
+			ps.setString (1, nomeDisciplina);
+			ps.setString (2, status);
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idDisciplina1 = rs.getInt ("id_disciplina");
+				String nomeDisciplina1 = rs.getString ("disciplina");
+				String status1 = rs.getString ("status");
+				disciplina = new Disciplina (idDisciplina1, nomeDisciplina1, status1);
+			}
+			else {
+				int idDisciplina1 = 0;
+				String nomeDisciplina1 = "";
+				String status1 = "";
+				disciplina = new Disciplina (idDisciplina1, nomeDisciplina1, status1);
 			}
 				return disciplina;
 		} catch (Exception e) {
