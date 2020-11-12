@@ -75,8 +75,8 @@ public class Tela_CadastroDisciplina extends JFrame {
 	private JButton btnAtivar;
 	private JButton btnDesativar;
 	private JSeparator separator_3;
-	private JButton btnListarCoordenadoresAtivos;
-	private JButton btnListarDesativados;
+	private JButton btnListarDisciplinasAtivas;
+	private JButton btnListarDisciplinasDesativadas;
 	private JButton btnListarTodos;
 	private JTable tabDisciplina;
 	private JComboBox cmbCurso;
@@ -166,6 +166,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnConsultar = new JButton("");
+		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -233,6 +234,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnVoltar = new JButton("");
+		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tela_CadastroDisciplina telaCadastroDisciplina = new Tela_CadastroDisciplina();
@@ -248,6 +250,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnSair = new JButton("");
+		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -259,6 +262,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnSair);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(256, 401, 60, 43);
@@ -460,7 +464,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		
 		btnDesativar = new JButton("");
 		btnDesativar.setIcon(new ImageIcon(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
-		btnDesativar.setToolTipText("btnDesativar");
+		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(177, 401, 60, 43);
 		contentPane.add(btnDesativar);
@@ -469,20 +473,99 @@ public class Tela_CadastroDisciplina extends JFrame {
 		separator_3.setBounds(0, 188, 447, 2);
 		contentPane.add(separator_3);
 		
-		btnListarCoordenadoresAtivos = new JButton("Listar Ativos");
-		btnListarCoordenadoresAtivos.setToolTipText("Bot\u00E3o Listar Coordenadores Ativos");
-		btnListarCoordenadoresAtivos.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnListarCoordenadoresAtivos.setBounds(11, 201, 123, 23);
-		contentPane.add(btnListarCoordenadoresAtivos);
+		btnListarDisciplinasAtivas = new JButton("Listar Ativos");
+		btnListarDisciplinasAtivas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String status = "Ativo";
+					
+					List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					lista = cursoDisciplinaDao.ListarTodos6(status);
+					
+					DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+					model.setNumRows(0);
+					for (CursoDisciplina cursoDisciplina : lista) {
+						model.addRow (new Object[] {
+								cursoDisciplina.getNomeCurso(),
+								cursoDisciplina.getNomeDisciplina(),
+								cursoDisciplina.getStatus(),
+								cursoDisciplina.getIdCursoDisciplina(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Ativos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todas as Disciplinas Cadastradas no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnListarDisciplinasAtivas.setToolTipText("Bot\u00E3o Listar Disciplinas Ativas");
+		btnListarDisciplinasAtivas.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnListarDisciplinasAtivas.setBounds(11, 201, 123, 23);
+		contentPane.add(btnListarDisciplinasAtivas);
 		
-		btnListarDesativados = new JButton("Listar Inativos");
-		btnListarDesativados.setToolTipText("Bot\u00E3o Listar Coordenadores Inativos");
-		btnListarDesativados.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnListarDesativados.setBounds(145, 201, 123, 23);
-		contentPane.add(btnListarDesativados);
+		btnListarDisciplinasDesativadas = new JButton("Listar Inativos");
+		btnListarDisciplinasDesativadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String status = "Desativado";
+					
+					List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					lista = cursoDisciplinaDao.ListarTodos6(status);
+					
+					DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+					model.setNumRows(0);
+					for (CursoDisciplina cursoDisciplina : lista) {
+						model.addRow (new Object[] {
+								cursoDisciplina.getNomeCurso(),
+								cursoDisciplina.getNomeDisciplina(),
+								cursoDisciplina.getStatus(),
+								cursoDisciplina.getIdCursoDisciplina(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Inativos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todas as Disciplinas Cadastradas no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnListarDisciplinasDesativadas.setToolTipText("Bot\u00E3o Listar Disciplinas Inativas");
+		btnListarDisciplinasDesativadas.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnListarDisciplinasDesativadas.setBounds(145, 201, 123, 23);
+		contentPane.add(btnListarDisciplinasDesativadas);
 		
 		btnListarTodos = new JButton("Listar Todos");
-		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos os Coordenadores");
+		btnListarTodos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+					lista = cursoDisciplinaDao.ListarTodos();
+					
+					DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+					model.setNumRows(0);
+					for (CursoDisciplina cursoDisciplina : lista) {
+						model.addRow (new Object[] {
+								cursoDisciplina.getNomeCurso(),
+								cursoDisciplina.getNomeDisciplina(),
+								cursoDisciplina.getStatus(),
+								cursoDisciplina.getIdCursoDisciplina(),
+							});
+					}
+					JOptionPane.showMessageDialog(null, "Listar Todos Com Sucesso");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro ao Listar Todas as Disciplinas Cadastradas no Banco!!. "
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
+		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos as Disciplinas");
 		btnListarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarTodos.setBounds(279, 201, 123, 23);
 		contentPane.add(btnListarTodos);

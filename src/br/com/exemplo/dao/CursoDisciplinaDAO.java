@@ -149,7 +149,7 @@ public class CursoDisciplinaDAO {
 	public List ListarTodos() throws Exception {
 		List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina");
+			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina ORDER BY curso, disciplina");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int idCursoDisciplina1 = rs.getInt ("id_curso_disciplina");
@@ -256,6 +256,27 @@ public class CursoDisciplinaDAO {
 				int idDisciplina = rs.getInt ("id_disciplina");
 				String status = rs.getString ("status");
 				cursoDisciplina = new CursoDisciplina (idCursoDisciplina1, nomeCurso1, nomeDisciplina1, idCurso, idDisciplina, status);
+				lista.add(cursoDisciplina);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos6(String status) throws Exception {
+		List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina WHERE status LIKE ? ORDER BY curso, disciplina");
+			ps.setString (1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idCursoDisciplina1 = rs.getInt ("id_curso_disciplina");
+				String nomeCurso1 = rs.getString ("curso");
+				String nomeDisciplina1 = rs.getString ("disciplina");
+				int idCurso = rs.getInt ("id_curso");
+				int idDisciplina = rs.getInt ("id_disciplina");
+				String status1 = rs.getString ("status");
+				cursoDisciplina = new CursoDisciplina (idCursoDisciplina1, nomeCurso1, nomeDisciplina1, idCurso, idDisciplina, status1);
 				lista.add(cursoDisciplina);
 			}
 			return lista;
