@@ -276,13 +276,7 @@ public class Tela_CadastroCurso extends JFrame {
 					}
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Tenha Sido, Verifique se o ID Foi Digitado Corretamente."
-							+ "\n3. Caso Você Não Saiba o ID, Faça Uma Consulta Usando o Código Do Coordenador e Assim Retornará Todos os Dados Do Coordenador, Inclusive o ID"
-							+ "\n\n===========================================================================Informações=========================================================================="
-							+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
-							+ "\n** O ID do Coordenador é Diferente do Código do Coordenador"
-							+ "\n==============================================================================================================================================================="
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos ou Realize Uma Consulta Para Saber se Esse Curso Já Não Esta Cadastrado"
 							+ "\n\nErro: " + e1);
 				}
 			}

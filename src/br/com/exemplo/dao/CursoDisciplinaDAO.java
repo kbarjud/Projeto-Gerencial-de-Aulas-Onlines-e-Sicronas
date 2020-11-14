@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.exemplo.model.Curso;
 import br.com.exemplo.model.CursoDisciplina;
 import br.com.exemplo.until.ConnectionFactory;
 
@@ -39,7 +40,7 @@ public class CursoDisciplinaDAO {
 	}
 	public void Alterar (CursoDisciplina cursoDisciplina) throws Exception {
 		try { 
-			String sql = "UPDATE disciplina SET curso=?, disciplina=?, id_curso=?, id_disciplina=?, status=? "
+			String sql = "UPDATE curso_disciplina SET curso=?, disciplina=?, id_curso=?, id_disciplina=?, status=? "
 					+ " WHERE id_curso_disciplina=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, cursoDisciplina.getNomeCurso());
@@ -281,6 +282,18 @@ public class CursoDisciplinaDAO {
 			}
 			return lista;
 		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public void AtivarDesativar (CursoDisciplina cursoDisciplina) throws Exception {
+		try { 
+			String sql = "UPDATE curso_disciplina SET status=? "
+					+ " WHERE id_curso_disciplina=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString (1, cursoDisciplina.getStatus());
+			ps.setInt (2, cursoDisciplina.getIdCursoDisciplina());
+			ps.executeUpdate();
+		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}

@@ -91,6 +91,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 				try {
 					Tela_CadastroDisciplina frame = new Tela_CadastroDisciplina();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -105,7 +106,8 @@ public class Tela_CadastroDisciplina extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setTitle("S. Ger. Registros de Aulas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 431, 524);
+		setBounds(100, 100, 431, 527);
+		this.setLocationRelativeTo(null);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -262,6 +264,118 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnSair);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					
+					cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
+					cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
+					cursoDisciplina.setStatus("Ativo");
+					
+					String nomeCurso = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
+					String nomeDisciplina = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
+					
+					if (nomeCurso.equals(cmbCurso.getSelectedItem().toString()) && nomeDisciplina.equals(txtDisciplina.getText())) {
+						JOptionPane.showMessageDialog (null, "Por Favor Digite Um Nome Diferente do que esta Cadastrado ou Altere o Curso!!");
+					}
+					else {
+						String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+						int idCursoDisciplina = Integer.parseInt(teste);
+						cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+						
+						String status = "Ativo";
+						
+						Disciplina disciplina = new Disciplina();
+						DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+						disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
+						
+						if (disciplina.getNomeDisciplina().equals("")) {
+							disciplina.setNomeDisciplina(nomeDisciplina);
+							disciplina.setStatus("Ativo");
+							
+							disciplinaDao.Salvar(disciplina);
+							disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
+							
+							if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+								int idDisciplina = disciplina.getIdDisciplina(); 
+								cursoDisciplina.setIdDisciplina(idDisciplina);
+								
+								cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
+								cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
+								
+								CursoDAO cursoDao = new CursoDAO();
+								Curso curso = new Curso();
+								curso = cursoDao.Consultar1(nomeCurso, status);
+								 
+								if (nomeCurso.equals(curso.getNomeCurso())) {
+									int idCurso = curso.getIdCurso();
+									cursoDisciplina.setIdCurso(idCurso);	
+								
+									CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+									// alterar
+									cursoDisciplinaDao.Alterar(cursoDisciplina);
+										
+									List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+									lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
+										
+									DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+									model.setNumRows(0);
+									for (CursoDisciplina cursoDisciplina1 : lista) {
+										model.addRow (new Object[] {
+												cursoDisciplina1.getNomeCurso(),
+												cursoDisciplina1.getNomeDisciplina(),
+												cursoDisciplina1.getStatus(),
+												cursoDisciplina1.getIdCursoDisciplina(),
+											});
+									}
+								JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+								}
+							}
+						}
+						else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())){
+							int idDisciplina = disciplina.getIdDisciplina(); 
+							cursoDisciplina.setIdDisciplina(idDisciplina);
+							
+							cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
+							cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
+							
+							CursoDAO cursoDao = new CursoDAO();
+							Curso curso = new Curso();
+							curso = cursoDao.Consultar1(nomeCurso, status);
+							 
+							if (nomeCurso.equals(curso.getNomeCurso())) {
+								int idCurso = curso.getIdCurso();
+								cursoDisciplina.setIdCurso(idCurso);	
+							
+								CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+								// alterar
+								cursoDisciplinaDao.Alterar(cursoDisciplina);
+									
+								List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+								lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
+									
+								DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+								model.setNumRows(0);
+								for (CursoDisciplina cursoDisciplina1 : lista) {
+									model.addRow (new Object[] {
+											cursoDisciplina1.getNomeCurso(),
+											cursoDisciplina1.getNomeDisciplina(),
+											cursoDisciplina1.getStatus(),
+											cursoDisciplina1.getIdCursoDisciplina(),
+										});
+								}
+								JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+							}
+						}
+					}
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos ou Realize Uma Consulta Para Saber se Esse Curso Já Não Esta Cadastrado"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -456,6 +570,72 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnNovo);
 		
 		btnAtivar = new JButton("");
+		btnAtivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					String status = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 2));
+					if (status.equals("Ativo")) {
+						JOptionPane.showMessageDialog(null, "Esta Disciplina Já Esta Ativo");
+					}
+					else if (status.equals("Desativado")) {
+						String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+						int idCursoDisciplina = Integer.parseInt(teste);
+						
+						cursoDisciplina.setStatus("Ativo");
+						cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+						
+						String nomeCurso = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
+						String nomeDisciplina = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Ativar A Disciplina " + nomeDisciplina + ", do Curso " + nomeCurso
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							
+							CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+							cursoDisciplinaDao.AtivarDesativar(cursoDisciplina);
+								
+							JOptionPane.showMessageDialog (null, "A Disciplina Já Foi Ativada");
+							
+							txtDisciplina.setText(null);
+							
+							String status1 = "Ativo";
+							
+							List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+							lista = cursoDisciplinaDao.ListarTodos6(status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+							model.setNumRows(0);
+							for (CursoDisciplina cursoDisciplina1 : lista) {
+								model.addRow (new Object[] {
+										cursoDisciplina1.getNomeCurso(),
+										cursoDisciplina1.getNomeDisciplina(),
+										cursoDisciplina1.getStatus(),
+										cursoDisciplina1.getIdCursoDisciplina(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Ativar a Disciplina ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Ativar Disciplina!!. "
+							+ "\n1. Verifique Se A Disciplina Já Esta Ativa"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAtivar.setIcon(new ImageIcon(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -463,6 +643,72 @@ public class Tela_CadastroDisciplina extends JFrame {
 		contentPane.add(btnAtivar);
 		
 		btnDesativar = new JButton("");
+		btnDesativar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					String status = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 2));
+					if (status.equals("Desativado")) {
+						JOptionPane.showMessageDialog(null, "A Disciplina Já Esta Desativada");
+					}
+					else if (status.equals("Ativo")) {
+						String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+						int idCursoDisciplina = Integer.parseInt(teste);
+						
+						cursoDisciplina.setStatus("Desativado");
+						cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+						
+						String nomeCurso = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
+						String nomeDisciplina = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Desativar a Disciplina " + nomeDisciplina + ", do Curso " + nomeCurso
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							
+							CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+							cursoDisciplinaDao.AtivarDesativar(cursoDisciplina);
+								
+							JOptionPane.showMessageDialog (null, "A Disciplina Já Foi Desativada");
+							
+							txtDisciplina.setText(null);
+							
+							String status1 = "Desativado";
+							
+							List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+							lista = cursoDisciplinaDao.ListarTodos6(status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+							model.setNumRows(0);
+							for (CursoDisciplina cursoDisciplina1 : lista) {
+								model.addRow (new Object[] {
+										cursoDisciplina1.getNomeCurso(),
+										cursoDisciplina1.getNomeDisciplina(),
+										cursoDisciplina1.getStatus(),
+										cursoDisciplina1.getIdCursoDisciplina(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Desativar a Disciplina ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Desativar Disciplina!!. "
+							+ "\n1. Verifique Se a Disciplina Já Esta Desativada"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnDesativar.setIcon(new ImageIcon(Tela_CadastroDisciplina.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
