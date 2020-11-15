@@ -70,6 +70,12 @@ public class SemestreLetivoDAO {
 				String status = rs.getString ("status");
 				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status);
 			}
+			else {
+				int idSemestre1 = rs.getInt ("");
+				String semestre = rs.getString ("");
+				String status = rs.getString ("");
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status);
+			}
 				return semestreLetivo;
 		} catch (Exception e) {
 			throw new Exception (e.getMessage());
@@ -86,6 +92,33 @@ public class SemestreLetivoDAO {
 				int idSemestre1 = rs.getInt ("id_semestre");
 				String semestre1 = rs.getString ("semestre_letivo");
 				String status1 = rs.getString ("status");
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
+			}
+			else {
+				int idSemestre1 = 0;
+				String semestre1 = "";
+				String status1 = "";
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
+			}
+				return semestreLetivo;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public SemestreLetivo Consultar3 () throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo "); 
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idSemestre1 = rs.getInt ("id_semestre");
+				String semestre1 = rs.getString ("semestre_letivo");
+				String status1 = rs.getString ("status");
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
+			}
+			else {
+				int idSemestre1 = 0;
+				String semestre1 = "";
+				String status1 = "";
 				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
 			}
 				return semestreLetivo;
@@ -114,7 +147,7 @@ public class SemestreLetivoDAO {
 		List<SemestreLetivo> lista = new ArrayList<SemestreLetivo>();
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo "
-					+ " WHERE idSemestre=?");
+					+ " WHERE id_semestre=?");
 			ps.setInt (1, idSemestre);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -137,6 +170,24 @@ public class SemestreLetivoDAO {
 			while (rs.next()) {
 				String semestre = rs.getString ("semestre_letivo");
 				semestreLetivo = new SemestreLetivo (semestre);
+				lista.add(semestreLetivo);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos4(String status) throws Exception {
+		List<SemestreLetivo> lista = new ArrayList<SemestreLetivo>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo WHERE status=? ");
+			ps.setString(1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idSemestre1 = rs.getInt ("id_semestre");
+				String semestre = rs.getString ("semestre_letivo");
+				String status1 = rs.getString ("status");
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status1);
 				lista.add(semestreLetivo);
 			}
 			return lista;

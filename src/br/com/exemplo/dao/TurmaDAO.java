@@ -25,8 +25,8 @@ public class TurmaDAO {
 	}
 	public void Salvar (Turma turma) throws Exception {
 		try {
-			String sql = "INSERT INTO turma (curso, disciplina, turma, alunos_matriculados, periodo, semestre_letivo, id_curso_disciplina, idSemestre, status ) "
-					+ " values (?, ?, ?, ?, ?, ?, ?, ? )";
+			String sql = "INSERT INTO turma (curso, disciplina, turma, alunos_matriculados, periodo, semestre_letivo, id_curso_disciplina, id_semestre, status ) "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ? )";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, turma.getNomeCurso());
 			ps.setString (2, turma.getDisciplina());
@@ -99,7 +99,7 @@ public class TurmaDAO {
 	public Turma Consultar1 (String nomeCurso, String disciplina, String turmaCod, String periodo, String semestreLetivo, String status) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM turma "
-					+ " WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND status=? "); 
+					+ " WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND status LIKE ? "); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, disciplina);
 			ps.setString (3, turmaCod);
@@ -112,10 +112,58 @@ public class TurmaDAO {
 				String curso = rs.getString ("curso");
 				String disciplina1 = rs.getString ("disciplina");
 				String turma1 = rs.getString ("turma");
+				int alunosMatriculados = rs.getInt ("alunos_matriculados");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
 				String status1 = rs.getString ("status");
+				turma = new Turma (idTurma, curso, disciplina1, turma1, alunosMatriculados, periodo1, semestreLetivo1, idCursoDisciplina, idSemestre, status1);
+			}
+			else {
+				int idTurma = 0;
+				String curso = "";
+				String disciplina1 = "";
+				String turma1 = "";
+				String periodo1 = "";
+				String semestreLetivo1 = "";
+				String status1 = "";
 				turma = new Turma (idTurma, curso, disciplina1, turma1, periodo1, semestreLetivo1, status1);
+			}
+				return turma;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public Turma Consultar2 () throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM turma "); 
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idTurma1 = rs.getInt ("id_turma");
+				String nomeCurso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				int alunosMatriculados = rs.getInt ("alunos_matriculados");
+				String periodo = rs.getString ("periodo");
+				String semestreLetivo = rs.getString ("semestre_letivo");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
+				String status = rs.getString ("status");
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status);
+			}
+			else {
+				int idTurma1 = 0;
+				String nomeCurso = "";
+				String disciplina = "";
+				String turma1 = "";
+				int alunosMatriculados = 0;
+				String periodo = "";
+				String semestreLetivo = "";
+				int idCursoDisciplina = 0;
+				int idSemestre = 0;
+				String status = "";
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status);
 			}
 				return turma;
 		} catch (Exception e) {
@@ -270,6 +318,61 @@ public class TurmaDAO {
 			while (rs.next()) {
 				String periodo = rs.getString ("periodo");
 				turma = new Turma (periodo);
+				lista.add(turma);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos7(String nomeCurso, String disciplina, String turmaCod, String semestre, String periodo, String status) throws Exception {
+		List<Turma> lista = new ArrayList<Turma>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND semestre_letivo LIKE ? AND periodo LIKE ? AND status LIKE ?");
+			ps.setString (1, nomeCurso);
+			ps.setString (2, disciplina);
+			ps.setString (3, turmaCod);
+			ps.setString (4, semestre);
+			ps.setString (5, periodo);
+			ps.setString (6, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idTurma1 = rs.getInt ("id_turma");
+				String nomeCurso1 = rs.getString ("curso");
+				String disciplina1 = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				int alunosMatriculados = rs.getInt ("alunos_matriculados");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo = rs.getString ("semestre_letivo");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
+				String status1 = rs.getString ("status");
+				turma = new Turma (idTurma1, nomeCurso1, disciplina1, turma1, alunosMatriculados, periodo1, semestreLetivo, idCursoDisciplina, idSemestre, status1);
+				lista.add(turma);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos8(String status) throws Exception {
+		List<Turma> lista = new ArrayList<Turma>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE status LIKE ?");
+			ps.setString(1, status);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idTurma1 = rs.getInt ("id_turma");
+				String nomeCurso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				int alunosMatriculados = rs.getInt ("alunos_matriculados");
+				String periodo = rs.getString ("periodo");
+				String semestreLetivo = rs.getString ("semestre_letivo");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idSemestre = rs.getInt ("id_semestre");
+				String status1 = rs.getString ("status");
+				turma = new Turma (idTurma1, nomeCurso, disciplina, turma1, alunosMatriculados, periodo, semestreLetivo, idCursoDisciplina, idSemestre, status1);
 				lista.add(turma);
 			}
 			return lista;

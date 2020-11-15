@@ -1,5 +1,7 @@
 package br.com.exemplo.model;
 
+import java.util.List;
+
 public class Turma {
 	private int idTurma;
 	private String nomeCurso;
@@ -137,4 +139,5 @@ public class Turma {
 	public  String toString3() {
 		return periodo;
 	}
+
 }

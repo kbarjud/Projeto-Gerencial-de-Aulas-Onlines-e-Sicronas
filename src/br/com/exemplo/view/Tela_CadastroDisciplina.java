@@ -267,58 +267,55 @@ public class Tela_CadastroDisciplina extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					String cursoNome = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
+					String disciplinaNome = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
 					
-					cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
-					cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
-					cursoDisciplina.setStatus("Ativo");
-					
-					String nomeCurso = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
-					String nomeDisciplina = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
-					
-					if (nomeCurso.equals(cmbCurso.getSelectedItem().toString()) && nomeDisciplina.equals(txtDisciplina.getText())) {
-						JOptionPane.showMessageDialog (null, "Por Favor Digite Um Nome Diferente do que esta Cadastrado ou Altere o Curso!!");
+					if (cursoNome.equals(cmbCurso.getSelectedItem().toString()) && disciplinaNome.equals(txtDisciplina.getText())) {
+						JOptionPane.showMessageDialog (null, "Por Favor Altere o Curso ou a Disciplina antes de tentar prosseguir!!");
 					}
 					else {
-						String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
-						int idCursoDisciplina = Integer.parseInt(teste);
-						cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
-						
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String nomeDisciplina = txtDisciplina.getText();
 						String status = "Ativo";
 						
 						Disciplina disciplina = new Disciplina();
 						DisciplinaDAO disciplinaDao = new DisciplinaDAO();
 						disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
 						
+						CursoDisciplina cursoDisciplina = new CursoDisciplina();
+						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+						
+						Curso curso = new Curso();
+						CursoDAO cursoDao = new CursoDAO();
+						curso = cursoDao.Consultar1(nomeCurso, status);
+						
 						if (disciplina.getNomeDisciplina().equals("")) {
-							disciplina.setNomeDisciplina(nomeDisciplina);
+							disciplina.setNomeDisciplina (txtDisciplina.getText());
 							disciplina.setStatus("Ativo");
 							
 							disciplinaDao.Salvar(disciplina);
 							disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
 							
 							if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
-								int idDisciplina = disciplina.getIdDisciplina(); 
+								int idDisciplina = disciplina.getIdDisciplina();
 								cursoDisciplina.setIdDisciplina(idDisciplina);
+								cursoDisciplina.setNomeDisciplina(nomeDisciplina);
 								
-								cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
-								cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
-								
-								CursoDAO cursoDao = new CursoDAO();
-								Curso curso = new Curso();
-								curso = cursoDao.Consultar1(nomeCurso, status);
-								 
 								if (nomeCurso.equals(curso.getNomeCurso())) {
 									int idCurso = curso.getIdCurso();
-									cursoDisciplina.setIdCurso(idCurso);	
-								
-									CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
-									// alterar
+									cursoDisciplina.setIdCurso(idCurso);
+									cursoDisciplina.setNomeCurso(nomeCurso);
+									
+									String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+									int idCursoDisciplina = Integer.parseInt(teste);
+									cursoDisciplina.setStatus ("Ativo");
+									cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+									
 									cursoDisciplinaDao.Alterar(cursoDisciplina);
-										
+									
 									List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
 									lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
-										
+									
 									DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
 									model.setNumRows(0);
 									for (CursoDisciplina cursoDisciplina1 : lista) {
@@ -329,32 +326,38 @@ public class Tela_CadastroDisciplina extends JFrame {
 												cursoDisciplina1.getIdCursoDisciplina(),
 											});
 									}
-								JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+									
+									JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+								}
+								else {
+									JOptionPane.showMessageDialog (null, "Erro ao Pegar ID do Curso");
 								}
 							}
+							else {
+								JOptionPane.showMessageDialog (null, "Erro ao Pegar ID da Disciplina");
+							}
 						}
-						else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())){
-							int idDisciplina = disciplina.getIdDisciplina(); 
+						
+						else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+							int idDisciplina = disciplina.getIdDisciplina();
 							cursoDisciplina.setIdDisciplina(idDisciplina);
+							cursoDisciplina.setNomeDisciplina(nomeDisciplina);
 							
-							cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
-							cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
-							
-							CursoDAO cursoDao = new CursoDAO();
-							Curso curso = new Curso();
-							curso = cursoDao.Consultar1(nomeCurso, status);
-							 
 							if (nomeCurso.equals(curso.getNomeCurso())) {
 								int idCurso = curso.getIdCurso();
-								cursoDisciplina.setIdCurso(idCurso);	
-							
-								CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
-								// alterar
+								cursoDisciplina.setIdCurso(idCurso);
+								cursoDisciplina.setNomeCurso(nomeCurso);
+								
+								String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+								int idCursoDisciplina = Integer.parseInt(teste);
+								cursoDisciplina.setStatus ("Ativo");
+								cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+								
 								cursoDisciplinaDao.Alterar(cursoDisciplina);
-									
+								
 								List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
 								lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
-									
+								
 								DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
 								model.setNumRows(0);
 								for (CursoDisciplina cursoDisciplina1 : lista) {
@@ -365,8 +368,15 @@ public class Tela_CadastroDisciplina extends JFrame {
 											cursoDisciplina1.getIdCursoDisciplina(),
 										});
 								}
+								
 								JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
 							}
+							else {
+								JOptionPane.showMessageDialog (null, "Erro ao Pegar ID do Curso");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Erro ao Pegar ID da Disciplina");
 						}
 					}
 				} catch(Exception e1) {
@@ -405,13 +415,18 @@ public class Tela_CadastroDisciplina extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try { 
 					String nomeDisciplina = txtDisciplina.getText();
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
 					String status = "Ativo";
 					
 					CursoDisciplina cursoDisciplina = new CursoDisciplina();
+					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
 					
 					Disciplina disciplina = new Disciplina();
 					DisciplinaDAO disciplinaDao = new DisciplinaDAO();
 					disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
+					
+					CursoDAO cursoDao = new CursoDAO();
+					Curso curso = new Curso();
 					
 					if (disciplina.getNomeDisciplina().equals("")) {
 						disciplina.setNomeDisciplina(nomeDisciplina);
@@ -428,10 +443,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 							cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
 							cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
 							
-							String nomeCurso = cmbCurso.getSelectedItem().toString();
-		
-							CursoDAO cursoDao = new CursoDAO();
-							Curso curso = new Curso();
 							curso = cursoDao.Consultar1(nomeCurso, status);
 							 
 							if (nomeCurso.equals(curso.getNomeCurso())) {
@@ -440,7 +451,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 								
 								cursoDisciplina.setStatus("Ativo");
 								
-								CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
 								cursoDisciplinaDao.Salvar(cursoDisciplina);
 													
 								JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
@@ -470,10 +480,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 						cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
 						cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
 						
-						String nomeCurso = cmbCurso.getSelectedItem().toString();
-	
-						CursoDAO cursoDao = new CursoDAO();
-						Curso curso = new Curso();
 						curso = cursoDao.Consultar1(nomeCurso, status);
 						 
 						if (nomeCurso.equals(curso.getNomeCurso())) {
@@ -481,7 +487,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 							cursoDisciplina.setIdCurso(idCurso);	
 							cursoDisciplina.setStatus("Ativo");
 							
-							CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
 							cursoDisciplinaDao.Salvar(cursoDisciplina);
 												
 							JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");

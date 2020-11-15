@@ -44,4 +44,8 @@ public class SemestreLetivo {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String toString() {
+		return semestre;
+	}
 }
