@@ -414,22 +414,6 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(cmbPeriodo);
 		
 		cmbSemestreLetivo = new JComboBox();
-		cmbSemestreLetivo.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				try {
-					String status = "Ativo";
-					
-					List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
-					SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
-					lista4 = semestreLetivoDAO.ListarTodos4(status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbSemestreLetivo.setModel(model4);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
 		cmbSemestreLetivo.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				try {
@@ -832,6 +816,88 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(btnNovo);
 		
 		btnDesativar = new JButton("");
+		btnDesativar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Turma turma = new Turma();
+					TurmaDAO turmaDao = new TurmaDAO();
+					String status = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 6));
+					if (status.equals("Desativado")) {
+						JOptionPane.showMessageDialog(null, "A Turma Já Esta Desativada");
+					}
+					else if (status.equals("Ativo")) {
+						String teste = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 7));
+						int idTurma = Integer.parseInt(teste);
+						
+						turma.setStatus("Desativado");
+						turma.setIdTurma(idTurma);
+						
+						String nomeCurso = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 1));
+						String nomeDisciplina = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 2));
+						String turmaCod = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 0));
+						String periodo = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 4));
+						String semestre = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 5));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Ativar A Turma " + turmaCod + ", do Curso " + nomeCurso + ", Disciplina " + nomeDisciplina + ", Periodo " + periodo + ", Semestre " + semestre
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							turmaDao.AtivarDesativar(turma);
+								
+							JOptionPane.showMessageDialog (null, "A Turma Já Foi Desativada");
+							
+							cmbCurso.setSelectedItem(null);
+							cmbDisciplina.setSelectedItem(null);
+							txtTurma.setText(null);
+							txtQtdAluno.setText(null);
+							cmbPeriodo.setSelectedItem(null);
+							cmbSemestreLetivo.setSelectedItem(null);
+							
+							String cursoNome = "%%";
+							String disciplina = "%%";
+							String codTurma = "%%";
+							String semestreLetivo = "%%";
+							String periodoo = "%%";
+							String status1 = "Desativado";
+							
+							List<Turma> lista = new ArrayList<Turma>();
+							lista = turmaDao.ListarTodos7(cursoNome, disciplina, codTurma, semestreLetivo, periodoo, status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabTurma.getModel();
+							model.setNumRows(0);
+							for (Turma turma1 : lista) {
+								model.addRow (new Object[] {
+										turma1.getTurmaCod(),
+										turma1.getNomeCurso(),
+										turma1.getDisciplina(),
+										turma1.getAlunosMatriculados(),
+										turma1.getPeriodo(),
+										turma1.getSemestreLetivo(),
+										turma1.getStatus(),
+										turma1.getIdTurma(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Desativar a Turma ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Desativar Turma!!. "
+							+ "\n1. Verifique Se a Turma Já Esta Desativada"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnDesativar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -839,6 +905,88 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(btnDesativar);
 		
 		btnAtivar = new JButton("");
+		btnAtivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Turma turma = new Turma();
+					TurmaDAO turmaDao = new TurmaDAO();
+					String status = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 6));
+					if (status.equals("Ativo")) {
+						JOptionPane.showMessageDialog(null, "Esta Turma Já Esta Ativa");
+					}
+					else if (status.equals("Desativado")) {
+						String teste = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 7));
+						int idTurma = Integer.parseInt(teste);
+						
+						turma.setStatus("Ativo");
+						turma.setIdTurma(idTurma);
+						
+						String nomeCurso = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 1));
+						String nomeDisciplina = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 2));
+						String turmaCod = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 0));
+						String periodo = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 4));
+						String semestre = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 5));
+						
+						String resposta = JOptionPane.showInputDialog(null, "====================================================="
+								+ "\nDeseja Mesmo Ativar A Turma " + turmaCod + ", do Curso " + nomeCurso + ", Disciplina " + nomeDisciplina + ", Periodo " + periodo + ", Semestre " + semestre
+								+ "\n====================================================="
+								+ "\n\n====================================================="
+								+ "\nDigite 1 Para Confirmar"
+								+ "\nDigite 2 Para Cancelar"
+								+ "\n=====================================================");
+							
+						int decisao = Integer.parseInt(resposta);
+						if (decisao == 1) {
+							turmaDao.AtivarDesativar(turma);
+								
+							JOptionPane.showMessageDialog (null, "A Turma Já Foi Ativada");
+							
+							cmbCurso.setSelectedItem(null);
+							cmbDisciplina.setSelectedItem(null);
+							txtTurma.setText(null);
+							txtQtdAluno.setText(null);
+							cmbPeriodo.setSelectedItem(null);
+							cmbSemestreLetivo.setSelectedItem(null);
+							
+							String cursoNome = "%%";
+							String disciplina = "%%";
+							String codTurma = "%%";
+							String semestreLetivo = "%%";
+							String periodoo = "%%";
+							String status1 = "Ativo";
+							
+							List<Turma> lista = new ArrayList<Turma>();
+							lista = turmaDao.ListarTodos7(cursoNome, disciplina, codTurma, semestreLetivo, periodoo, status1);
+							
+							DefaultTableModel model = (DefaultTableModel) tabTurma.getModel();
+							model.setNumRows(0);
+							for (Turma turma1 : lista) {
+								model.addRow (new Object[] {
+										turma1.getTurmaCod(),
+										turma1.getNomeCurso(),
+										turma1.getDisciplina(),
+										turma1.getAlunosMatriculados(),
+										turma1.getPeriodo(),
+										turma1.getSemestreLetivo(),
+										turma1.getStatus(),
+										turma1.getIdTurma(),
+									});
+							}
+						}
+						else if (decisao == 2){
+							
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Ativar a Turma ou 2 Para Cancelar");
+						}
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Ativar Turma!!. "
+							+ "\n1. Verifique Se A Turma Já Esta Ativa"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAtivar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));

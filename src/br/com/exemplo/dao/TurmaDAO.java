@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.exemplo.model.Curso;
+import br.com.exemplo.model.CursoDisciplina;
 import br.com.exemplo.model.Turma;
 import br.com.exemplo.until.ConnectionFactory;
 
@@ -377,6 +378,18 @@ public class TurmaDAO {
 			}
 			return lista;
 		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public void AtivarDesativar (Turma turma) throws Exception {
+		try { 
+			String sql = "UPDATE turma SET status=? "
+					+ " WHERE id_turma=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString (1, turma.getStatus());
+			ps.setInt (2, turma.getIdTurma());
+			ps.executeUpdate();
+		} catch (Exception e) {
 			throw new Exception (e.getMessage());
 		}
 	}
