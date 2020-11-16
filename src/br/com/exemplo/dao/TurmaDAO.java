@@ -45,7 +45,7 @@ public class TurmaDAO {
 	}
 	public void Alterar (Turma turma) throws Exception {
 		try { 
-			String sql = "UPDATE turma SET curso=?, disciplina=?, turma=?, alunos_matriculados=?, periodo=?, semestre_letivo=?, id_curso_disciplina=?, idSemestre=?, status=? "
+			String sql = "UPDATE turma SET curso=?, disciplina=?, turma=?, alunos_matriculados=?, periodo=?, semestre_letivo=?, id_curso_disciplina=?, id_semestre=?, status=? "
 					+ " WHERE id_turma=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, turma.getNomeCurso());

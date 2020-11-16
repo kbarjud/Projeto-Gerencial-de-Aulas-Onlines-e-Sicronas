@@ -517,6 +517,104 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnAlterar = new JButton("");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String cursoNome = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 1));
+					String disciplinaNome = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 2));
+					String codTurma = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 0));
+					String alunos = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 3));
+					String periodoo = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 4));
+					String semestree = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 5));
+					String id = String.valueOf(tabTurma.getValueAt(tabTurma.getSelectedRow(), 7));
+					
+					int idTurma = Integer.parseInt(id);
+					
+					if (cursoNome.equals(cmbCurso.getSelectedItem().toString()) && disciplinaNome.equals(cmbDisciplina.getSelectedItem().toString()) && codTurma.equals(txtTurma.getText()) && alunos.equals(txtQtdAluno.getText()) && periodoo.equals(cmbPeriodo.getSelectedItem().toString()) && semestree.equals(cmbSemestreLetivo.getSelectedItem().toString())) {
+						JOptionPane.showMessageDialog (null, "Por Favor Altere Alguma Informação Antes de Prosseguir");
+					}
+					else {
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String nomeDisciplina = cmbDisciplina.getSelectedItem().toString();
+						String turmaCod = txtTurma.getText();
+						int qtdAlunos = Integer.parseInt(txtQtdAluno.getText());
+						String periodo = cmbPeriodo.getSelectedItem().toString();
+						String semestre = cmbSemestreLetivo.getSelectedItem().toString();
+						String status = "Ativo";
+						
+						Turma turma = new Turma();
+						TurmaDAO turmaDao = new TurmaDAO();
+						turma = turmaDao.Consultar1(cursoNome, disciplinaNome, codTurma, periodoo, semestree, status);
+						
+						SemestreLetivo semestreLetivo = new SemestreLetivo();
+						SemestreLetivoDAO semestreLetivoDao = new SemestreLetivoDAO();
+						semestreLetivo = semestreLetivoDao.Consultar2(semestre, status);
+						
+						CursoDisciplina cursoDisciplina = new CursoDisciplina();
+						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+						cursoDisciplina = cursoDisciplinaDao.Consultar1(nomeCurso, nomeDisciplina, status);
+						
+						if (turma.getTurmaCod().equals("")) {
+							JOptionPane.showMessageDialog (null, "Essa Turma Não Existe!!");
+						}
+						
+						else if (codTurma.equals(turma.getTurmaCod())) {
+							turma.setIdTurma(idTurma);
+							turma.setTurmaCod(txtTurma.getText());
+							
+							if (nomeCurso.equals(cursoDisciplina.getNomeCurso()) && nomeDisciplina.equals(cursoDisciplina.getNomeDisciplina())) {
+								turma.setIdCursoDisciplina(cursoDisciplina.getIdCursoDisciplina());
+								turma.setNomeCurso(cmbCurso.getSelectedItem().toString());
+								turma.setDisciplina(cmbDisciplina.getSelectedItem().toString());
+								
+								if (semestre.equals(semestreLetivo.getSemestre())) {
+									turma.setIdSemestre(semestreLetivo.getIdSemestre());
+									turma.setSemestreLetivo(cmbSemestreLetivo.getSelectedItem().toString());
+									turma.setAlunosMatriculados(Integer.parseInt(txtQtdAluno.getText()));
+									turma.setPeriodo(cmbPeriodo.getSelectedItem().toString());
+									turma.setStatus("Ativo");
+									
+									turmaDao.Alterar(turma);
+									
+									List<Turma> lista = new ArrayList<Turma>();
+									lista = turmaDao.ListarTodos1(idTurma);
+									
+									DefaultTableModel model = (DefaultTableModel) tabTurma.getModel();
+									model.setNumRows(0);
+									for (Turma turma1 : lista) {
+										model.addRow (new Object[] {
+												turma1.getTurmaCod(),
+												turma1.getNomeCurso(),
+												turma1.getDisciplina(),
+												turma1.getAlunosMatriculados(),
+												turma1.getPeriodo(),
+												turma1.getSemestreLetivo(),
+												turma1.getStatus(),
+												turma1.getIdTurma(),
+											});
+									}
+									
+									JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+								}
+								else {
+									JOptionPane.showMessageDialog (null, "Erro ao Pegar ID do Semestre");
+								}
+							}
+							else {
+								JOptionPane.showMessageDialog (null, "Erro ao Pegar ID do Curso e da Disciplina, Verifique se Essa Disciplina Pertence Mesmo a Esse Curso");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog (null, "Erro ao Pegar ID da Turma");
+						}
+					}
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
+							+ "\n1. Verifique se Todos os Campos Foram Preenchidos ou Realize Uma Consulta Para Saber se Esse Curso Já Não Esta Cadastrado"
+							+ "\n\nErro: " + e1);
+				}
+			}
+		});
 		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -527,14 +625,14 @@ public class Tela_CadastroTurma extends JFrame {
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Object[] itens = {"Todos os Filtros", "Curso", "Curso e Disciplina", "Turma", "Periodo", "Listar Todas as Turmas"};
+					Object[] itens = {"Turma Especifica", "Curso", "Curso e Disciplina", "Turma", "Periodo", "Listar Todas as Turmas"};
 					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Turmas", JOptionPane.INFORMATION_MESSAGE, null, itens, itens[0]);
 					String opcao = selectedValue.toString();
 					
 					Turma turma = new Turma();
 					TurmaDAO turmaDao = new TurmaDAO();
 					
-					if (opcao.equals("Todos os Filtros")) {
+					if (opcao.equals("Turma Especifica")) {
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = cmbDisciplina.getSelectedItem().toString();
 						String turmaCod = txtTurma.getText();

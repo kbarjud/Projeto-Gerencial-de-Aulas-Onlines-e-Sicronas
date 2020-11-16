@@ -192,6 +192,51 @@ public class DadosAulaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
+	public DadosAula Consultar (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
+					+ " WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND data_aula=? AND id_professor=?"); 
+			ps.setString (1, nomeCurso);
+			ps.setString (2, nomeDisciplina);
+			ps.setString (3, turma);
+			ps.setString (4, periodo);
+			ps.setString (5, semestreLetivo);
+			ps.setString (6, data);
+			ps.setInt (7, idProfessor);
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("link_gravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("data_entrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("id_turma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
+			}
+				return dadosAula;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
 	public List ListarTodos() throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {

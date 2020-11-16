@@ -98,9 +98,14 @@ public class Tela_MenuCoordenador extends JFrame {
 						+ "\n 1. Consultar os Cadastros das Aulas Com Base Nos Seguintes Filtros:"
 						+ "\n * Curso"
 						+ "\n * Disciplina"
-						+ "\n * Periodo"
 						+ "\n * Turma"
+						+ "\n * Professor"
+						+ "\n * Periodo"
+						+ "\n * Semestre Letivo"
 						+ "\n * Data da Aula ou Intervalo de Datas"
+						+ "\n * Aula Realizada"
+						+ "\n * Quantidade de Alunos"
+						+ "\n * Atividade Solicitada"
 						+ "\n\n 2. Você Poderá Também Gerar Seu PDF e Gráfico"
 						+ "\n==========================================================");
 			}
