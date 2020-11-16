@@ -732,8 +732,8 @@ public class Tela_DadosAulas extends JFrame {
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Object[] itens = {"Aula Especifica", "Curso", "Curso e Periodo", "Curso e Disciplina", "Curso, Disciplina e Periodo", "Turma", "Professor", "Periodo", "Semestre", "Data", "Aula Realizada", "Atividade Solicitada", "Quatidade de Alunos", "Listar Todas as Aulas"};
-					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Turmas", JOptionPane.INFORMATION_MESSAGE, null, itens, itens[0]);
+					Object[] itens = {"Aula Especifica", "Listar Todas as Aulas", "Curso", "Curso e Periodo", "Curso e Disciplina", "Curso, Disciplina e Periodo", "Turma", "Professor", "Periodo", "Semestre", "Data", "Aula Realizada", "Atividade Solicitada", "Quantidade de Alunos"};
+					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Dados da Aula", JOptionPane.INFORMATION_MESSAGE, null, itens, itens[0]);
 					String opcao = selectedValue.toString();
 					
 					DadosAula dadosAula = new DadosAula();
@@ -751,81 +751,1083 @@ public class Tela_DadosAulas extends JFrame {
 						String disciplina = cmbDisciplina.getSelectedItem().toString();
 						String turmaCod = cmbTurma.getSelectedItem().toString();
 						String nomeProfessor = cmbProfessor.getSelectedItem().toString();
+						int idProfessor;
 						String periodo = cmbPeriodo.getSelectedItem().toString();
 						String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
 						String data = cmbData.getSelectedItem().toString();
 						String dataAula1 = data1;
-						String dataAula2 = data2;
 						
-						turma = turmaDao.Consultar1 (nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
+						Professores professores = new Professores();
+						ProfessoresDAO professoresDao = new ProfessoresDAO();
+						professores = professoresDao.Consultar2(nomeProfessor);
 						
-						if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(turma.getDisciplina()) && turmaCod.equals(turma.getTurmaCod()) && periodo.equals(turma.getPeriodo()) && semestreLetivo.equals(turma.getSemestreLetivo()) && status.equals(turma.getStatus())) {
-							cmbCurso.setSelectedItem(turma.getNomeCurso());
-							cmbDisciplina.setSelectedItem(turma.getDisciplina());
-							txtTurma.setText(turma.getTurmaCod());
-							txtQtdAluno.setText(String.valueOf(turma.getAlunosMatriculados()));
-							cmbPeriodo.setSelectedItem(turma.getPeriodo());
-							cmbSemestreLetivo.setSelectedItem(turma.getSemestreLetivo());
+						if (nomeProfessor.equals(professores.getNome())) {
+							idProfessor = professores.getIdProfessor();
 							
-							List<Turma> lista = new ArrayList<Turma>();
-							lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
-							DefaultTableModel model = (DefaultTableModel) tabTurma.getModel();
-							model.setNumRows(0);
-							for (Turma turma1 : lista) {
-								model.addRow (new Object[] {
-										turma1.getTurmaCod(),
-										turma1.getNomeCurso(),
-										turma1.getDisciplina(),
-										turma1.getAlunosMatriculados(),
-										turma1.getPeriodo(),
-										turma1.getSemestreLetivo(),
-										turma1.getStatus(),
-										turma1.getIdTurma(),
-									});
-							} 
+							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina()) && turmaCod.equals(dadosAula.getTurma()) && periodo.equals(dadosAula.getPeriodo()) && semestreLetivo.equals(dadosAula.getSemestreLetivo()) && dataAula1.equals(dadosAula.getDataAula()) && idProfessor == dadosAula.getIdProfessor()) {
+								int idAula = dadosAula.getIdAula();
+								
+								List<DadosAula> lista = new ArrayList<DadosAula>();
+								lista = dadosAulaDao.ListarTodos1(idAula);
+								DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+								model.setNumRows(0);
+								for (DadosAula dadosAula1 : lista) {
+									model.addRow (new Object[] {
+											dadosAula1.getCurso(),
+											dadosAula1.getDisciplina(),
+											dadosAula1.getTurma(),
+											dadosAula1.getPeriodo(),
+											dadosAula1.getSemestreLetivo(),
+											dadosAula1.getDataAula(),
+											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+											dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs(),
+											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+											dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao(),
+											dadosAula1.getIdAula(),
+										});
+								} 
+								
+								dteDataAula2.setDate(null);
+								btnSimAula.setSelected(false);
+								btnNaoAula.setSelected(false);
+								cmbAlunos.setSelectedIndex(0);
+								txtQtdAluno.setText(null);
+								btnSimAtividade.setSelected(false);
+								btnNaoAtividade.setSelected(false);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							}
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Essa turma não existe, verifique os dados preenchidos");
+							JOptionPane.showMessageDialog(null, "Erro ao pegar o ID do Professor");
 						}
 					}
 					else if (opcao.equals("Curso")) {
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = "%%";
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (nomeCurso.equals(dadosAula.getCurso())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Curso e Periodo")) {
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = cmbPeriodo.getSelectedItem().toString();
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (nomeCurso.equals(dadosAula.getCurso()) && periodo.equals(dadosAula.getPeriodo())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Curso e Disciplina")) {
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = "%%";
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Curso, Disciplina e Periodo")) {
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String disciplina = cmbDisciplina.getSelectedItem().toString();
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = cmbPeriodo.getSelectedItem().toString();
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina()) && periodo.equals(dadosAula.getPeriodo())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Turma")) {
+						String nomeCurso = "%%";
+						String disciplina = "%%";
+						String turmaCod = cmbTurma.getSelectedItem().toString();
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = "%%";
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (turmaCod.equals(dadosAula.getTurma())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Professor")) {
+						String nomeCurso = "%%";
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = cmbProfessor.getSelectedItem().toString();
+						int idProfessor;
+						String periodo = "%%";
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						Professores professores = new Professores();
+						ProfessoresDAO professoresDao = new ProfessoresDAO();
+						professores = professoresDao.Consultar2(nomeProfessor);
+						
+						if (nomeProfessor.equals(professores.getNome())) {
+							idProfessor = professores.getIdProfessor();
+							
+							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							if (idProfessor == dadosAula.getIdProfessor()) {
+								
+								List<DadosAula> lista = new ArrayList<DadosAula>();
+								lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+								DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+								model.setNumRows(0);
+								for (DadosAula dadosAula1 : lista) {
+									model.addRow (new Object[] {
+											dadosAula1.getCurso(),
+											dadosAula1.getDisciplina(),
+											dadosAula1.getTurma(),
+											dadosAula1.getPeriodo(),
+											dadosAula1.getSemestreLetivo(),
+											dadosAula1.getDataAula(),
+											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+											dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs(),
+											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+											dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao(),
+											dadosAula1.getIdAula(),
+										});
+									} 
+								
+								cmbCurso.setSelectedIndex(0);
+								cmbDisciplina.setSelectedIndex(0);
+								cmbTurma.setSelectedIndex(0);
+								cmbPeriodo.setSelectedIndex(0);
+								cmbSemestreLetivo.setSelectedIndex(0);
+								cmbData.setSelectedIndex(0);
+								dteDataAula.setDate(null);
+								dteDataAula2.setDate(null);
+								btnSimAula.setSelected(false);
+								btnNaoAula.setSelected(false);
+								cmbAlunos.setSelectedIndex(0);
+								txtQtdAluno.setText(null);
+								btnSimAtividade.setSelected(false);
+								btnNaoAtividade.setSelected(false);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao pegar o ID do Professor");
+						}
 					}
 					else if (opcao.equals("Periodo")) {
+						String nomeCurso = "%%";
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = cmbPeriodo.getSelectedItem().toString();
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (periodo.equals(dadosAula.getPeriodo())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Semestre")) {
+						String nomeCurso = "%%";
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = "%%";
+						String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						if (periodo.equals(dadosAula.getPeriodo())) {
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+									});
+								} 
+							
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+						}
 					}
 					else if (opcao.equals("Data")) {
-						
+						if (cmbData.getSelectedItem().toString().equals("Especifica")) {
+							String nomeCurso = "%%";
+							String disciplina = "%%";
+							String turmaCod = "%%";
+							String nomeProfessor = "%%";
+							int idProfessor = 0;
+							String periodo = "%%";
+							String semestreLetivo = "%%";
+							String data = "%%";
+							String dataAula1 = data1;
+							
+							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							if (dataAula1.equals(dadosAula.getDataAula())) {
+								
+								List<DadosAula> lista = new ArrayList<DadosAula>();
+								lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+								DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+								model.setNumRows(0);
+								for (DadosAula dadosAula1 : lista) {
+									model.addRow (new Object[] {
+											dadosAula1.getCurso(),
+											dadosAula1.getDisciplina(),
+											dadosAula1.getTurma(),
+											dadosAula1.getPeriodo(),
+											dadosAula1.getSemestreLetivo(),
+											dadosAula1.getDataAula(),
+											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+											dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs(),
+											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+											dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao(),
+											dadosAula1.getIdAula(),
+									});
+								} 
+								cmbCurso.setSelectedIndex(0);
+								cmbDisciplina.setSelectedIndex(0);
+								cmbTurma.setSelectedIndex(0);
+								cmbProfessor.setSelectedIndex(0);
+								cmbPeriodo.setSelectedIndex(0);
+								cmbSemestreLetivo.setSelectedIndex(0);
+								dteDataAula2.setDate(null);
+								btnSimAula.setSelected(false);
+								btnNaoAula.setSelected(false);
+								cmbAlunos.setSelectedIndex(0);
+								txtQtdAluno.setText(null);
+								btnSimAtividade.setSelected(false);
+								btnNaoAtividade.setSelected(false);
+							}
+						}
+						else if (cmbData.getSelectedItem().toString().equals("Intervalo")) {
+							String dataAula1 = data1;
+							String dataAula2 = data2;
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos3(data1, data2);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
 					}
 					else if (opcao.equals("Aula Realizada")) {
-						
+						if (btnSimAula.isSelected()) {
+							boolean teveAula = true;
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos4(teveAula);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else if (btnNaoAula.isSelected()) {
+							boolean teveAula = false;
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos4(teveAula);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Escolha se teve aula sim ou não");
+						}
 					}
 					else if (opcao.equals("Atividade Solicitada")) {
-						
+						if (btnSimAtividade.isSelected()) {
+							boolean atividadeSolicitada = true;
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos5(atividadeSolicitada);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnNaoAtividade.setSelected(false);
+						}
+						else if (btnNaoAtividade.isSelected()) {
+							boolean atividadeSolicitada = false;
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos5(atividadeSolicitada);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							cmbAlunos.setSelectedIndex(0);
+							txtQtdAluno.setText(null);
+							btnSimAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Escolha se teve atividade solicitada sim ou não");
+						}
 					}
 					else if (opcao.equals("Quantidade de Alunos")) {
-						
+						int qtdAlunos = Integer.parseInt(txtQtdAluno.getText());
+						if (cmbAlunos.getSelectedItem().toString().equals("Igual a")) {
+							String parametro = "Igual a";
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos6(parametro, qtdAlunos);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else if (cmbAlunos.getSelectedItem().toString().equals("Maior que")) {
+							String parametro = "Maior que";
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos6(parametro, qtdAlunos);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else if (cmbAlunos.getSelectedItem().toString().equals("Menor que")) {
+							String parametro = "Menor que";
+							
+							List<DadosAula> lista = new ArrayList<DadosAula>();
+							lista = dadosAulaDao.ListarTodos6(parametro, qtdAlunos);
+							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+							model.setNumRows(0);
+							for (DadosAula dadosAula1 : lista) {
+								model.addRow (new Object[] {
+										dadosAula1.getCurso(),
+										dadosAula1.getDisciplina(),
+										dadosAula1.getTurma(),
+										dadosAula1.getPeriodo(),
+										dadosAula1.getSemestreLetivo(),
+										dadosAula1.getDataAula(),
+										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+										dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs(),
+										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+										dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao(),
+										dadosAula1.getIdAula(),
+								});
+							}
+							cmbCurso.setSelectedIndex(0);
+							cmbDisciplina.setSelectedIndex(0);
+							cmbTurma.setSelectedIndex(0);
+							cmbProfessor.setSelectedIndex(0);
+							cmbPeriodo.setSelectedIndex(0);
+							cmbSemestreLetivo.setSelectedIndex(0);
+							cmbData.setSelectedIndex(0);
+							dteDataAula.setDate(null);
+							dteDataAula2.setDate(null);
+							btnSimAula.setSelected(false);
+							btnNaoAula.setSelected(false);
+							btnSimAtividade.setSelected(false);
+							btnNaoAtividade.setSelected(false);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Digite a quantidade de alunos e selecione um dos parametros de busca: igual a, maior que, menor que");
+						}
 					}
 					else if (opcao.equals("Listar Todas as Aulas")) {
+						String nomeCurso = "%%";
+						String disciplina = "%%";
+						String turmaCod = "%%";
+						String nomeProfessor = "%%";
+						int idProfessor = 0;
+						String periodo = "%%";
+						String semestreLetivo = "%%";
+						String data = "%%";
+						String dataAula1 = "%%";
 						
+						List<DadosAula> lista = new ArrayList<DadosAula>();
+						lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
+						model.setNumRows(0);
+						for (DadosAula dadosAula1 : lista) {
+							model.addRow (new Object[] {
+									dadosAula1.getCurso(),
+									dadosAula1.getDisciplina(),
+									dadosAula1.getTurma(),
+									dadosAula1.getPeriodo(),
+									dadosAula1.getSemestreLetivo(),
+									dadosAula1.getDataAula(),
+									dadosAula1.isTeveAula() == false ? "Não" : "Sim",
+									dadosAula1.getJustificativa(),
+									dadosAula1.getHorarioInicio(),
+									dadosAula1.getHorarioTermino(),
+									dadosAula1.getAssunto(),
+									dadosAula1.getQtdAlunos(),
+									dadosAula1.getMateriaisDisponibilizados(),
+									dadosAula1.getLinkSessao(),
+									dadosAula1.getLinkGravacao(),
+									dadosAula1.getObs(),
+									dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
+									dadosAula1.getDataEntrega(),
+									dadosAula1.getQtdPessoas(),
+									dadosAula1.getDescricao(),
+									dadosAula1.getIdAula(),
+								});
+							} 
+						cmbCurso.setSelectedIndex(0);
+						cmbDisciplina.setSelectedIndex(0);
+						cmbTurma.setSelectedIndex(0);
+						cmbProfessor.setSelectedIndex(0);
+						cmbPeriodo.setSelectedIndex(0);
+						cmbSemestreLetivo.setSelectedIndex(0);
+						cmbData.setSelectedIndex(0);
+						dteDataAula.setDate(null);
+						dteDataAula2.setDate(null);
+						btnSimAula.setSelected(false);
+						btnNaoAula.setSelected(false);
+						cmbAlunos.setSelectedIndex(0);
+						txtQtdAluno.setText(null);
+						btnSimAtividade.setSelected(false);
+						btnNaoAtividade.setSelected(false);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Escolha uma opcao válida");

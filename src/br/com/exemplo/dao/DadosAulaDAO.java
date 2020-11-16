@@ -192,7 +192,7 @@ public class DadosAulaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public DadosAula Consultar (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
+	public DadosAula Consultar2 (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
 					+ " WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND data_aula=? AND id_professor=?"); 
@@ -202,7 +202,12 @@ public class DadosAulaDAO {
 			ps.setString (4, periodo);
 			ps.setString (5, semestreLetivo);
 			ps.setString (6, data);
-			ps.setInt (7, idProfessor);
+			if (idProfessor == 0) {
+				ps.setString(7, "%%");
+			}
+			else {
+				ps.setInt (7, idProfessor);
+			}
 			rs= ps.executeQuery();
 			if(rs.next()) {
 				int idAula1 = rs.getInt ("id_aula");
@@ -310,6 +315,235 @@ public class DadosAulaDAO {
 				int idProfessor = rs.getInt ("id_professor");
 				int idSemestre = rs.getInt ("id_semestre");
 				dadosAula = new DadosAula (idAula, curso, disciplina, turma, periodo, semestreLetivo, dataAula, teveAula, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos2(String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM dados_aula "
+					+ "WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND data_aula=? AND id_professor=?"); 
+			ps.setString (1, nomeCurso);
+			ps.setString (2, nomeDisciplina);
+			ps.setString (3, turma);
+			ps.setString (4, periodo);
+			ps.setString (5, semestreLetivo);
+			ps.setString (6, data);
+			if (idProfessor == 0) {
+				ps.setString(7, "%%");
+			}
+			else {
+				ps.setInt (7, idProfessor);
+			}
+			rs= ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("linkGravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("dataEntrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("idTurma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos3(String dataMinima, String dataMaxima) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+					+ " WHERE data_aula BETWEEN ? AND ?");
+			ps.setString (1, dataMinima);
+			ps.setString (2, dataMaxima);			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("linkGravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("dataEntrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("idTurma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos4(boolean teveAula) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+					+ " WHERE teve_aula LIKE ? ");
+			ps.setBoolean (1, teveAula);			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula1 = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("linkGravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("dataEntrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("idTurma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula1, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada1, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos5(boolean atividadeSolicitada) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+					+ " WHERE atividade_solicitada LIKE ?");
+			ps.setBoolean (1, atividadeSolicitada);			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula1 = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("linkGravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("dataEntrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("idTurma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula1, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada1, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public List ListarTodos6(String parametro, int qtdAluno) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			if (parametro.equals("Igual a")) {
+				ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+						+ " WHERE qtdAlunos LIKE ?");
+				ps.setInt (1, qtdAluno);	
+			}
+			else if (parametro.equals("Maior que")){
+				ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+						+ " WHERE qtdAlunos <= ? ");
+				ps.setInt (1, qtdAluno);	
+			}
+			else if (parametro.equals("Menor que")) {
+				ps = conn.prepareStatement ("SELECT * FROM dados_aula"
+						+ " WHERE qtdAlunos >= ?");
+				ps.setInt (1, qtdAluno);	
+			}		
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma1 = rs.getString ("turma");
+				String periodo1 = rs.getString ("periodo");
+				String semestreLetivo1 = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("data_aula");
+				boolean teveAula1 = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("linkGravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("dataEntrega");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("idTurma");
+				int idProfessor1 = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma1, periodo1, semestreLetivo1, dataAula, teveAula1, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada1, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor1, idSemestre);
 				lista.add(dadosAula);
 			}
 			return lista;
