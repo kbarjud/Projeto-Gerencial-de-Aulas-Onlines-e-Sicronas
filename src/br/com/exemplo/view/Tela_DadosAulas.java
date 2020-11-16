@@ -741,10 +741,6 @@ public class Tela_DadosAulas extends JFrame {
 					
 					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
 					String data1, data2;
-					data1 = formatarData.format(dteDataAula.getDate());
-					data1.toString();
-					data2 = formatarData.format(dteDataAula2.getDate());
-					data2.toString();
 					
 					if (opcao.equals("Aula Especifica")) {
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
@@ -755,6 +751,8 @@ public class Tela_DadosAulas extends JFrame {
 						String periodo = cmbPeriodo.getSelectedItem().toString();
 						String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
 						String data = cmbData.getSelectedItem().toString();
+						data1 = formatarData.format(dteDataAula.getDate());
+						data1.toString();
 						String dataAula1 = data1;
 						
 						Professores professores = new Professores();
@@ -825,11 +823,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (nomeCurso.equals(dadosAula.getCurso())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -888,11 +886,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (nomeCurso.equals(dadosAula.getCurso()) && periodo.equals(dadosAula.getPeriodo())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -920,20 +918,6 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
-							
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
@@ -950,11 +934,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -1012,11 +996,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina()) && periodo.equals(dadosAula.getPeriodo())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -1073,11 +1057,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (turmaCod.equals(dadosAula.getTurma())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -1210,11 +1194,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 						if (periodo.equals(dadosAula.getPeriodo())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -1273,11 +1257,11 @@ public class Tela_DadosAulas extends JFrame {
 						String data = "%%";
 						String dataAula1 = "%%";
 						
-						dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
-						if (periodo.equals(dadosAula.getPeriodo())) {
+						dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
+						if (semestreLetivo.equals(dadosAula.getSemestreLetivo())) {
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
-							lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 							model.setNumRows(0);
 							for (DadosAula dadosAula1 : lista) {
@@ -1335,13 +1319,15 @@ public class Tela_DadosAulas extends JFrame {
 							String periodo = "%%";
 							String semestreLetivo = "%%";
 							String data = "%%";
+							data1 = formatarData.format(dteDataAula.getDate());
+							data1.toString();
 							String dataAula1 = data1;
 							
-							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+							dadosAula = dadosAulaDao.Consultar3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 							if (dataAula1.equals(dadosAula.getDataAula())) {
 								
 								List<DadosAula> lista = new ArrayList<DadosAula>();
-								lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+								lista = dadosAulaDao.ListarTodos3(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1);
 								DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 								model.setNumRows(0);
 								for (DadosAula dadosAula1 : lista) {
@@ -1385,6 +1371,10 @@ public class Tela_DadosAulas extends JFrame {
 							}
 						}
 						else if (cmbData.getSelectedItem().toString().equals("Intervalo")) {
+							data1 = formatarData.format(dteDataAula.getDate());
+							data1.toString();
+							data2 = formatarData.format(dteDataAula2.getDate());
+							data2.toString();
 							String dataAula1 = data1;
 							String dataAula2 = data2;
 							
@@ -1774,18 +1764,8 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Listar Todas as Aulas")) {
-						String nomeCurso = "%%";
-						String disciplina = "%%";
-						String turmaCod = "%%";
-						String nomeProfessor = "%%";
-						int idProfessor = 0;
-						String periodo = "%%";
-						String semestreLetivo = "%%";
-						String data = "%%";
-						String dataAula1 = "%%";
-						
 						List<DadosAula> lista = new ArrayList<DadosAula>();
-						lista = dadosAulaDao.ListarTodos2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
+						lista = dadosAulaDao.ListarTodos();
 						DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 						model.setNumRows(0);
 						for (DadosAula dadosAula1 : lista) {

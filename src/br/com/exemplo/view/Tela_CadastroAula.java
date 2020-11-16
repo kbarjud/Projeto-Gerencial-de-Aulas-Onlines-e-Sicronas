@@ -1324,6 +1324,7 @@ public class Tela_CadastroAula extends JFrame {
 										lblJustificativa.setVisible(false);
 										txtJustificativa.setVisible(false);
 										btnSalvar.setVisible(false);
+										scrJustificativa.setVisible(false);
 									}
 									else if (decisao == 2) {
 										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
@@ -1388,6 +1389,7 @@ public class Tela_CadastroAula extends JFrame {
 		curso.add(scrJustificativa);
 		
 		txtJustificativa = new JTextArea();
+		txtJustificativa.setVisible(false);
 		scrJustificativa.setViewportView(txtJustificativa);
 		
 		btnConsultar_1 = new JButton("");
@@ -1402,7 +1404,6 @@ public class Tela_CadastroAula extends JFrame {
 		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/right.png")));
 		btnConsultar_1.setToolTipText("Bot\u00E3o Avan\u00E7ar");
 		btnConsultar_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtJustificativa.setVisible(false);
 		
 		tabDados = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabDados, "dados");
@@ -1777,6 +1778,7 @@ public class Tela_CadastroAula extends JFrame {
 											lblJustificativa.setVisible(false);
 											txtJustificativa.setVisible(false);
 											btnSalvar.setVisible(false);
+											scrJustificativa.setVisible(false);
 										}
 										else if (decisao == 2) {
 											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
@@ -1906,6 +1908,7 @@ public class Tela_CadastroAula extends JFrame {
 											lblJustificativa.setVisible(false);
 											txtJustificativa.setVisible(false);
 											btnSalvar.setVisible(false);
+											scrJustificativa.setVisible(false);
 										}
 										else if (decisao == 2) {
 											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
