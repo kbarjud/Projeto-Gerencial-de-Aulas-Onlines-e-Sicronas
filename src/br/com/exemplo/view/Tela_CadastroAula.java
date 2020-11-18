@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.InputEvent;
 import java.awt.event.ItemListener;
@@ -173,12 +174,14 @@ public class Tela_CadastroAula extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Cadastro");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=========================================Cadastro========================================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "=========================================Cadastro========================================="
 						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar os Dados Referente ao Curso"
-						+ "\n 2. Se Caso Não Tenha Tido Aula, Será Necessario Preencher Somente a aba de Cursos, Disciplina e Turma"
-						+ "\n 3. Caso a Aula Tenha Ocorrido, Será Necessario Preencher a aba dos Dados da Aula e Atividades Também"
-						+ "\n==========================================================================================");
+						+ "\n\n 1. Cadastrar os dados referente ao curso"
+						+ "\n 2. Caso não tenha tido aula, será necessário preencher somente a aba de curso, disciplina e turma"
+						+ "\n 3. Caso a aula tenha ocorrido, será necessario preencher a aba dos dados da aula e atividades também"
+						+ "\n==========================================================================================", "Informações do Cadastro de Aulas", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);
@@ -194,10 +197,12 @@ public class Tela_CadastroAula extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem);
@@ -208,7 +213,6 @@ public class Tela_CadastroAula extends JFrame {
 		mntmNewMenuItem_1 = new JMenuItem("Sair");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -256,7 +260,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/new.png")));
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(122, 346, 60, 43);
 		panel.add(btnNovo);
@@ -264,7 +268,6 @@ public class Tela_CadastroAula extends JFrame {
 		btnVoltar = new JButton("");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Voltando!!");
 				Tela_CadastroAula telaCadastroAula = new Tela_CadastroAula();
 				telaCadastroAula.setVisible(false);
 				dispose();
@@ -273,7 +276,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnVoltar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/voltar.png")));
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar.setBounds(31, 346, 60, 43);
 		panel.add(btnVoltar);
@@ -308,7 +311,7 @@ public class Tela_CadastroAula extends JFrame {
 					String periodo = cmbPeriodo.getSelectedItem().toString();
 					String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
 					
-					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data;
 					data = formatarData.format(dteDataAula.getDate());
 					data.toString();
@@ -317,15 +320,26 @@ public class Tela_CadastroAula extends JFrame {
 					DadosAula dadosAula = new DadosAula();
 					dadosAula = dadosAulaDao.Consultar(nomeCurso, nomeDisciplina, turma, periodo, semestreLetivo, data);
 					
-					if (nomeCurso.equals(dadosAula.getCurso()) && nomeDisciplina.equals(dadosAula.getDisciplina()) && turma.equals(dadosAula.getTurma()) && periodo.equals(dadosAula.getPeriodo()) && semestreLetivo.equals(dadosAula.getSemestreLetivo()) && data.equals(dadosAula.getDataAula())) {
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+					
+					SimpleDateFormat formatarData2 = new SimpleDateFormat("dd/MM/yyyy");
+					String data2;
+					data2 = formatarData2.format(dteDataAula.getDate());
+					data2.toString();
+					
+					if (nomeCurso.equals(dadosAula.getCurso()) && nomeDisciplina.equals(dadosAula.getDisciplina()) && turma.equals(dadosAula.getTurma()) && periodo.equals(dadosAula.getPeriodo()) && semestreLetivo.equals(dadosAula.getSemestreLetivo()) && data2.equals(dadosAula.getDataAula())) {
 						txtIdAula.setText(String.valueOf(dadosAula.getIdAula()));
 						cmbCurso.setSelectedItem (dadosAula.getCurso());
 						cmbDisciplina.setSelectedItem (dadosAula.getDisciplina());
 						cmbTurma.setSelectedItem (dadosAula.getTurma());
 						cmbPeriodo.setSelectedItem (dadosAula.getPeriodo());
 						cmbSemestreLetivo.setSelectedItem (dadosAula.getSemestreLetivo());
-						txtDataAula.setText (dadosAula.getDataAula());
+						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dadosAula.getDataAula());
+						dteDataAula.setDate(date);
 						if (dadosAula.isTeveAula() == true) {
+							scrJustificativa.setVisible(false);
 							btnSimAula.setSelected(true);
 							txtJustificativa.setText(dadosAula.getJustificativa());
 							cmbHorarioInicio.setSelectedItem (dadosAula.getHorarioInicio());
@@ -339,12 +353,15 @@ public class Tela_CadastroAula extends JFrame {
 							
 							if (dadosAula.isAtividadeSolicitada() == true) {
 								btnSimAtividade.setSelected(true);
-								dteDataAtividade.setVisible(false);
-								txtDataAtividade.setVisible(true);
+								//dteDataAtividade.setVisible(false);
+								txtDataAtividade.setVisible(false);
 								btnGrupo.setEnabled(true);
 								btnIndividual.setEnabled(true);
 								txtDescricao.setEnabled(true);
-								txtDataAtividade.setText(dadosAula.getDataEntrega());
+								
+								Date dateEntrega = new SimpleDateFormat("dd/MM/yyyy").parse(dadosAula.getDataEntrega());
+
+								dteDataAtividade.setDate(dateEntrega);
 								if (dadosAula.getQtdPessoas().equals("Grupo")) {
 									btnGrupo.setSelected(true);
 								}
@@ -365,6 +382,7 @@ public class Tela_CadastroAula extends JFrame {
 							btnNaoAula.setSelected(true);
 							lblJustificativa.setVisible(true);
 							txtJustificativa.setVisible(true);
+							scrJustificativa.setVisible(true);
 							txtJustificativa.setText(dadosAula.getJustificativa());
 							btnGrupo.setEnabled(true);
 							btnIndividual.setEnabled(true);
@@ -372,24 +390,23 @@ public class Tela_CadastroAula extends JFrame {
 							dteDataAtividade.setEnabled(true);
 						}
 					}
-					dteDataAula.setVisible(false);
-					txtDataAula.setVisible(true);
-					scrJustificativa.setVisible(true);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar Aula!!. "
-							+ "\n1. Verifique se Todos os Campos Abaixo Foram Preenchidos Corretamente"
-							+ "\n* CURSO"
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar Aula!!. "
+							+ "\n\n1. Verifique se os campos abaixo foram preenchidos corretamente"
+							+ "\n\n* CURSO"
 							+ "\n* DISCIPLINA"
 							+ "\n* TURMA"
 							+ "\n* PERIODO"
 							+ "\n* SEMESTRE LETIVO"
 							+ "\n* DATA DA AULA"
-							+ "\n\nErro: " + e1);
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/search.png")));
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(213, 346, 60, 43);
 		panel.add(btnConsultar);
@@ -398,7 +415,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data, dataAtividade;
 					data = formatarData.format(dteDataAula.getDate());
 					data.toString();
@@ -481,7 +498,9 @@ public class Tela_CadastroAula extends JFrame {
 											int idSemestre = semestreLetivo1.getIdSemestre();
 											dadosAula.setIdSemestre(idSemestre);
 											
-											String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+											Object[] options = {"Salvar", "Cancelar"};
+											ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+											int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 													+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 													+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 													+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -500,20 +519,16 @@ public class Tela_CadastroAula extends JFrame {
 													+ "\nAtividade Solicitada: Sim"
 													+ "\nData de Entrega: " + dataAtividade
 													+ "\nQuantidade de Pessoas: " + txtQtdPessoas.getText()
-													+ "\nDescrição: " + txtDescricao.getText()
-													+ "\n====================================================="
-													+ "\n\n====================================================="
-													+ "\nDigite 1 Para Salvar"
-													+ "\nDigite 2 Para Alterar Alguma Informação"
-													+ "\n=====================================================");
+													+ "\nDescrição: " + txtDescricao.getText(), "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 												
-											int decisao = Integer.parseInt(resposta);
-											if (decisao == 1) {
+											if (resposta == JOptionPane.YES_OPTION) {
 												DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 												// alterar
 												dadosAulaDao.Alterar(dadosAula);
 													
-												JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+												Object[] options1 = {"OK"};
+												ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+												JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 												
 												cmbCurso.setSelectedIndex(0);
 												cmbDisciplina.setSelectedIndex(0);
@@ -521,6 +536,7 @@ public class Tela_CadastroAula extends JFrame {
 												cmbPeriodo.setSelectedIndex(0);
 												cmbSemestreLetivo.setSelectedIndex(0);
 												dteDataAula.setDate(null);
+												txtDataAula.setText(null);
 												btnSimAula.setSelected(false);
 												btnNaoAula.setSelected(false);
 												txtJustificativa.setText(null);
@@ -542,28 +558,37 @@ public class Tela_CadastroAula extends JFrame {
 												txtJustificativa.setVisible(false);
 												btnSalvar.setVisible(false);
 												scrJustificativa.setVisible(false);
+												txtDataAula.setVisible(false);
+												dteDataAula.setVisible(true);
 											}
-											else if (decisao == 2) {
-												JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-											}
-											else {
-												JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+											else if (resposta == JOptionPane.NO_OPTION) {
+												Object[] options1 = {"OK"};
+												ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+												JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 											}
 										}
 										else {
-											JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else if (btnNaoAtividade.isSelected()) {
@@ -615,7 +640,9 @@ public class Tela_CadastroAula extends JFrame {
 											int idSemestre = semestreLetivo1.getIdSemestre();
 											dadosAula.setIdSemestre(idSemestre);
 											
-											String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+											Object[] options = {"Salvar", "Cancelar"};
+											ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+											int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 													+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 													+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 													+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -631,20 +658,16 @@ public class Tela_CadastroAula extends JFrame {
 													+ "\nLink da Sessão: " + txtLinkSessao.getText()
 													+ "\nLink da Gravação: " + txtLinkGravacao.getText()
 													+ "\nObs: " + txtObs.getText()
-													+ "\nAtividade Solicitada: Não"
-													+ "\n====================================================="
-													+ "\n\n====================================================="
-													+ "\nDigite 1 Para Salvar"
-													+ "\nDigite 2 Para Alterar Alguma Informação"
-													+ "\n=====================================================");
+													+ "\nAtividade Solicitada: Não", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 												
-											int decisao = Integer.parseInt(resposta);
-											if (decisao == 1) {
+											if (resposta == JOptionPane.YES_OPTION) {
 												DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 												// alterar
 												dadosAulaDao.Alterar(dadosAula);
 													
-												JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+												Object[] options1 = {"OK"};
+												ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+												JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 												
 												cmbCurso.setSelectedIndex(0);
 												cmbDisciplina.setSelectedIndex(0);
@@ -652,6 +675,7 @@ public class Tela_CadastroAula extends JFrame {
 												cmbPeriodo.setSelectedIndex(0);
 												cmbSemestreLetivo.setSelectedIndex(0);
 												dteDataAula.setDate(null);
+												txtDataAula.setText(null);
 												btnSimAula.setSelected(false);
 												btnNaoAula.setSelected(false);
 												txtJustificativa.setText(null);
@@ -673,28 +697,37 @@ public class Tela_CadastroAula extends JFrame {
 												txtJustificativa.setVisible(false);
 												btnSalvar.setVisible(false);
 												scrJustificativa.setVisible(false);
+												txtDataAula.setVisible(false);
+												dteDataAula.setVisible(true);
 											}
-											else if (decisao == 2) {
-												JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-											}
-											else {
-												JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+											else if (resposta == JOptionPane.NO_OPTION) {
+												Object[] options1 = {"OK"};
+												ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+												JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 											}
 										}
 										else {
-											JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 					}
@@ -745,7 +778,9 @@ public class Tela_CadastroAula extends JFrame {
 										int idSemestre = semestreLetivo1.getIdSemestre();
 										dadosAula.setIdSemestre(idSemestre);
 										
-										String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+										Object[] options = {"Salvar", "Cancelar"};
+										ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+										int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 												+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 												+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 												+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -753,20 +788,16 @@ public class Tela_CadastroAula extends JFrame {
 												+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
 												+ "\nData da Aula: " + data
 												+ "\nTeve Aula?: Não"
-												+ "\nJustificativa: " + txtJustificativa.getText()
-												+ "\n====================================================="
-												+ "\n\n====================================================="
-												+ "\nDigite 1 Para Salvar"
-												+ "\nDigite 2 Para Alterar Alguma Informação"
-												+ "\n=====================================================");
+												+ "\nJustificativa: " + txtJustificativa.getText(), "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 											
-										int decisao = Integer.parseInt(resposta);
-										if (decisao == 1) {
+										if (resposta == JOptionPane.YES_OPTION) {
 											DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 											// alterar
 											dadosAulaDao.Alterar1(dadosAula);
 												
-											JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 											
 											cmbCurso.setSelectedIndex(0);
 											cmbDisciplina.setSelectedIndex(0);
@@ -774,6 +805,7 @@ public class Tela_CadastroAula extends JFrame {
 											cmbPeriodo.setSelectedIndex(0);
 											cmbSemestreLetivo.setSelectedIndex(0);
 											dteDataAula.setDate(null);
+											txtDataAula.setText(null);
 											btnSimAula.setSelected(false);
 											btnNaoAula.setSelected(false);
 											txtJustificativa.setText(null);
@@ -795,46 +827,57 @@ public class Tela_CadastroAula extends JFrame {
 											txtJustificativa.setVisible(false);
 											btnSalvar.setVisible(false);
 											scrJustificativa.setVisible(false);
+											txtDataAula.setVisible(false);
+											dteDataAula.setVisible(true);
 										}
-										else if (decisao == 2) {
-											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-										}
-										else {
-											JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										else if (resposta == JOptionPane.NO_OPTION) {
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 				}catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Alterar Aula!!. "
-							+ "\n1. Primeiro Faça Uma Consulta Com os Seguintes Dados: "
-							+ "\n* CURSO"
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Alterar Aula!!. "
+							+ "\n\n1. Primeiro faça uma consulta com os seguintes dados:"
+							+ "\n\n* CURSO"
 							+ "\n* DISCIPLINA"
 							+ "\n* TURMA"
 							+ "\n* PERIODO"
 							+ "\n* SEMESTRE LETIVO"
 							+ "\n* DATA DA AULA"
-							+ "\n\n2. Após a Consulta Com Esses Dados, Altere Os Dados Necessarios"
-							+ "\n\nErro: " + e1);
+							+ "\n\n2. Após a consulta, altere os dados necessários"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/pencil.png")));
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(304, 346, 60, 43);
 		panel.add(btnAlterar);
@@ -842,12 +885,11 @@ public class Tela_CadastroAula extends JFrame {
 		btnSair = new JButton("");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
 		btnSair.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/exit.png")));
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(395, 346, 60, 43);
 		panel.add(btnSair);
@@ -1218,7 +1260,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
-					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data;
 					data = formatarData.format(dteDataAula.getDate());
 					data.toString();
@@ -1276,7 +1318,9 @@ public class Tela_CadastroAula extends JFrame {
 									int idSemestre = semestreLetivo1.getIdSemestre();
 									dadosAula.setIdSemestre(idSemestre);
 									
-									String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+									Object[] options = {"Salvar", "Cancelar"};
+									ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+									int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 											+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 											+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 											+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -1284,19 +1328,15 @@ public class Tela_CadastroAula extends JFrame {
 											+ "\nSemestre Letivo: " + cmbSemestreLetivo.getSelectedItem().toString()
 											+ "\nData da Aula: " + data
 											+ "\nTeve Aula?: Não"
-											+ "\nJustificativa: " + txtJustificativa.getText()
-											+ "\n====================================================="
-											+ "\n\n====================================================="
-											+ "\nDigite 1 Para Salvar"
-											+ "\nDigite 2 Para Alterar Alguma Informação"
-											+ "\n=====================================================");
-										
-									int decisao = Integer.parseInt(resposta);
-									if (decisao == 1) {
+											+ "\nJustificativa: " + txtJustificativa.getText(), "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+									
+									if (resposta == JOptionPane.YES_OPTION) {
 										DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 										dadosAulaDao.Salvar1(dadosAula);
 											
-										JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										
 										cmbCurso.setSelectedIndex(0);
 										cmbDisciplina.setSelectedIndex(0);
@@ -1326,38 +1366,47 @@ public class Tela_CadastroAula extends JFrame {
 										btnSalvar.setVisible(false);
 										scrJustificativa.setVisible(false);
 									}
-									else if (decisao == 2) {
-										JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-									}
-									else {
-										JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+									else if (resposta == JOptionPane.NO_OPTION) {
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+						Object[] options1 = {"OK"};
+						ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro da Aula!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao fazer o cadastro da aula!!. "
+							+ "\n\n1. Verifique se Todos os Campos Foram Preenchidos" 
+							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
 		btnSalvar.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/save.png")));
-		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBounds(198, 242, 60, 43);
 		curso.add(btnSalvar);
@@ -1402,7 +1451,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnConsultar_1.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/right.png")));
-		btnConsultar_1.setToolTipText("Bot\u00E3o Avan\u00E7ar");
+		btnConsultar_1.setToolTipText("Avan\u00E7ar");
 		btnConsultar_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		tabDados = new JTabbedPane(JTabbedPane.TOP);
@@ -1510,7 +1559,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnVoltar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/left.png")));
-		btnVoltar2.setToolTipText("Bot\u00E3o Voltar ");
+		btnVoltar2.setToolTipText("Voltar");
 		btnVoltar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar2.setBounds(10, 242, 60, 43);
 		dados.add(btnVoltar2);
@@ -1523,7 +1572,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnAvancar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/right.png")));
-		btnAvancar2.setToolTipText("Bot\u00E3o Avan\u00E7ar");
+		btnAvancar2.setToolTipText("Avan\u00E7ar");
 		btnAvancar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAvancar2.setBounds(394, 242, 60, 43);
 		dados.add(btnAvancar2);
@@ -1631,7 +1680,7 @@ public class Tela_CadastroAula extends JFrame {
 		btnSalvar2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
-					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data, dataAtividade;
 					data = formatarData.format(dteDataAula.getDate());
 					data.toString();
@@ -1671,7 +1720,9 @@ public class Tela_CadastroAula extends JFrame {
 							txtQtdPessoas.setText("Individual");
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Selecione se o a Atividade é em Grupo ou Individual");
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Selecione se a atividade é em grupo ou individual!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						}
 						
 						dadosAula.setDescricao(txtDescricao.getText());
@@ -1719,7 +1770,9 @@ public class Tela_CadastroAula extends JFrame {
 										int idSemestre = semestreLetivo1.getIdSemestre();
 										dadosAula.setIdSemestre(idSemestre);
 										
-										String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+										Object[] options = {"Salvar", "Cancelar"};
+										ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+										int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 												+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 												+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 												+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -1738,19 +1791,15 @@ public class Tela_CadastroAula extends JFrame {
 												+ "\nAtividade Solicitada: Sim"
 												+ "\nData de Entrega: " + dataAtividade
 												+ "\nQuantidade de Pessoas: " + txtQtdPessoas.getText()
-												+ "\nDescrição: " + txtDescricao.getText()
-												+ "\n====================================================="
-												+ "\n\n====================================================="
-												+ "\nDigite 1 Para Salvar"
-												+ "\nDigite 2 Para Alterar Alguma Informação"
-												+ "\n=====================================================");
-											
-										int decisao = Integer.parseInt(resposta);
-										if (decisao == 1) {
+												+ "\nDescrição: " + txtDescricao.getText(), "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+										
+										if (resposta == JOptionPane.YES_OPTION) {
 											DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 											dadosAulaDao.Salvar(dadosAula);
 												
-											JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 											
 											cmbCurso.setSelectedIndex(0);
 											cmbDisciplina.setSelectedIndex(0);
@@ -1777,30 +1826,38 @@ public class Tela_CadastroAula extends JFrame {
 											txtDescricao.setText(null);
 											lblJustificativa.setVisible(false);
 											txtJustificativa.setVisible(false);
+											txtDataAula.setVisible(false);
 											btnSalvar.setVisible(false);
 											scrJustificativa.setVisible(false);
 										}
-										else if (decisao == 2) {
-											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-										}
-										else {
-											JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										else if (resposta == JOptionPane.NO_OPTION) {
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (btnNaoAtividade.isSelected()) {
@@ -1852,7 +1909,9 @@ public class Tela_CadastroAula extends JFrame {
 										int idSemestre = semestreLetivo1.getIdSemestre();
 										dadosAula.setIdSemestre(idSemestre);
 										
-										String resposta = JOptionPane.showInputDialog(null, "============Confira os Dados da Aula============"
+										Object[] options = {"Salvar", "Cancelar"};
+										ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+										int resposta = JOptionPane.showOptionDialog(null, "============Confira os Dados da Aula============"
 												+ "\nCurso: " + cmbCurso.getSelectedItem().toString()
 												+ "\nDisciplina: " + cmbDisciplina.getSelectedItem().toString() 
 												+ "\nTurma: " + cmbTurma.getSelectedItem().toString()
@@ -1868,19 +1927,15 @@ public class Tela_CadastroAula extends JFrame {
 												+ "\nLink da Sessão: " + txtLinkSessao.getText()
 												+ "\nLink da Gravação: " + txtLinkGravacao.getText()
 												+ "\nObs: " + txtObs.getText()
-												+ "\nAtividade Solicitada: Não"
-												+ "\n====================================================="
-												+ "\n\n====================================================="
-												+ "\nDigite 1 Para Salvar"
-												+ "\nDigite 2 Para Alterar Alguma Informação"
-												+ "\n=====================================================");
-											
-										int decisao = Integer.parseInt(resposta);
-										if (decisao == 1) {
+												+ "\nAtividade Solicitada: Não", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+										
+										if (resposta == JOptionPane.YES_OPTION) {
 											DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 											dadosAulaDao.Salvar(dadosAula);
 												
-											JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 											
 											cmbCurso.setSelectedIndex(0);
 											cmbDisciplina.setSelectedIndex(0);
@@ -1910,42 +1965,53 @@ public class Tela_CadastroAula extends JFrame {
 											btnSalvar.setVisible(false);
 											scrJustificativa.setVisible(false);
 										}
-										else if (decisao == 2) {
-											JOptionPane.showMessageDialog (null, "Altere a Informação Desejada e e Clique no Botão Salvar Novamente");
-										}
-										else {
-											JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Salvar e 2 Para Alterar Alguma Informação");
+										else if (resposta == JOptionPane.NO_OPTION) {
+											Object[] options1 = {"OK"};
+											ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Altere a informação desejada e salve novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 										}
 									}
 									else {
-										JOptionPane.showMessageDialog (null, "Verifique o Semestre Letivo Por Favor e Tente Novamente");
+										Object[] options1 = {"OK"};
+										ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Verifique o semestre letivo e tente novamente!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 									}
 								}
 								else {
-									JOptionPane.showMessageDialog (null, "Verifique o Curso, a Disciplina, a Turma, o Periodo e o Semestre Letivo, Pois Não Existe Nenhuma Turma Cadastrada Com Essas Informações");
+									Object[] options1 = {"OK"};
+									ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Verifique o curso, a disciplina, a turma, o periodo e o semestre letivo pois não existe nenhuma turma cadastrada com essas informações!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 								}
 							}
 							else {
-								JOptionPane.showMessageDialog (null, "Erro ao Pegar o ID do Professor");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog (null, "Verifique o Curso e a Disciplina e veja se essa Disciplina pertence mesmo a esse Curso.");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Verifique o curso e a disciplina e veja se essa disciplina pertence mesmo a esse curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "Selecione se Teve ou Não Atividade Solicitada");
+						Object[] options1 = {"OK"};
+						ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Selecione se teve atividade solicitada ou não", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro da Aula!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao fazer o cadastro da aula!!. "
+							+ "\n\n1. Verifique se Todos os Campos Foram Preenchidos" 
+							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
 		btnSalvar2.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/save.png")));
-		btnSalvar2.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar2.setToolTipText("Salvar");
 		btnSalvar2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar2.setBounds(201, 211, 60, 43);
 		atividade.add(btnSalvar2);

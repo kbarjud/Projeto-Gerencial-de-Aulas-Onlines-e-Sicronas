@@ -83,8 +83,8 @@ public class DadosAulaDAO {
 	}
 	public void Alterar (DadosAula dadosAula) throws Exception {
 		try { 
-			String sql = "UPDATE dados_aulas SET curso=?, disciplina=?, turma=?, periodo=?, semestre_letivo=?, data_aula=?, teve_aula=?, justificativa=?, horario_inicio=?, horario_termino=?, assunto=?, qtd_alunos=? "
-					+ " materiais_disponibilizados=?, link_sesssao=?, link_gravacao=?, obs=?, atividade_solicitada=?, data_entrega=?, qtd_pessoas=?, descricao=?, id_curso_disciplina=?, id_turma=?, id_professor=?, id_semestre=? "
+			String sql = "UPDATE dados_aulas SET curso=?, disciplina=?, turma=?, periodo=?, semestre_letivo=?, data_aula=?, teve_aula=?, justificativa=?, horario_inicio=?, horario_termino=?, assunto=?, qtd_alunos=?, "
+					+ " materiais_disponibilizados=?, link_sessao=?, link_gravacao=?, obs=?, atividade_solicitada=?, data_entrega=?, qtd_pessoas=?, descricao=?, id_curso_disciplina=?, id_turma=?, id_professor=?, id_semestre=? "
 					+ " WHERE id_aula=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString (1, dadosAula.getCurso());
@@ -152,8 +152,8 @@ public class DadosAulaDAO {
 	}
 	public DadosAula Consultar (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data) throws Exception {
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
-					+ " WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND data_aula=?"); 
+			ps = conn.prepareStatement ("SELECT *, DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA " + 
+					" FROM dados_aulas WHERE curso=? AND disciplina=? AND turma=? AND periodo=? AND semestre_letivo=? AND data_aula=?"); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, nomeDisciplina);
 			ps.setString (3, turma);
@@ -168,7 +168,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -180,7 +180,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -630,7 +630,7 @@ public class DadosAulaDAO {
 			}
 			return lista;
 		}catch (Exception e) {
-			throw new Exception (e.getMessage());
+			throw new Exception (e.getMessage()); 
 		}
 	}
 }

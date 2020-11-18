@@ -351,6 +351,15 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(separator_6);
 		
 		btnDisciplina = new JButton("Disciplina");
+		btnDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
+				telaMenuCoordenador.setVisible(false);
+				dispose();
+				Tela_CadastroDisciplina telaCadastroDisciplina = new Tela_CadastroDisciplina();
+				telaCadastroDisciplina.setVisible(true);
+			}
+		});
 		btnDisciplina.setToolTipText("Bot\u00E3o Cadastrar Disciplinas");
 		btnDisciplina.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnDisciplina.setBounds(121, 147, 103, 30);

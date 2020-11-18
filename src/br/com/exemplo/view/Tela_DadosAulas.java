@@ -739,7 +739,7 @@ public class Tela_DadosAulas extends JFrame {
 					DadosAula dadosAula = new DadosAula();
 					DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 					
-					SimpleDateFormat formatarData = new SimpleDateFormat("EEE dd/MM/yyyy");
+					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data1, data2;
 					
 					if (opcao.equals("Aula Especifica")) {
@@ -1372,9 +1372,10 @@ public class Tela_DadosAulas extends JFrame {
 						}
 						else if (cmbData.getSelectedItem().toString().equals("Intervalo")) {
 							data1 = formatarData.format(dteDataAula.getDate());
-							data1.toString();
+							//data1.toString();
 							data2 = formatarData.format(dteDataAula2.getDate());
-							data2.toString();
+							//data2.toString();
+							JOptionPane.showMessageDialog(null, dteDataAula2.getDate() + " | " + dteDataAula.getDate() + " | " + data1 + " | " + data2);
 							String dataAula1 = data1;
 							String dataAula2 = data2;
 							

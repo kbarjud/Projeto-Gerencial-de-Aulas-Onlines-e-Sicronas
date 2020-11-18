@@ -119,15 +119,17 @@ public class Tela_CadastroProfessor extends JFrame {
 		mntmNewMenuItem = new JMenuItem("Cadastro");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=============================================================================Cadastro============================================================================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Se Cadastrar Caso Ainda Não Tenha Feito isso"
-						+ "\n 2. Alterar Seu Cadastro"
-						+ "\n 3. Consultar Seu Cadastro"
-						+ "\n\n============================================================================Informações==========================================================================="
-						+ "\n* O Código do Professor Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Professor Usa na Faculdade"
-						+ "\n** O ID do Professor é Diferente do Código do Professor, se Necessário Faça Primeiro uma Consulta com o Código do Professor e irá Retornar Todas as Informações Desse Professor, Inclusive o ID"
-						+ "\n=================================================================================================================================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "======================================Cadastro======================================"
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Se cadastrar"
+						+ "\n 2. Alterar seu cadastro"
+						+ "\n 3. Consultar seu cadastro"
+						+ "\n\n=====================================Informações===================================="
+						+ "\n* O código do professor que é solicitado no campo login e cadastro é o mesmo usado na faculdade"
+						+ "\n** O ID do professor é diferente do código do professor, se necessário realize primeiro uma consulta"
+						+ "\n===================================================================================", "Informações do Professor(a)", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -143,10 +145,12 @@ public class Tela_CadastroProfessor extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
@@ -158,7 +162,6 @@ public class Tela_CadastroProfessor extends JFrame {
 		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			};
 		});
@@ -214,11 +217,10 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnVoltar = new JButton("");
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtControle.getText().equals("telaInicial")) {
-					JOptionPane.showMessageDialog(null, "Voltando!!");
 					Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
 					telaCadastroProfessor.setVisible(false);
 					dispose();
@@ -226,7 +228,6 @@ public class Tela_CadastroProfessor extends JFrame {
 					telaInicialProfessor.setVisible(true);
 				}
 				else if (txtControle.getText().equals("telaConsultaProfessor")) {
-					JOptionPane.showMessageDialog(null, "Voltando!!");
 					Tela_CadastroProfessor telaCadastroProfessor = new Tela_CadastroProfessor();
 					telaCadastroProfessor.setVisible(false);
 					dispose();
@@ -241,7 +242,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -273,16 +274,22 @@ public class Tela_CadastroProfessor extends JFrame {
 							txtEmail.setText(professor.getEmail());
 							ftfCelular.setText(professor.getCelular());
 						} 
-						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
-						JOptionPane.showMessageDialog (null, "Professor Não Cadastrado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Professor não cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar!!. "
-							+ "\n1. Para Fazer Uma Consulta Informe o Código do Professor"
-							+ "\n2. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar!!. "
+							+ "\n\n1. Para fazer uma consulta, informe o código do professor"
+							+ "\n2. Verifique se os dados foram digitados corretamente"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -292,7 +299,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -331,17 +338,21 @@ public class Tela_CadastroProfessor extends JFrame {
 								professor1.getStatus(),
 							});
 					} 
-					JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Tenha Sido, Verifique se o ID Foi Digitado Corretamente."
-							+ "\n3. Caso Você Não Saiba o ID, Faça Uma Consulta Usando o Código Do Professor e Assim Retornará Todos os Dados Do Professor, Inclusive o ID"
-							+ "\n\n===========================================================================Informações=========================================================================="
-							+ "\n* O Código do Professor Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Professor Usa na Faculdade"
-							+ "\n** O ID do Professor é Diferente do Código do Professor"
-							+ "\n==============================================================================================================================================================="
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Alterar!!. "
+							+ "\n\n1. Verifique se todos os campos foram preenchidos"
+							+ "\n2. Verifique se o ID foi informado corretamente"
+							+ "\n3. Caso não saiba o ID  , realize primeiro uma consulta"
+							+ "\n\n=====================================Informações====================================" 
+							+ "\n* O código do professor que é solicitado no campo login e cadastro é o mesmo usado na faculdade" 
+							+ "\n** O ID do professor é diferente do código do professor, se necessário realize primeiro uma consulta"
+							+ "\n==================================================================================="
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -351,10 +362,9 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -388,7 +398,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(ftfCelular);
 		
 		btnSalvar = new JButton("");
-		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -419,17 +429,21 @@ public class Tela_CadastroProfessor extends JFrame {
 								professor1.getStatus(),
 							});
 					} 
-					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					txtCodProfessor.setText(null);
 					passSenha.setText(null);
 					txtNomeProfessor.setText(null);
 					txtEmail.setText(null);
 					ftfCelular.setText(null);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Você Fez Seu Cadastro"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Fazer o Cadastro!!. "
+							+ "\n\n1. Verifique se todos os campos foram preenchidos"
+							+ "\n2. Caso estejam preenchidos, verifique se você realizou seu cadastro"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -439,7 +453,7 @@ public class Tela_CadastroProfessor extends JFrame {
 		contentPane.add(btnSalvar);
 		
 		btnNovo = new JButton("");
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtCodProfessor.setText(null);
@@ -469,7 +483,7 @@ public class Tela_CadastroProfessor extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID Professor(a)", "C\u00F3digo do(a) Professor(a)", "Nome", "Senha", "Email", "Celular", "Status"
+				"ID Professor(a)", "Cód. do(a) Professor(a)", "Nome", "Senha", "Email", "Celular", "Status"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -486,7 +500,7 @@ public class Tela_CadastroProfessor extends JFrame {
 			}
 		});
 		tabCadastroProfessor.getColumnModel().getColumn(0).setPreferredWidth(120);
-		tabCadastroProfessor.getColumnModel().getColumn(1).setPreferredWidth(160);
+		tabCadastroProfessor.getColumnModel().getColumn(1).setPreferredWidth(140);
 		tabCadastroProfessor.getColumnModel().getColumn(2).setPreferredWidth(200);
 		tabCadastroProfessor.getColumnModel().getColumn(3).setPreferredWidth(100);
 		tabCadastroProfessor.getColumnModel().getColumn(4).setPreferredWidth(120);

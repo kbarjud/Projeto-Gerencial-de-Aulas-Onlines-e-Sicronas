@@ -84,13 +84,15 @@ public class Tela_Inicial extends JFrame {
 		mnCoordenador = new JMenuItem("Coordenador(a)");
 		mnCoordenador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "====================Coordenador(a)===================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar os Cursos, Disciplinas e Turma"
-						+ "\n 2. Consultar os Professores e os Coordenadores Cadastrados"
-						+ "\n 3. Consultar os Dados das Aulas Que Já Foram Cadastradas"
-						+ "\n 4. Criar o Seu Login"
-						+ "\n=====================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Coordenador(a)===================="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar os cursos, disciplinas e turmas"
+						+ "\n 2. Consultar os professores e os coordenadores cadastrados"
+						+ "\n 3. Consultar os dados das aulas que já foram cadastradas"
+						+ "\n 4. Criar o seu login"
+						+ "\n=====================================================", "Informações do Coordenador(a)", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnInformacoes.add(mnCoordenador);
@@ -98,11 +100,13 @@ public class Tela_Inicial extends JFrame {
 		mnProfessor = new JMenuItem("Professor(a)");
 		mnProfessor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=======================Professor(a)======================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar os Dados da Aula"
-						+ "\n 2. Criar o Seu Login"
-						+ "\n========================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "=======================Professor(a)======================="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar os dados das aulas"
+						+ "\n 2. Criar o seu login"
+						+ "\n========================================================", "Informações dos Professores(as)", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnInformacoes.add(mnProfessor);
@@ -118,10 +122,12 @@ public class Tela_Inicial extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnAjuda.add(mnSobreSistema);
@@ -133,7 +139,6 @@ public class Tela_Inicial extends JFrame {
 		mnSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -156,12 +161,11 @@ public class Tela_Inicial extends JFrame {
 		contentPane.add(lblProfessorCoordenador);
 		
 		btnProfessor = new JButton("Professor(a)");
-		btnProfessor.setToolTipText("Bot\u00E3o Professor(a)");
+		btnProfessor.setToolTipText("");
 		btnProfessor.setForeground(Color.BLACK);
 		btnProfessor.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnProfessor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_Inicial telaInicial = new Tela_Inicial();
 				telaInicial.setVisible(false);
 				dispose();
@@ -173,10 +177,9 @@ public class Tela_Inicial extends JFrame {
 		contentPane.add(btnProfessor);
 		
 		btnCoordenador = new JButton("Coordenador(a)");
-		btnCoordenador.setToolTipText("Bot\u00E3o Coordenador(a)");
+		btnCoordenador.setToolTipText("");
 		btnCoordenador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_Inicial telaInicial = new Tela_Inicial();
 				telaInicial.setVisible(false);
 				dispose();
@@ -193,10 +196,9 @@ public class Tela_Inicial extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
