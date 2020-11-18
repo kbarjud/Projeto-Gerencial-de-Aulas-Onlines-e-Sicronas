@@ -119,16 +119,18 @@ public class Tela_CadastroCoordenador extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Cadastro");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "==================================================================================Cadastro=================================================================================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Se Cadastrar Caso Ainda Não Tenha Feito isso"
-						+ "\n 2. Alterar Seu Cadastro"
-						+ "\n 3. Consultar Seu Cadastro"
-						+ "\n\n=================================================================================Informações================================================================================"
-						+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
-						+ "\n** O ID do Coordenador é Diferente do Código do Coordenador, se Necessário Faça Primeiro uma Consulta com o Código do Coordenador e irá Retornar Todas as Informações Desse Coordenador, Inclusive o ID"
-						+ "\n===========================================================================================================================================================================");
-			}
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "========================================Cadastro========================================"
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Se cadastrar"
+						+ "\n 2. Alterar seu cadastro"
+						+ "\n 3. Consultar seu cadastro"
+						+ "\n\n=======================================Informações======================================"
+						+ "\n* O código do coordenador que é solicitado no campo login e cadastro é o mesmo usado na faculdade"
+						+ "\n** O ID do coordenador é diferente do código do coordenador, se necessário realize primeiro uma consulta"
+						+ "\n=======================================================================================", "Informações do Coordenador(a)", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
@@ -143,10 +145,12 @@ public class Tela_CadastroCoordenador extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem);
@@ -158,7 +162,6 @@ public class Tela_CadastroCoordenador extends JFrame {
 		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -269,17 +272,21 @@ public class Tela_CadastroCoordenador extends JFrame {
 								coordenador1.getStatus(),
 							});
 					} 
-					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					txtCodCoordenador.setText(null);
 					passSenha.setText(null);
 					txtNomeCoordenador.setText(null);
 					txtEmail.setText(null);
 					ftfCelular.setText(null);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Fazer o Cadastro!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Você Fez Seu Cadastro"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao fazer cadastro!!. "
+							+ "\n\n1. Verifique se todos os campos foram preenchidos"
+							+ "\n2. Caso estejam preenchidos, verifique se você realizou seu cadastro"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -310,7 +317,6 @@ public class Tela_CadastroCoordenador extends JFrame {
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtControle.getText().equals("telaInicial")) {
-					JOptionPane.showMessageDialog(null, "Voltando!!");
 					Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
 					telaCadastroCoordenador.setVisible(false);
 					dispose();
@@ -318,7 +324,6 @@ public class Tela_CadastroCoordenador extends JFrame {
 					telaInicialCoordenador.setVisible(true);
 				}
 				else if (txtControle.getText().equals("telaConsultarCoordenador")) {
-					JOptionPane.showMessageDialog(null, "Voltando!!");
 					Tela_CadastroCoordenador telaCadastroCoordenador = new Tela_CadastroCoordenador();
 					telaCadastroCoordenador.setVisible(false);
 					dispose();
@@ -365,16 +370,22 @@ public class Tela_CadastroCoordenador extends JFrame {
 							txtEmail.setText(coordenador.getEmail());
 							ftfCelular.setText(coordenador.getCelular());
 						} 
-						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
-						JOptionPane.showMessageDialog (null, "Coordenador Não Cadastrado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Coordenador não cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar!!. "
-							+ "\n1. Para Fazer Uma Consulta Informe o Código do Professor"
-							+ "\n2. Caso Tenha Feito, Verifique Se Os Dados Foram Digitados Corretamente."
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar!!. "
+							+ "\n\n1. Para fazer uma consulta, informe o código do professor"
+							+ "\n2. Verifique se os dados foram digitados corretamente"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -396,7 +407,8 @@ public class Tela_CadastroCoordenador extends JFrame {
 					coordenador.setCelular(ftfCelular.getText());
 					coordenador.setStatus("Ativo");
 					
-					String id = JOptionPane.showInputDialog(null, "Qual o ID do Coordenador: ");
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/gender-neutral-user--v1.png")));
+					String id = (String) JOptionPane.showInputDialog(null, "Informe o ID do Coordenador: ", "ID Coordenador", JOptionPane.OK_CANCEL_OPTION, icon, null, null);
 					int idCoordenador = Integer.parseInt(id);
 					coordenador.setIdCoordenador(idCoordenador);
 						
@@ -422,17 +434,21 @@ public class Tela_CadastroCoordenador extends JFrame {
 							});
 					}
 					
-					JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+					Object[] options1 = {"OK"};
+					ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos"
-							+ "\n2. Caso Tenha Sido, Verifique se o ID Foi Digitado Corretamente."
-							+ "\n3. Caso Você Não Saiba o ID, Faça Uma Consulta Usando o Código Do Coordenador e Assim Retornará Todos os Dados Do Coordenador, Inclusive o ID"
-							+ "\n\n===========================================================================Informações=========================================================================="
-							+ "\n* O Código do Coordenador Que é Solicitado no Campo de Login e de Cadastro é o Mesmo que o Coordenador Usa na Faculdade"
-							+ "\n** O ID do Coordenador é Diferente do Código do Coordenador"
-							+ "\n==============================================================================================================================================================="
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Alterar!!. "
+							+ "\n\n1. Verifique se todos os campos foram preenchidos"
+							+ "\n2. Verifique se o ID foi informado corretamente"
+							+ "\n3. Caso não saiba o ID  , realize primeiro uma consulta"
+							+ "\n\n======================================Informações=====================================" 
+							+ "\n* O código do coordenador que é solicitado no campo login e cadastro é o mesmo usado na faculdade" 
+							+ "\n** O ID do coordenador é diferente do código do professor, se necessário realize primeiro uma consulta"
+							+ "\n====================================================================================="
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -445,7 +461,6 @@ public class Tela_CadastroCoordenador extends JFrame {
 		btnSair.setToolTipText("Bot\u00E3o Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});

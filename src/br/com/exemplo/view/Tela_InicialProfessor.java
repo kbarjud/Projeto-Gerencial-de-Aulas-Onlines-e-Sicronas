@@ -425,7 +425,7 @@ public class Tela_InicialProfessor extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID Professor(a)", "Cód. do(a) Professor(a)", "Nome", "Senha", "Email", "Celular", "Status"
+				"ID Professor(a)", "Cód. Professor(a)", "Nome", "Senha", "Email", "Celular", "Status"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -442,8 +442,8 @@ public class Tela_InicialProfessor extends JFrame {
 			}
 		});
 		tabProfessor.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tabProfessor.getColumnModel().getColumn(1).setPreferredWidth(140);
-		tabProfessor.getColumnModel().getColumn(2).setPreferredWidth(150);
+		tabProfessor.getColumnModel().getColumn(1).setPreferredWidth(120);
+		tabProfessor.getColumnModel().getColumn(2).setPreferredWidth(200);
 		tabProfessor.getColumnModel().getColumn(3).setPreferredWidth(100);
 		tabProfessor.getColumnModel().getColumn(4).setPreferredWidth(120);
 		tabProfessor.getColumnModel().getColumn(5).setPreferredWidth(110);

@@ -179,8 +179,8 @@ public class Tela_CadastroAula extends JFrame {
 				JOptionPane.showOptionDialog(null, "=========================================Cadastro========================================="
 						+ "\n Nesta Área Você Poderá: "
 						+ "\n\n 1. Cadastrar os dados referente ao curso"
-						+ "\n 2. Caso não tenha tido aula, será necessário preencher somente a aba de curso, disciplina e turma"
-						+ "\n 3. Caso a aula tenha ocorrido, será necessario preencher a aba dos dados da aula e atividades também"
+						+ "\n 2. Caso não tenha ocorrido a aula, será necessário preencher somente a aba de curso, disciplina e turma"
+						+ "\n 3. Caso a aula tenha ocorrido, será necessario preencher também a aba dos dados da aula e atividades"
 						+ "\n==========================================================================================", "Informações do Cadastro de Aulas", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
@@ -302,6 +302,7 @@ public class Tela_CadastroAula extends JFrame {
 					txtDescricao.setText(null);
 					lblJustificativa.setVisible(false);
 					txtJustificativa.setVisible(false);
+					scrJustificativa.setVisible(false);
 					btnSalvar.setVisible(false);
 					btnSalvar2.setVisible(false);
 					
@@ -339,6 +340,7 @@ public class Tela_CadastroAula extends JFrame {
 						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dadosAula.getDataAula());
 						dteDataAula.setDate(date);
 						if (dadosAula.isTeveAula() == true) {
+							btnNaoAula.setSelected(false);
 							scrJustificativa.setVisible(false);
 							btnSimAula.setSelected(true);
 							txtJustificativa.setText(dadosAula.getJustificativa());
@@ -379,6 +381,7 @@ public class Tela_CadastroAula extends JFrame {
 							}
 						}
 						else if (dadosAula.isTeveAula() == false) {
+							btnSimAula.setSelected(false);
 							btnNaoAula.setSelected(true);
 							lblJustificativa.setVisible(true);
 							txtJustificativa.setVisible(true);
@@ -2024,7 +2027,7 @@ public class Tela_CadastroAula extends JFrame {
 			}
 		});
 		btnVoltar3.setIcon(new ImageIcon(Tela_CadastroAula.class.getResource("/br/com/exemplo/view/images/left.png")));
-		btnVoltar3.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar3.setToolTipText("Voltar");
 		btnVoltar3.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar3.setBounds(10, 242, 60, 43);
 		atividade.add(btnVoltar3);

@@ -311,10 +311,11 @@ public class Tela_CadastroProfessor extends JFrame {
 					professor.setCelular(ftfCelular.getText());
 					professor.setStatus("Ativo");
 					
-					String id = JOptionPane.showInputDialog(null, "Qual o ID do Professor: ");
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/gender-neutral-user--v1.png")));
+					String id = (String) JOptionPane.showInputDialog(null, "Informe o ID do Professor: ", "ID Professor", JOptionPane.OK_CANCEL_OPTION, icon, null, null);
 					int idProfessor = Integer.parseInt(id);
+					
 					professor.setIdProfessor(idProfessor);
-						
 					ProfessoresDAO professoresDao = new ProfessoresDAO();
 					
 					// alterar
@@ -338,9 +339,9 @@ public class Tela_CadastroProfessor extends JFrame {
 								professor1.getStatus(),
 							});
 					} 
-					Object[] options = {"OK"};
-					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-					JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+					Object[] options1 = {"OK"};
+					ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 				} catch(Exception e1) {
 					Object[] options = {"OK"};
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));

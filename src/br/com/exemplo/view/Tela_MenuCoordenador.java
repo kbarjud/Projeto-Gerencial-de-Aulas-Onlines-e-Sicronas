@@ -93,21 +93,23 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem = new JMenuItem("Dados e Relatorios");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=====================Dados e Relatorios====================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Consultar os Cadastros das Aulas Com Base Nos Seguintes Filtros:"
-						+ "\n * Curso"
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "=====================Dados e Relatorios====================="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Consultar os cadastros das aulas com base nos seguintes filtros:"
+						+ "\n\n * Curso"
 						+ "\n * Disciplina"
 						+ "\n * Turma"
 						+ "\n * Professor"
 						+ "\n * Periodo"
-						+ "\n * Semestre Letivo"
-						+ "\n * Data da Aula ou Intervalo de Datas"
-						+ "\n * Aula Realizada"
-						+ "\n * Quantidade de Alunos"
-						+ "\n * Atividade Solicitada"
-						+ "\n\n 2. Você Poderá Também Gerar Seu PDF e Gráfico"
-						+ "\n==========================================================");
+						+ "\n * Semestre letivo"
+						+ "\n * Data da aula ou intervalo de datas"
+						+ "\n * Aula realizada"
+						+ "\n * Quantidade de alunos"
+						+ "\n * Atividade solicitada"
+						+ "\n\n 2. Você poderá também gerar seu PDF e Gráfico"
+						+ "\n==========================================================", "Informações", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -115,11 +117,13 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem_1 = new JMenuItem("Cursos");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "==============Cursos=============="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar os Cursos"
-						+ "\n 2. Manter os Cursos ou Desativa-los"
-						+ "\n==================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "==============Cursos=============="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar os cursos"
+						+ "\n 2. Manter os cursos ou desativá-los"
+						+ "\n==================================", "Informações dos Cursos", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -127,22 +131,26 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem_6 = new JMenuItem("Turmas");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "===========Turmas==========="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar as Turmas"
-						+ "\n 2. Manter as Turmas"
-						+ "\n============================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "===========Turmas==========="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar turmas"
+						+ "\n 2. Manter turmas"
+						+ "\n============================", "Informações das Turmas", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		
 		mntmNewMenuItem_7 = new JMenuItem("Disciplinas");
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=============Disciplinas============="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar as Disciplinas"
-						+ "\n 2. Manter as Disciplinas ou Desativa-las"
-						+ "\n==================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "=============Disciplinas============="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar as disciplinas"
+						+ "\n 2. Manter as disciplinas ou desativá-las"
+						+ "\n==================================", "Informações das Disciplinas", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_7);
@@ -151,11 +159,13 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Professores");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "======================Professores======================"
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Verificar os Professores Cadastrados"
-						+ "\n 2. Manter os Professores Ativos no Sistema ou Desativa-los"
-						+ "\n======================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "======================Professores======================" 
+						+ "\n Nesta área você poderá: " 
+						+ "\n\n 1. Verificar os professores cadastrados" 
+						+ "\n 2. Manter os professores ativos no sistema ou desativá-los" 
+						+ "\n======================================================", "Informações dos Professores", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);
@@ -163,11 +173,13 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem_5 = new JMenuItem("Coordenadores");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "======================Coordenadores======================"
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Verificar o Cadastro do Coordenador"
-						+ "\n 2. Manter o Coordenador Ativo no Sistema ou Desativa-lo"
-						+ "\n========================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "======================Coordenadores======================"
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Verificar os coordenadores cadastrados"
+						+ "\n 2. Manter os coordenadores ativos no sistema ou desativá-los"
+						+ "\n========================================================", "Informações dos Coordenadores", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_5);
@@ -183,10 +195,12 @@ public class Tela_MenuCoordenador extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_3);
@@ -198,7 +212,6 @@ public class Tela_MenuCoordenador extends JFrame {
 		mntmNewMenuItem_4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -221,10 +234,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(lblOQueGostaria);
 		
 		btnDados = new JButton("Dados das Aulas");
-		btnDados.setToolTipText("Bot\u00E3o Dados e Relatorios");
+		btnDados.setToolTipText("");
 		btnDados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -237,10 +249,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnDados);
 		
 		btnCursos = new JButton("Cursos");
-		btnCursos.setToolTipText("Bot\u00E3o Cadastrar Cursos");
+		btnCursos.setToolTipText("");
 		btnCursos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -253,10 +264,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnCursos);
 		
 		btnProfessores = new JButton("Professores");
-		btnProfessores.setToolTipText("Bot\u00E3o Professores");
+		btnProfessores.setToolTipText("");
 		btnProfessores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -285,10 +295,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(separator_1);
 		
 		btnVoltar = new JButton("");
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Voltando!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -302,10 +311,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnTurmas = new JButton("Turmas");
-		btnTurmas.setToolTipText("Bot\u00E3o Cadastrar Turmas");
+		btnTurmas.setToolTipText("");
 		btnTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -318,10 +326,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnTurmas);
 		
 		btnCoordenadores = new JButton("Coordenador");
-		btnCoordenadores.setToolTipText("Bot\u00E3o Coordenador");
+		btnCoordenadores.setToolTipText("");
 		btnCoordenadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_MenuCoordenador telaMenuCoordenador = new Tela_MenuCoordenador();
 				telaMenuCoordenador.setVisible(false);
 				dispose();
@@ -334,10 +341,9 @@ public class Tela_MenuCoordenador extends JFrame {
 		contentPane.add(btnCoordenadores);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -360,7 +366,7 @@ public class Tela_MenuCoordenador extends JFrame {
 				telaCadastroDisciplina.setVisible(true);
 			}
 		});
-		btnDisciplina.setToolTipText("Bot\u00E3o Cadastrar Disciplinas");
+		btnDisciplina.setToolTipText("");
 		btnDisciplina.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnDisciplina.setBounds(121, 147, 103, 30);
 		contentPane.add(btnDisciplina);
