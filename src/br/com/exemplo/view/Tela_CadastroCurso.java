@@ -121,11 +121,13 @@ public class Tela_CadastroCurso extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Cursos");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "==============Cursos=============="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Cadastrar os Cursos"
-						+ "\n 2. Manter os Cursos ou Desativa-los"
-						+ "\n==================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "==============Cursos=============="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Cadastrar os cursos"
+						+ "\n 2. Manter os cursos ou desativá-los"
+						+ "\n==================================", "Informações dos Cursos", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);
@@ -141,10 +143,12 @@ public class Tela_CadastroCurso extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem);
@@ -191,14 +195,20 @@ public class Tela_CadastroCurso extends JFrame {
 									curso1.getStatus(),
 								});
 						} 
-						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
-						JOptionPane.showMessageDialog (null, "Curso Não Cadastrado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Curso não cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar Curso!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar Curso!!. "
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -247,7 +257,9 @@ public class Tela_CadastroCurso extends JFrame {
 					String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
 					
 					if (nome.equals(txtCurso.getText())) {
-						JOptionPane.showMessageDialog (null, "Por Favor Digite Um Nome Diferente Do Que Já Está Cadastrado!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Por favor digite um nome diferente do que esta cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
 						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
@@ -272,12 +284,16 @@ public class Tela_CadastroCurso extends JFrame {
 								});
 						}
 						
-						JOptionPane.showMessageDialog (null, "Alterado com Sucesso!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Alterado com Sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Alterar!!. "
-							+ "\n1. Verifique se Todos os Campos Foram Preenchidos ou Realize Uma Consulta Para Saber se Esse Curso Já Não Esta Cadastrado"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Alterar!!. "
+							+ "\n\n1. Verifique se todos os campos foram preenchidos ou realize uma consulta para saber se esse curso está cadastrado" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -310,29 +326,42 @@ public class Tela_CadastroCurso extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try { 
 					Curso curso = new Curso();
-					curso.setNomeCurso(txtCurso.getText());
-					curso.setStatus("Ativo");
 					
-					CursoDAO cursoDao = new CursoDAO();
-					cursoDao.Salvar(curso);
-					
-					List<Curso> lista = new ArrayList<Curso>();
-					lista = cursoDao.ListarTodos3(txtCurso.getText());
-					DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
-					model.setNumRows(0);
-					for (Curso curso1 : lista) {
-						model.addRow (new Object[] {
-								curso1.getIdCurso(),
-								curso1.getNomeCurso(),
-								curso1.getStatus(),
-							});
-					} 
-					JOptionPane.showMessageDialog (null, "Salvo com Sucesso!!");
-					txtCurso.setText(null);
+					if (txtCurso.getText().equals(null)) {
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Digite o nome do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+					}
+					else {
+						curso.setNomeCurso(txtCurso.getText());
+						curso.setStatus("Ativo");
+						
+						CursoDAO cursoDao = new CursoDAO();
+						cursoDao.Salvar(curso);
+						
+						List<Curso> lista = new ArrayList<Curso>();
+						lista = cursoDao.ListarTodos3(txtCurso.getText());
+						DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+						model.setNumRows(0);
+						for (Curso curso1 : lista) {
+							model.addRow (new Object[] {
+									curso1.getIdCurso(),
+									curso1.getNomeCurso(),
+									curso1.getStatus(),
+								});
+						} 
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
+						txtCurso.setText(null);
+					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Salvar!!. "
-							+ "\n1. Verifique se o cadastro desse já foi feito"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao fazer cadastro!!. "
+							+ "\n\n1. Verifique se o curso já foi cadastrado"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -397,7 +426,10 @@ public class Tela_CadastroCurso extends JFrame {
 					Curso curso = new Curso();
 					String status = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 2));
 					if (status.equals("Ativo")) {
-						JOptionPane.showMessageDialog(null, "O Curso Já Esta Ativo");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "O curso já está ativo!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 					}
 					else if (status.equals("Desativado")) {
 						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
@@ -408,21 +440,19 @@ public class Tela_CadastroCurso extends JFrame {
 						
 						String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
 						
-						String resposta = JOptionPane.showInputDialog(null, "====================================================="
-								+ "\nDeseja Mesmo Ativar O Curso " + nome
-								+ "\n====================================================="
-								+ "\n\n====================================================="
-								+ "\nDigite 1 Para Confirmar"
-								+ "\nDigite 2 Para Cancelar"
-								+ "\n=====================================================");
-							
-						int decisao = Integer.parseInt(resposta);
-						if (decisao == 1) {
-							
+						Object[] options = {"Salvar", "Cancelar"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
+								+ "\nDeseja mesmo ativar o curso" + nome
+								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
+						if (resposta == JOptionPane.YES_OPTION) {
 							CursoDAO cursoDao = new CursoDAO();
 							cursoDao.AtivarDesativar(curso);
 								
-							JOptionPane.showMessageDialog (null, "O Curso Já Foi Ativado");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "O curso foi ativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							
 							txtCurso.setText(null);
 							
@@ -441,17 +471,16 @@ public class Tela_CadastroCurso extends JFrame {
 									});
 							}
 						}
-						else if (decisao == 2){
-							
-						}
-						else {
-							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Ativar o Curso ou 2 Para Cancelar");
+						else if (resposta == JOptionPane.NO_OPTION) {
+						
 						}
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Ativar Curso!!. "
-							+ "\n1. Verifique Se O Curso Já Esta Ativo"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Ativar Curso!!. "
+							+ "\n\n1. Verifique se o curso já esta ativo" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -468,7 +497,10 @@ public class Tela_CadastroCurso extends JFrame {
 					Curso curso = new Curso();
 					String status = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 2));
 					if (status.equals("Desativado")) {
-						JOptionPane.showMessageDialog(null, "O Curso Já Esta Desativado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "O curso já está desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 					}
 					else if (status.equals("Ativo")) {
 						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
@@ -479,21 +511,21 @@ public class Tela_CadastroCurso extends JFrame {
 						
 						String nome = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 1));
 						
-						String resposta = JOptionPane.showInputDialog(null, "====================================================="
-								+ "\nDeseja Mesmo Desativar O Curso " + nome
-								+ "\n====================================================="
-								+ "\n\n====================================================="
-								+ "\nDigite 1 Para Confirmar"
-								+ "\nDigite 2 Para Cancelar"
-								+ "\n=====================================================");
+						Object[] options = {"Salvar", "Cancelar"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
+								+ "\nDeseja mesmo desativar o curso" + nome
+								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 							
-						int decisao = Integer.parseInt(resposta);
-						if (decisao == 1) {
+						if (resposta == JOptionPane.YES_OPTION) {
 							
 							CursoDAO cursoDao = new CursoDAO();
 							cursoDao.AtivarDesativar(curso);
 								
-							JOptionPane.showMessageDialog (null, "O Curso Já Foi Desativado");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "O curso foi desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							
 							txtCurso.setText(null);
 							
@@ -512,17 +544,16 @@ public class Tela_CadastroCurso extends JFrame {
 									});
 							}
 						}
-						else if (decisao == 2){
+						else if (resposta == JOptionPane.NO_OPTION) {
 							
-						}
-						else {
-							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Desativar o Curso ou 2 Para Cancelar");
 						}
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Desativar Curso!!. "
-							+ "\n1. Verifique Se O Curso Já Esta Desativado"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Desativar Curso!!. "
+							+ "\n\n1. Verifique se o curso já esta desativado" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -555,11 +586,15 @@ public class Tela_CadastroCurso extends JFrame {
 								curso.getStatus(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Ativos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar ativos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar ativos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -587,11 +622,15 @@ public class Tela_CadastroCurso extends JFrame {
 								curso.getStatus(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Inativos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar inativos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar inativos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
@@ -617,11 +656,15 @@ public class Tela_CadastroCurso extends JFrame {
 								curso.getStatus(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Todos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar todos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar todos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});

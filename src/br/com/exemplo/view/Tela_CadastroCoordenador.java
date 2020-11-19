@@ -241,7 +241,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(ftfCelular);
 		
 		btnSalvar = new JButton("");
-		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -296,7 +296,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnSalvar);
 		
 		btnNovo = new JButton("");
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtCodCoordenador.setText(null);
@@ -313,7 +313,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnNovo);
 		
 		btnVoltar = new JButton("");
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtControle.getText().equals("telaInicial")) {
@@ -338,7 +338,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnConsultar = new JButton("");
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -395,7 +395,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnAlterar = new JButton("");
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -443,7 +443,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 					JOptionPane.showOptionDialog(null, "Erro ao Alterar!!. "
 							+ "\n\n1. Verifique se todos os campos foram preenchidos"
 							+ "\n2. Verifique se o ID foi informado corretamente"
-							+ "\n3. Caso não saiba o ID  , realize primeiro uma consulta"
+							+ "\n3. Caso não saiba o ID, realize primeiro uma consulta"
 							+ "\n\n======================================Informações=====================================" 
 							+ "\n* O código do coordenador que é solicitado no campo login e cadastro é o mesmo usado na faculdade" 
 							+ "\n** O ID do coordenador é diferente do código do professor, se necessário realize primeiro uma consulta"
@@ -458,7 +458,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		contentPane.add(btnAlterar);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -482,7 +482,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"ID Coordenador(a)", "C\u00F3digo do(a) Coordenador(a)", "Nome", "Senha", "Email", "Celular", "Status"
+					"ID Coordenador(a)", "Cód. Coordenador(a)", "Nome", "Senha", "Email", "Celular", "Status"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
@@ -500,7 +500,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		});
 		tabCoordenador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabCoordenador.getColumnModel().getColumn(0).setPreferredWidth(120);
-		tabCoordenador.getColumnModel().getColumn(1).setPreferredWidth(180);
+		tabCoordenador.getColumnModel().getColumn(1).setPreferredWidth(140);
 		tabCoordenador.getColumnModel().getColumn(2).setPreferredWidth(200);
 		tabCoordenador.getColumnModel().getColumn(3).setPreferredWidth(100);
 		tabCoordenador.getColumnModel().getColumn(4).setPreferredWidth(120);

@@ -1402,8 +1402,8 @@ public class Tela_CadastroAula extends JFrame {
 					Object[] options = {"OK"};
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
 					JOptionPane.showOptionDialog(null, "Erro ao fazer o cadastro da aula!!. "
-							+ "\n\n1. Verifique se Todos os Campos Foram Preenchidos" 
-							+ "\n2. Caso Todos Estejam Preenchidos. Verifique se Foram Preenchidos Corretamente" 
+							+ "\n\n1. Verifique se todos os campos foram preenchidos" 
+							+ "\n2. Caso todos foram preenchidos, verifique se foram preehchidos corretamente" 
 							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
