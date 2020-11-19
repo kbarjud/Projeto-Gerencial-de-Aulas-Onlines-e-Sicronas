@@ -113,11 +113,14 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		mntmNewMenuItem = new JMenuItem("Coordenador");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "======================Coordenadores======================"
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Verificar o Cadastro do Coordenador"
-						+ "\n 2. Manter o Coordenador Ativo no Sistema ou Desativa-lo"
-						+ "\n========================================================");
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "======================Coordenadores======================"
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Verificar os coordenadores cadastrados"
+						+ "\n 2. Manter os coordenadores ativos no sistema ou desativá-los"
+						+ "\n========================================================", "Informações dos Coordenadores", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+			
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -133,10 +136,12 @@ public class Tela_ConsultarCoordenador extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
@@ -147,7 +152,6 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		mntmNewMenuItem_2 = new JMenuItem("Sair");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
@@ -201,11 +205,10 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		btnSair = new JButton("");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Saindo!!");
 				System.exit(0);
 			}
 		});
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/exit.png")));
 		btnSair.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSair.setBounds(360, 266, 60, 43);
@@ -218,7 +221,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(80, 266, 60, 43);
@@ -227,7 +230,6 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		btnAlterar = new JButton("");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_ConsultarCoordenador telaConsultarCoordenador = new Tela_ConsultarCoordenador();
 				telaConsultarCoordenador.setVisible(false);
 				dispose();
@@ -236,7 +238,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 				telaCadastroCoordenador.setVisible(true);
 			}
 		});
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar ");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(290, 266, 60, 43);
@@ -249,7 +251,10 @@ public class Tela_ConsultarCoordenador extends JFrame {
 					Coordenador coordenador = new Coordenador();
 					String status = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 0));
 					if (status.equals("Desativado")) {
-						JOptionPane.showMessageDialog(null, "O Coordenador Já Esta Desativado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "O coordenador já está desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 					}
 					else if (status.equals("Ativo")) {
 						String teste = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 1));
@@ -260,21 +265,22 @@ public class Tela_ConsultarCoordenador extends JFrame {
 						
 						String nome = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 3));
 						
-						String resposta = JOptionPane.showInputDialog(null, "====================================================="
-								+ "\nDeseja Mesmo Desativar O Coordenador " + nome
-								+ "\n====================================================="
-								+ "\n\n====================================================="
-								+ "\nDigite 1 Para Confirmar"
-								+ "\nDigite 2 Para Cancelar"
-								+ "\n=====================================================");
+						Object[] options = {"Salvar", "Cancelar"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
+								+ "\nDeseja mesmo desativar o coordenador " + nome + "?"
+								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 							
-						int decisao = Integer.parseInt(resposta);
-						if (decisao == 1) {
+						if (resposta == JOptionPane.YES_OPTION) {
 							
 							CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 							coordenadorDao.AtivarDesativar(coordenador);
 								
-							JOptionPane.showMessageDialog (null, "O Coordenador Já Foi Desativado");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "O coordenador foi desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+							
 							
 							cmbCoordenador.setSelectedIndex(0);
 							
@@ -298,21 +304,20 @@ public class Tela_ConsultarCoordenador extends JFrame {
 									});
 							}
 						}
-						else if (decisao == 2){
+						else if (resposta == JOptionPane.NO_OPTION) {
 							
-						}
-						else {
-							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Desativar o Coordenador ou 2 Para Cancelar");
 						}
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Desativar Coordenador!!. "
-							+ "\n1. Verifique Se O Coordenador Já Esta Desativado"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Desativar coordenador!!. "
+							+ "\n\n1. Verifique se o coordenador já esta desativado" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnDesativar.setToolTipText("Bot\u00E3o Desativar Coordenador");
+		btnDesativar.setToolTipText("Desativar");
 		btnDesativar.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(220, 266, 60, 43);
@@ -321,7 +326,6 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		btnVoltar = new JButton("");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Aguarde um Momento!!");
 				Tela_ConsultarCoordenador telaConsultarCoordenador = new Tela_ConsultarCoordenador();
 				telaConsultarCoordenador.setVisible(false);
 				dispose();
@@ -329,7 +333,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 				telaMenuCoordenador.setVisible(true);
 			}
 		});
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar.setBounds(10, 266, 60, 43);
@@ -346,7 +350,10 @@ public class Tela_ConsultarCoordenador extends JFrame {
 					Coordenador coordenador = new Coordenador();
 					String status = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 0));
 					if (status.equals("Ativo")) {
-						JOptionPane.showMessageDialog(null, "O Coordenador Já Esta Ativo");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "O coordenador já está ativo!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 					}
 					else if (status.equals("Desativado")) {
 						String teste = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 1));
@@ -356,22 +363,21 @@ public class Tela_ConsultarCoordenador extends JFrame {
 						coordenador.setIdCoordenador(idCoordenador);
 						
 						String nome = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 3));
+						Object[] options = {"Salvar", "Cancelar"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
+						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
+								+ "\nDeseja mesmo ativar o coordenador " + nome + "?"
+								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
-						String resposta = JOptionPane.showInputDialog(null, "====================================================="
-								+ "\nDeseja Mesmo Ativar O Coordenador " + nome
-								+ "\n====================================================="
-								+ "\n\n====================================================="
-								+ "\nDigite 1 Para Confirmar"
-								+ "\nDigite 2 Para Cancelar"
-								+ "\n=====================================================");
-							
-						int decisao = Integer.parseInt(resposta);
-						if (decisao == 1) {
+						if (resposta == JOptionPane.YES_OPTION) {
 							
 							CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 							coordenadorDao.AtivarDesativar(coordenador);
 								
-							JOptionPane.showMessageDialog (null, "O Coordenador Já Foi Ativado");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "O coordenador foi ativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+							
 							
 							cmbCoordenador.setSelectedIndex(0);
 							
@@ -395,21 +401,20 @@ public class Tela_ConsultarCoordenador extends JFrame {
 									});
 							}
 						}
-						else if (decisao == 2){
+						else if (resposta == JOptionPane.NO_OPTION) {
 							
-						}
-						else {
-							JOptionPane.showMessageDialog (null, "Resposta Inválida, Digite 1 Para Ativar o Coordenador ou 2 Para Cancelar");
 						}
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Ativar Coordenador!!. "
-							+ "\n1. Verifique Se O Coordenador Já Esta Ativo"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Ativar Coordenador!!. "
+							+ "\n\n1. Verifique se o coordenador já esta ativo" 
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnAtivar.setToolTipText("Bot\u00E3o Ativar Coordenador");
+		btnAtivar.setToolTipText("Ativar");
 		btnAtivar.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAtivar.setBounds(150, 266, 60, 43);
@@ -436,15 +441,19 @@ public class Tela_ConsultarCoordenador extends JFrame {
 								coordenador1.getCelular(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Todos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar todos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar todos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos os Coordenadores");
+		btnListarTodos.setToolTipText("");
 		btnListarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarTodos.setBounds(291, 81, 123, 23);
 		contentPane.add(btnListarTodos);
@@ -505,19 +514,25 @@ public class Tela_ConsultarCoordenador extends JFrame {
 									coordenador1.getCelular(),
 								});
 						} 
-						JOptionPane.showMessageDialog (null, "Consulta Realizada com Sucesso!!");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
-						JOptionPane.showMessageDialog (null, "Coordenador Não Cadastrado");
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Coordenador não cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar Coordenador!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar Coordenador!!. "
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
 		btnConsultar.setIcon(new ImageIcon(Tela_ConsultarCoordenador.class.getResource("/br/com/exemplo/view/images/search.png")));
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(360, 14, 60, 43);
 		contentPane.add(btnConsultar);
@@ -549,15 +564,19 @@ public class Tela_ConsultarCoordenador extends JFrame {
 								coordenador1.getCelular(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Ativos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar ativos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar ativos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnListarCoordenadoresAtivos.setToolTipText("Bot\u00E3o Listar Coordenadores Ativos");
+		btnListarCoordenadoresAtivos.setToolTipText("");
 		btnListarCoordenadoresAtivos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarCoordenadoresAtivos.setBounds(15, 81, 123, 23);
 		contentPane.add(btnListarCoordenadoresAtivos);
@@ -585,15 +604,19 @@ public class Tela_ConsultarCoordenador extends JFrame {
 								coordenador1.getCelular(),
 							});
 					}
-					JOptionPane.showMessageDialog(null, "Listar Inativos Com Sucesso");
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					JOptionPane.showOptionDialog(null, "Listar inativos com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Erro ao Listar Todos os Coordenadores Cadastrados no Banco!!. "
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao listar inativos!!. "
+						+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnListarDesativados.setToolTipText("Bot\u00E3o Listar Coordenadores Inativos");
+		btnListarDesativados.setToolTipText("");
 		btnListarDesativados.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarDesativados.setBounds(153, 81, 123, 23);
 		contentPane.add(btnListarDesativados);

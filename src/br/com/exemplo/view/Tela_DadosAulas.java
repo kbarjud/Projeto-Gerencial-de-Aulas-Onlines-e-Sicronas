@@ -143,21 +143,23 @@ public class Tela_DadosAulas extends JFrame {
 		mntmNewMenuItem = new JMenuItem("Consultas");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "=====================Dados e Relatorios====================="
-						+ "\n Nesta Área Você Poderá: "
-						+ "\n 1. Consultar os Cadastros das Aulas Com Base Nos Seguintes Filtros:"
-						+ "\n * Curso"
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "=====================Dados e Relatorios====================="
+						+ "\n Nesta área você poderá: "
+						+ "\n\n 1. Consultar os cadastros das aulas com base nos seguintes filtros:"
+						+ "\n\n * Curso"
 						+ "\n * Disciplina"
 						+ "\n * Turma"
 						+ "\n * Professor"
 						+ "\n * Periodo"
-						+ "\n * Semestre Letivo"
-						+ "\n * Data da Aula ou Intervalo de Datas"
-						+ "\n * Aula Realizada"
-						+ "\n * Quantidade de Alunos"
-						+ "\n * Atividade Solicitada"
-						+ "\n\n 2. Você Poderá Também Gerar Seu PDF e Gráfico"
-						+ "\n==========================================================");
+						+ "\n * Semestre letivo"
+						+ "\n * Data da aula ou intervalo de datas"
+						+ "\n * Aula realizada"
+						+ "\n * Quantidade de alunos"
+						+ "\n * Atividade solicitada"
+						+ "\n\n 2. Você poderá também gerar seu PDF e Gráfico"
+						+ "\n==========================================================", "Informações", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -173,10 +175,13 @@ public class Tela_DadosAulas extends JFrame {
 				String osVersion = System.getProperty("os.version");
 				String javaI = System.getProperty("java.version");
 				String javaRE = System.getProperty("java.runtime.version");
-				JOptionPane.showMessageDialog(null, "====================Sobre o Sistema===================="
+				Object[] options = {"OK"};
+				ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/information.png")));
+				JOptionPane.showOptionDialog(null, "====================Sobre o Sistema===================="
 						+ "\n Instalado: " + osName + " e Versão: " + osVersion
 						+ "\n Versão do Java: " + javaI + " e Versão da Runtime: " + javaRE
-						+ "\n=====================================================");
+						+ "\n=====================================================", "Informações do Sistema", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+			
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
@@ -495,7 +500,7 @@ public class Tela_DadosAulas extends JFrame {
 				((DefaultTableModel) tabDadosAulas.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(126, 497, 60, 43);
@@ -511,21 +516,21 @@ public class Tela_DadosAulas extends JFrame {
 				telaMenuCoordenador.setVisible(true);
 			}
 		});
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/voltar.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVoltar.setBounds(33, 497, 60, 43);
 		contentPane.add(btnVoltar);
 		
 		btnPDF = new JButton("");
-		btnPDF.setToolTipText("Bot\u00E3o PDF");
+		btnPDF.setToolTipText("PDF");
 		btnPDF.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/pdf-2.png")));
 		btnPDF.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnPDF.setBounds(312, 497, 60, 43);
 		contentPane.add(btnPDF);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -795,6 +800,9 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getIdAula(),
 										});
 								} 
+								Object[] options = {"OK"};
+								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 								
 								dteDataAula2.setDate(null);
 								btnSimAula.setSelected(false);
@@ -805,11 +813,17 @@ public class Tela_DadosAulas extends JFrame {
 								btnNaoAtividade.setSelected(false);
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Erro ao consultar aula", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+								
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao pegar o ID do Professor");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao buscar ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+							
 						}
 					}
 					else if (opcao.equals("Curso")) {
@@ -855,6 +869,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -872,7 +889,10 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+							
 						}
 					}
 					else if (opcao.equals("Curso e Periodo")) {
@@ -918,9 +938,15 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
+							
 						}
 					}
 					else if (opcao.equals("Curso e Disciplina")) {
@@ -966,6 +992,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbTurma.setSelectedIndex(0);
 							cmbProfessor.setSelectedIndex(0);
@@ -982,7 +1011,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Curso, Disciplina e Periodo")) {
@@ -1028,6 +1059,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbTurma.setSelectedIndex(0);
 							cmbProfessor.setSelectedIndex(0);
@@ -1043,7 +1077,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Turma")) {
@@ -1089,6 +1125,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
@@ -1106,7 +1145,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Professor")) {
@@ -1159,6 +1200,9 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getIdAula(),
 										});
 									} 
+								Object[] options = {"OK"};
+								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 								
 								cmbCurso.setSelectedIndex(0);
 								cmbDisciplina.setSelectedIndex(0);
@@ -1176,11 +1220,15 @@ public class Tela_DadosAulas extends JFrame {
 								btnNaoAtividade.setSelected(false);
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+								Object[] options1 = {"OK"};
+								ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							}
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao pegar o ID do Professor");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao buscar ID do professor!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Periodo")) {
@@ -1226,6 +1274,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
@@ -1243,7 +1294,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Semestre")) {
@@ -1289,6 +1342,9 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 									});
 								} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
@@ -1306,7 +1362,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Erro ao consultar aula");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Erro ao consultar aula!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Data")) {
@@ -1355,6 +1413,10 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getIdAula(),
 									});
 								} 
+								Object[] options = {"OK"};
+								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+								
 								cmbCurso.setSelectedIndex(0);
 								cmbDisciplina.setSelectedIndex(0);
 								cmbTurma.setSelectedIndex(0);
@@ -1408,6 +1470,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1455,6 +1521,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1502,6 +1572,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1518,7 +1592,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Escolha se teve aula sim ou não");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Escolha se teve aula ou não", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Atividade Solicitada")) {
@@ -1554,6 +1630,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1601,6 +1681,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1617,7 +1701,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnSimAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Escolha se teve atividade solicitada sim ou não");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Escolha se foi solicitada atividade ou não", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Quantidade de Alunos")) {
@@ -1654,6 +1740,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1700,6 +1790,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1746,6 +1840,10 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getIdAula(),
 								});
 							}
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
 							cmbCurso.setSelectedIndex(0);
 							cmbDisciplina.setSelectedIndex(0);
 							cmbTurma.setSelectedIndex(0);
@@ -1761,7 +1859,9 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "Digite a quantidade de alunos e selecione um dos parametros de busca: igual a, maior que, menor que");
+							Object[] options1 = {"OK"};
+							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Digite a quantidade de alunos e selecione um dos parâmetros: igual a, maior que, menor que!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 						}
 					}
 					else if (opcao.equals("Listar Todas as Aulas")) {
@@ -1794,6 +1894,10 @@ public class Tela_DadosAulas extends JFrame {
 									dadosAula1.getIdAula(),
 								});
 							} 
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 						cmbCurso.setSelectedIndex(0);
 						cmbDisciplina.setSelectedIndex(0);
 						cmbTurma.setSelectedIndex(0);
@@ -1811,23 +1915,27 @@ public class Tela_DadosAulas extends JFrame {
 						btnNaoAtividade.setSelected(false);
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "Escolha uma opcao válida");
+						Object[] options1 = {"OK"};
+						ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Escolha uma opção valida!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao Consultar!!. "
-							+ "\nVerifique os Dados Preenchidos e Tente Novamente"
-							+ "\n\nErro: " + e1);
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Consultar!!."
+							+ "\n\n Verifique os dados preenchidos e tente novamente"
+							+ "\n\nErro: " + e1, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 				}
 			}
 		});
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(219, 497, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnGrafico = new JButton("");
-		btnGrafico.setToolTipText("Bot\u00E3o Gr\u00E1fico");
+		btnGrafico.setToolTipText("Gr\u00E1fico");
 		btnGrafico.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/positive-dynamic--v1.png")));
 		btnGrafico.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnGrafico.setBounds(405, 497, 60, 43);

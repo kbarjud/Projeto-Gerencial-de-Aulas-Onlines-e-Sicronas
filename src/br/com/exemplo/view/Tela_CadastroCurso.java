@@ -212,14 +212,14 @@ public class Tela_CadastroCurso extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(339, 46, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnVoltar = new JButton("");
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tela_CadastroCurso telaCadastroCurso = new Tela_CadastroCurso();
@@ -235,7 +235,7 @@ public class Tela_CadastroCurso extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -259,7 +259,7 @@ public class Tela_CadastroCurso extends JFrame {
 					if (nome.equals(txtCurso.getText())) {
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-						JOptionPane.showOptionDialog(null, "Por favor digite um nome diferente do que esta cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						JOptionPane.showOptionDialog(null, "Por favor, digite um nome diferente do que esta cadastrado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					}
 					else {
 						String teste = String.valueOf(tabCurso.getValueAt(tabCurso.getSelectedRow(), 0));
@@ -297,7 +297,7 @@ public class Tela_CadastroCurso extends JFrame {
 				}
 			}
 		});
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(256, 368, 60, 43);
@@ -366,7 +366,7 @@ public class Tela_CadastroCurso extends JFrame {
 			}
 		});
 		btnSalvar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/save.png")));
-		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBounds(210, 101, 60, 43);
 		contentPane.add(btnSalvar);
@@ -414,7 +414,7 @@ public class Tela_CadastroCurso extends JFrame {
 			}
 		});
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/new.png")));
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(140, 101, 60, 43);
 		contentPane.add(btnNovo);
@@ -443,7 +443,7 @@ public class Tela_CadastroCurso extends JFrame {
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
 						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar o curso" + nome
+								+ "\nDeseja mesmo ativar o curso" + nome + "?"
 								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
@@ -485,7 +485,7 @@ public class Tela_CadastroCurso extends JFrame {
 			}
 		});
 		btnAtivar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
-		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
+		btnAtivar.setToolTipText("Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAtivar.setBounds(98, 368, 60, 43);
 		contentPane.add(btnAtivar);
@@ -514,7 +514,7 @@ public class Tela_CadastroCurso extends JFrame {
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
 						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo desativar o curso" + nome
+								+ "\nDeseja mesmo desativar o curso" + nome + "?"
 								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
@@ -558,7 +558,7 @@ public class Tela_CadastroCurso extends JFrame {
 			}
 		});
 		btnDesativar.setIcon(new ImageIcon(Tela_CadastroCurso.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
-		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
+		btnDesativar.setToolTipText("Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(177, 368, 60, 43);
 		contentPane.add(btnDesativar);
@@ -598,7 +598,7 @@ public class Tela_CadastroCurso extends JFrame {
 				}
 			}
 		});
-		btnListarCoordenadoresAtivos.setToolTipText("Bot\u00E3o Listar Cursos Ativos");
+		btnListarCoordenadoresAtivos.setToolTipText("");
 		btnListarCoordenadoresAtivos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarCoordenadoresAtivos.setBounds(10, 168, 123, 23);
 		contentPane.add(btnListarCoordenadoresAtivos);
@@ -634,7 +634,7 @@ public class Tela_CadastroCurso extends JFrame {
 				}
 			}
 		});
-		btnListarDesativados.setToolTipText("Bot\u00E3o Listar Cursos Inativos");
+		btnListarDesativados.setToolTipText("");
 		btnListarDesativados.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarDesativados.setBounds(143, 168, 123, 23);
 		contentPane.add(btnListarDesativados);
@@ -668,7 +668,7 @@ public class Tela_CadastroCurso extends JFrame {
 				}
 			}
 		});
-		btnListarTodos.setToolTipText("Bot\u00E3o Listar Todos os Cursos");
+		btnListarTodos.setToolTipText("");
 		btnListarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnListarTodos.setBounds(276, 168, 123, 23);
 		contentPane.add(btnListarTodos);

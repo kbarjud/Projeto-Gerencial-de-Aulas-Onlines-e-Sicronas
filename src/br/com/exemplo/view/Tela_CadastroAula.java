@@ -130,7 +130,6 @@ public class Tela_CadastroAula extends JFrame {
 	private JButton btnSalvar2;
 	private JButton btnVoltar3;
 	private JTextField txtQtdPessoas;
-	private JTextField txtDataAula;
 	private JTextField txtDataAtividade;
 	private JTextField txtIdAula;
 	private JScrollPane scrJustificativa;
@@ -253,7 +252,6 @@ public class Tela_CadastroAula extends JFrame {
 				txtJustificativa.setVisible(false);
 				btnSalvar.setVisible(false);
 				dteDataAula.setVisible(true);
-				txtDataAula.setVisible(false);
 				dteDataAtividade.setVisible(true);
 				txtDataAtividade.setVisible(false);
 				scrJustificativa.setVisible(false);
@@ -354,6 +352,7 @@ public class Tela_CadastroAula extends JFrame {
 							txtObs.setText (dadosAula.getObs());
 							
 							if (dadosAula.isAtividadeSolicitada() == true) {
+								dteDataAtividade.setEnabled(true);
 								btnSimAtividade.setSelected(true);
 								//dteDataAtividade.setVisible(false);
 								txtDataAtividade.setVisible(false);
@@ -539,7 +538,6 @@ public class Tela_CadastroAula extends JFrame {
 												cmbPeriodo.setSelectedIndex(0);
 												cmbSemestreLetivo.setSelectedIndex(0);
 												dteDataAula.setDate(null);
-												txtDataAula.setText(null);
 												btnSimAula.setSelected(false);
 												btnNaoAula.setSelected(false);
 												txtJustificativa.setText(null);
@@ -561,7 +559,6 @@ public class Tela_CadastroAula extends JFrame {
 												txtJustificativa.setVisible(false);
 												btnSalvar.setVisible(false);
 												scrJustificativa.setVisible(false);
-												txtDataAula.setVisible(false);
 												dteDataAula.setVisible(true);
 											}
 											else if (resposta == JOptionPane.NO_OPTION) {
@@ -678,7 +675,6 @@ public class Tela_CadastroAula extends JFrame {
 												cmbPeriodo.setSelectedIndex(0);
 												cmbSemestreLetivo.setSelectedIndex(0);
 												dteDataAula.setDate(null);
-												txtDataAula.setText(null);
 												btnSimAula.setSelected(false);
 												btnNaoAula.setSelected(false);
 												txtJustificativa.setText(null);
@@ -700,7 +696,6 @@ public class Tela_CadastroAula extends JFrame {
 												txtJustificativa.setVisible(false);
 												btnSalvar.setVisible(false);
 												scrJustificativa.setVisible(false);
-												txtDataAula.setVisible(false);
 												dteDataAula.setVisible(true);
 											}
 											else if (resposta == JOptionPane.NO_OPTION) {
@@ -808,7 +803,6 @@ public class Tela_CadastroAula extends JFrame {
 											cmbPeriodo.setSelectedIndex(0);
 											cmbSemestreLetivo.setSelectedIndex(0);
 											dteDataAula.setDate(null);
-											txtDataAula.setText(null);
 											btnSimAula.setSelected(false);
 											btnNaoAula.setSelected(false);
 											txtJustificativa.setText(null);
@@ -830,7 +824,6 @@ public class Tela_CadastroAula extends JFrame {
 											txtJustificativa.setVisible(false);
 											btnSalvar.setVisible(false);
 											scrJustificativa.setVisible(false);
-											txtDataAula.setVisible(false);
 											dteDataAula.setVisible(true);
 										}
 										else if (resposta == JOptionPane.NO_OPTION) {
@@ -1428,13 +1421,6 @@ public class Tela_CadastroAula extends JFrame {
 		txtCodProfessor.setBounds(10, 242, 119, 20);
 		curso.add(txtCodProfessor);
 		
-		txtDataAula = new JTextField();
-		txtDataAula.setBounds(346, 109, 108, 23);
-		curso.add(txtDataAula);
-		txtDataAula.setVisible(false);
-		txtDataAula.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtDataAula.setColumns(10);
-		
 		scrJustificativa = new JScrollPane();
 		scrJustificativa.setVisible(false);
 		scrJustificativa.setBounds(128, 179, 326, 52);
@@ -1829,7 +1815,6 @@ public class Tela_CadastroAula extends JFrame {
 											txtDescricao.setText(null);
 											lblJustificativa.setVisible(false);
 											txtJustificativa.setVisible(false);
-											txtDataAula.setVisible(false);
 											btnSalvar.setVisible(false);
 											scrJustificativa.setVisible(false);
 										}
