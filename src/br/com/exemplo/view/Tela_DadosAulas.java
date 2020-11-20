@@ -1,61 +1,70 @@
 package br.com.exemplo.view;
 
-import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.styledxmlparser.jsoup.nodes.Element;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 import br.com.exemplo.dao.CursoDAO;
 import br.com.exemplo.dao.CursoDisciplinaDAO;
 import br.com.exemplo.dao.DadosAulaDAO;
 import br.com.exemplo.dao.ProfessoresDAO;
-import br.com.exemplo.dao.SemestreLetivoDAO;
 import br.com.exemplo.dao.TurmaDAO;
 import br.com.exemplo.model.Curso;
 import br.com.exemplo.model.CursoDisciplina;
 import br.com.exemplo.model.DadosAula;
 import br.com.exemplo.model.Professores;
-import br.com.exemplo.model.SemestreLetivo;
 import br.com.exemplo.model.Turma;
-
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
-import java.awt.Color;
-import javax.swing.JList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JRadioButton;
-import java.awt.Toolkit;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.InputEvent;
-import javax.swing.AbstractListModel;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.AncestorEvent;
 
 public class Tela_DadosAulas extends JFrame {
 
@@ -200,7 +209,7 @@ public class Tela_DadosAulas extends JFrame {
 		mntmNewMenuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		mnNewMenu_1.add(mntmNewMenuItem_3);
 		contentPane = new JPanel();
-		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
+		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new java.awt.Color(204, 102, 102), new java.awt.Color(204, 102, 102), new java.awt.Color(204, 102, 102), new java.awt.Color(204, 102, 102)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -525,6 +534,71 @@ public class Tela_DadosAulas extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		btnPDF = new JButton("");
+		btnPDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Document document = new Document();
+					
+					Date dataAtual = new Date();
+					SimpleDateFormat dataHora = new SimpleDateFormat("dd-MM-yyyy HH.mm.ss");
+					String dataFormatada = dataHora.format(dataAtual);
+					dataFormatada.toString();
+					
+					String nomeDocumento = "PDF " + txtConsulta.getText() + " " + dataFormatada;
+					PdfWriter.getInstance(document, new FileOutputStream("PDF\\" + nomeDocumento + ".pdf"));
+					document.open();
+
+					document.add(new Paragraph ("PDF " + txtConsulta.getText() + "\n\n"));
+					 for (int i = 0; i < tabDadosAulas.getModel().getRowCount(); i++) {
+						 	document.add(new Paragraph ("----------------------------------------------------------------------------------------------------------------------------------\n\n"));
+							document.add(new Paragraph ("Curso: " + tabDadosAulas.getValueAt(i, 0) + "\n"));
+						 	document.add(new Paragraph ("Disciplina: " + tabDadosAulas.getValueAt(i, 1) + "\n"));
+						 	document.add(new Paragraph ("Turma: " + tabDadosAulas.getValueAt(i, 2) + "\n"));
+						 	document.add(new Paragraph ("Periodo: " + tabDadosAulas.getValueAt(i, 3) + "\n"));
+						 	document.add(new Paragraph ("Semestre: " + tabDadosAulas.getValueAt(i, 4) + "\n"));
+						 	document.add(new Paragraph ("Data Aula: " + tabDadosAulas.getValueAt(i, 5) + "\n"));
+						 	document.add(new Paragraph ("Teve Aula? " + tabDadosAulas.getValueAt(i, 6) + "\n"));
+						 	document.add(new Paragraph ("Justificativa: " + tabDadosAulas.getValueAt(i, 7) + "\n"));
+						 	document.add(new Paragraph ("Horario de Inicio: " + tabDadosAulas.getValueAt(i, 8) + "\n"));
+						 	document.add(new Paragraph ("Horario de Fim: " + tabDadosAulas.getValueAt(i, 9) + "\n"));
+						 	document.add(new Paragraph ("Assunto: " + tabDadosAulas.getValueAt(i, 10) + "\n"));
+						 	document.add(new Paragraph ("Quantidade de Alunos: " + tabDadosAulas.getValueAt(i, 11) + "\n"));
+						 	document.add(new Paragraph ("Materiais Disponibilizados: " + tabDadosAulas.getValueAt(i, 12) + "\n"));
+						 	document.add(new Paragraph ("Link Sessão: " + tabDadosAulas.getValueAt(i, 13) + "\n"));
+						 	document.add(new Paragraph ("Link Gravação: " + tabDadosAulas.getValueAt(i, 14) + "\n"));
+						 	document.add(new Paragraph ("OBS: " + tabDadosAulas.getValueAt(i, 15) + "\n"));
+						 	
+						 	if (tabDadosAulas.getValueAt(i, 6).equals("Não") && tabDadosAulas.getValueAt(i, 16).equals("Não")) {
+								String atividadeSolicitada = "--------------------";
+								document.add(new Paragraph ("Atividade Solicitada? " + atividadeSolicitada + "\n"));
+							}
+						 	else if (tabDadosAulas.getValueAt(i, 6).equals("Sim") && tabDadosAulas.getValueAt(i, 16).equals("Não")) {
+						 		document.add(new Paragraph ("Atividade Solicitada? " + tabDadosAulas.getValueAt(i, 16) + "\n"));
+						 	}
+						 	else if (tabDadosAulas.getValueAt(i, 6).equals("Sim") && tabDadosAulas.getValueAt(i, 16).equals("Sim")) {
+						 		document.add(new Paragraph ("Atividade Solicitada? " + tabDadosAulas.getValueAt(i, 16) + "\n"));
+						 	}
+						 	document.add(new Paragraph ("Data Entrega: " + tabDadosAulas.getValueAt(i, 17) + "\n"));
+						 	document.add(new Paragraph ("Quantidade de Pessoas: " + tabDadosAulas.getValueAt(i, 18) + "\n"));
+						 	document.add(new Paragraph ("Descrição: " + tabDadosAulas.getValueAt(i, 19) + "\n\n"));		
+					 }
+					 document.close();
+					 Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/pdf-2.png")));
+						JOptionPane.showOptionDialog(null, "PDF Salvo com Sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
+				     Desktop.getDesktop().open(new File ("PDF\\" + nomeDocumento + ".pdf"));
+					
+				} catch (Exception e) {
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Gerar PDF!. "
+							+ "\n\nErro: " + e, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				} finally {
+					
+				}
+			}
+		});
 		btnPDF.setToolTipText("PDF");
 		btnPDF.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/pdf-2.png")));
 		btnPDF.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -704,7 +778,7 @@ public class Tela_DadosAulas extends JFrame {
 		lblNome_6 = new JLabel("Atividade Solicitada?");
 		lblNome_6.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome_6.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblNome_6.setBounds(168, 220, 143, 21);
+		lblNome_6.setBounds(167, 220, 143, 21);
 		contentPane.add(lblNome_6);
 		
 		btnSimAtividade = new JRadioButton("Sim");
@@ -740,13 +814,15 @@ public class Tela_DadosAulas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Object[] itens = {"Aula Especifica", "Listar Todas as Aulas", "Curso", "Curso e Periodo", "Curso e Disciplina", "Curso, Disciplina e Periodo", "Turma", "Professor", "Periodo", "Semestre", "Data", "Aula Realizada", "Atividade Solicitada", "Quantidade de Alunos"};
-					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Dados da Aula", JOptionPane.INFORMATION_MESSAGE, null, itens, itens[0]);
+					ImageIcon icon2 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Dados da Aula", JOptionPane.INFORMATION_MESSAGE, icon2, itens, itens[0]);
 					String opcao = selectedValue.toString();
 					
 					DadosAula dadosAula = new DadosAula();
 					DadosAulaDAO dadosAulaDao = new DadosAulaDAO();
 					
 					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat formatarData2 = new SimpleDateFormat("dd/MM/yyyy");
 					String data1, data2;
 					
 					if (opcao.equals("Aula Especifica")) {
@@ -760,8 +836,8 @@ public class Tela_DadosAulas extends JFrame {
 						String semestreLetivo = cmbSemestreLetivo.getSelectedItem().toString();
 						String data = cmbData.getSelectedItem().toString();
 						data1 = formatarData.format(dteDataAula.getDate());
-						data1.toString();
-						String dataAula1 = data1;
+						//data1.toString();
+						data2 = formatarData2.format(dteDataAula.getDate());
 						
 						Professores professores = new Professores();
 						ProfessoresDAO professoresDao = new ProfessoresDAO();
@@ -770,8 +846,9 @@ public class Tela_DadosAulas extends JFrame {
 						if (nomeProfessor.equals(professores.getNome())) {
 							idProfessor = professores.getIdProfessor();
 							
-							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, dataAula1, idProfessor);
-							if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina()) && turmaCod.equals(dadosAula.getTurma()) && periodo.equals(dadosAula.getPeriodo()) && semestreLetivo.equals(dadosAula.getSemestreLetivo()) && dataAula1.equals(dadosAula.getDataAula()) && idProfessor == dadosAula.getIdProfessor()) {
+							dadosAula = dadosAulaDao.Consultar2(nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, data1, idProfessor);
+							
+							if (nomeCurso.equals(dadosAula.getCurso()) && disciplina.equals(dadosAula.getDisciplina()) && turmaCod.equals(dadosAula.getTurma()) && periodo.equals(dadosAula.getPeriodo()) && semestreLetivo.equals(dadosAula.getSemestreLetivo()) && data2.equals(dadosAula.getDataAula()) && idProfessor == dadosAula.getIdProfessor()) {
 								int idAula = dadosAula.getIdAula();
 								
 								List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -787,33 +864,26 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getSemestreLetivo(),
 											dadosAula1.getDataAula(),
 											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-											dadosAula1.getJustificativa(),
-											dadosAula1.getHorarioInicio(),
-											dadosAula1.getHorarioTermino(),
-											dadosAula1.getAssunto(),
-											dadosAula1.getQtdAlunos(),
-											dadosAula1.getMateriaisDisponibilizados(),
-											dadosAula1.getLinkSessao(),
-											dadosAula1.getLinkGravacao(),
-											dadosAula1.getObs(),
+											dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-											dadosAula1.getDataEntrega(),
-											dadosAula1.getQtdPessoas(),
-											dadosAula1.getDescricao(),
+											dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 											dadosAula1.getIdAula(),
-										});
+									});
 								} 
 								Object[] options = {"OK"};
 								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 								
-								dteDataAula2.setDate(null);
-								btnSimAula.setSelected(false);
-								btnNaoAula.setSelected(false);
-								cmbAlunos.setSelectedIndex(0);
-								txtQtdAluno.setText(null);
-								btnSimAtividade.setSelected(false);
-								btnNaoAtividade.setSelected(false);
 							}
 							else {
 								Object[] options1 = {"OK"};
@@ -857,40 +927,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
+						
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -927,22 +983,22 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
@@ -982,39 +1038,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1050,38 +1093,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1117,40 +1148,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1193,40 +1210,26 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getSemestreLetivo(),
 											dadosAula1.getDataAula(),
 											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-											dadosAula1.getJustificativa(),
-											dadosAula1.getHorarioInicio(),
-											dadosAula1.getHorarioTermino(),
-											dadosAula1.getAssunto(),
-											dadosAula1.getQtdAlunos(),
-											dadosAula1.getMateriaisDisponibilizados(),
-											dadosAula1.getLinkSessao(),
-											dadosAula1.getLinkGravacao(),
-											dadosAula1.getObs(),
+											dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-											dadosAula1.getDataEntrega(),
-											dadosAula1.getQtdPessoas(),
-											dadosAula1.getDescricao(),
+											dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 											dadosAula1.getIdAula(),
-										});
-									} 
+									});
+								} 
 								Object[] options = {"OK"};
 								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 								
-								cmbCurso.setSelectedIndex(0);
-								cmbDisciplina.setSelectedIndex(0);
-								cmbTurma.setSelectedIndex(0);
-								cmbPeriodo.setSelectedIndex(0);
-								cmbSemestreLetivo.setSelectedIndex(0);
-								cmbData.setSelectedIndex(0);
-								dteDataAula.setDate(null);
-								dteDataAula2.setDate(null);
-								btnSimAula.setSelected(false);
-								btnNaoAula.setSelected(false);
-								cmbAlunos.setSelectedIndex(0);
-								txtQtdAluno.setText(null);
-								btnSimAtividade.setSelected(false);
-								btnNaoAtividade.setSelected(false);
 							}
 							else {
 								Object[] options1 = {"OK"};
@@ -1268,40 +1271,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1337,40 +1326,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
-									});
-								} 
+								});
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1410,19 +1385,19 @@ public class Tela_DadosAulas extends JFrame {
 											dadosAula1.getSemestreLetivo(),
 											dadosAula1.getDataAula(),
 											dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-											dadosAula1.getJustificativa(),
-											dadosAula1.getHorarioInicio(),
-											dadosAula1.getHorarioTermino(),
-											dadosAula1.getAssunto(),
-											dadosAula1.getQtdAlunos(),
-											dadosAula1.getMateriaisDisponibilizados(),
-											dadosAula1.getLinkSessao(),
-											dadosAula1.getLinkGravacao(),
-											dadosAula1.getObs(),
+											dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+											dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+											dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+											dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+											dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+											dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+											dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+											dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+											dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 											dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-											dadosAula1.getDataEntrega(),
-											dadosAula1.getQtdPessoas(),
-											dadosAula1.getDescricao(),
+											dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+											dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+											dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 											dadosAula1.getIdAula(),
 									});
 								} 
@@ -1430,19 +1405,6 @@ public class Tela_DadosAulas extends JFrame {
 								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 								JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 								
-								cmbCurso.setSelectedIndex(0);
-								cmbDisciplina.setSelectedIndex(0);
-								cmbTurma.setSelectedIndex(0);
-								cmbProfessor.setSelectedIndex(0);
-								cmbPeriodo.setSelectedIndex(0);
-								cmbSemestreLetivo.setSelectedIndex(0);
-								dteDataAula2.setDate(null);
-								btnSimAula.setSelected(false);
-								btnNaoAula.setSelected(false);
-								cmbAlunos.setSelectedIndex(0);
-								txtQtdAluno.setText(null);
-								btnSimAtividade.setSelected(false);
-								btnNaoAtividade.setSelected(false);
 							}
 						}
 						else if (cmbData.getSelectedItem().toString().equals("Intervalo")) {
@@ -1451,7 +1413,7 @@ public class Tela_DadosAulas extends JFrame {
 							//data1.toString();
 							data2 = formatarData.format(dteDataAula2.getDate());
 							//data2.toString();
-							JOptionPane.showMessageDialog(null, dteDataAula2.getDate() + " | " + dteDataAula.getDate() + " | " + data1 + " | " + data2);
+							//JOptionPane.showMessageDialog(null, dteDataAula2.getDate() + " | " + dteDataAula.getDate() + " | " + data1 + " | " + data2);
 							String dataAula1 = data1;
 							String dataAula2 = data2;
 							
@@ -1468,38 +1430,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 					}
 					else if (opcao.equals("Aula Realizada")) {
@@ -1521,40 +1471,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else if (btnNaoAula.isSelected()) {
 							txtObs.setText("Não Aula");
@@ -1573,40 +1509,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1633,40 +1555,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnNaoAtividade.setSelected(false);
 						}
 						else if (btnNaoAtividade.isSelected()) {
 							txtObs.setText("Não Atividade");
@@ -1685,40 +1593,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							cmbAlunos.setSelectedIndex(0);
-							txtQtdAluno.setText(null);
-							btnSimAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1746,39 +1640,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else if (cmbAlunos.getSelectedItem().toString().equals("Maior que")) {
 							txtObs.setText("Maior que");
@@ -1797,39 +1678,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else if (cmbAlunos.getSelectedItem().toString().equals("Menor que")) {
 							txtObs.setText("Menor que");
@@ -1848,39 +1716,26 @@ public class Tela_DadosAulas extends JFrame {
 										dadosAula1.getSemestreLetivo(),
 										dadosAula1.getDataAula(),
 										dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-										dadosAula1.getJustificativa(),
-										dadosAula1.getHorarioInicio(),
-										dadosAula1.getHorarioTermino(),
-										dadosAula1.getAssunto(),
-										dadosAula1.getQtdAlunos(),
-										dadosAula1.getMateriaisDisponibilizados(),
-										dadosAula1.getLinkSessao(),
-										dadosAula1.getLinkGravacao(),
-										dadosAula1.getObs(),
+										dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+										dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+										dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+										dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+										dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+										dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+										dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+										dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+										dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 										dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-										dadosAula1.getDataEntrega(),
-										dadosAula1.getQtdPessoas(),
-										dadosAula1.getDescricao(),
+										dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+										dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+										dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 										dadosAula1.getIdAula(),
 								});
-							}
+							} 
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							cmbCurso.setSelectedIndex(0);
-							cmbDisciplina.setSelectedIndex(0);
-							cmbTurma.setSelectedIndex(0);
-							cmbProfessor.setSelectedIndex(0);
-							cmbPeriodo.setSelectedIndex(0);
-							cmbSemestreLetivo.setSelectedIndex(0);
-							cmbData.setSelectedIndex(0);
-							dteDataAula.setDate(null);
-							dteDataAula2.setDate(null);
-							btnSimAula.setSelected(false);
-							btnNaoAula.setSelected(false);
-							btnSimAtividade.setSelected(false);
-							btnNaoAtividade.setSelected(false);
 						}
 						else {
 							Object[] options1 = {"OK"};
@@ -1906,41 +1761,26 @@ public class Tela_DadosAulas extends JFrame {
 									dadosAula1.getSemestreLetivo(),
 									dadosAula1.getDataAula(),
 									dadosAula1.isTeveAula() == false ? "Não" : "Sim",
-									dadosAula1.getJustificativa(),
-									dadosAula1.getHorarioInicio(),
-									dadosAula1.getHorarioTermino(),
-									dadosAula1.getAssunto(),
-									dadosAula1.getQtdAlunos(),
-									dadosAula1.getMateriaisDisponibilizados(),
-									dadosAula1.getLinkSessao(),
-									dadosAula1.getLinkGravacao(),
-									dadosAula1.getObs(),
+									dadosAula1.getJustificativa() == null ? "--------------------" : dadosAula1.getJustificativa(),
+									dadosAula1.getHorarioInicio() == null ? "--------------------" : dadosAula1.getHorarioInicio(),
+									dadosAula1.getHorarioTermino() == null ? "--------------------" : dadosAula1.getHorarioTermino(),
+									dadosAula1.getAssunto() == null ? "--------------------" : dadosAula1.getAssunto(),
+									dadosAula1.getQtdAlunos() == 0 ? "--------------------" : dadosAula1.getQtdAlunos(),
+									dadosAula1.getMateriaisDisponibilizados()== null ? "--------------------" : dadosAula1.getMateriaisDisponibilizados(),
+									dadosAula1.getLinkSessao() == null ? "--------------------" : dadosAula1.getLinkSessao(),
+									dadosAula1.getLinkGravacao() == null ? "--------------------" : dadosAula1.getLinkGravacao(),
+									dadosAula1.getObs() == null ? "--------------------" : dadosAula1.getObs(),
 									dadosAula1.isAtividadeSolicitada() == false ? "Não" : "Sim",
-									dadosAula1.getDataEntrega(),
-									dadosAula1.getQtdPessoas(),
-									dadosAula1.getDescricao(),
+									dadosAula1.getDataEntrega() == null ? "--------------------" : dadosAula1.getDataEntrega(),
+									dadosAula1.getQtdPessoas() == null ? "--------------------" : dadosAula1.getQtdPessoas(),
+									dadosAula1.getDescricao() == null ? "--------------------" : dadosAula1.getDescricao(),
 									dadosAula1.getIdAula(),
-								});
-							} 
+							});
+						} 
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 						JOptionPane.showOptionDialog(null, "Consulta realizada com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
-						cmbCurso.setSelectedIndex(0);
-						cmbDisciplina.setSelectedIndex(0);
-						cmbTurma.setSelectedIndex(0);
-						cmbProfessor.setSelectedIndex(0);
-						cmbPeriodo.setSelectedIndex(0);
-						cmbSemestreLetivo.setSelectedIndex(0);
-						cmbData.setSelectedIndex(0);
-						dteDataAula.setDate(null);
-						dteDataAula2.setDate(null);
-						btnSimAula.setSelected(false);
-						btnNaoAula.setSelected(false);
-						cmbAlunos.setSelectedIndex(0);
-						txtQtdAluno.setText(null);
-						btnSimAtividade.setSelected(false);
-						btnNaoAtividade.setSelected(false);
 					}
 					else {
 						Object[] options1 = {"OK"};
@@ -1963,6 +1803,40 @@ public class Tela_DadosAulas extends JFrame {
 		contentPane.add(btnConsultar);
 		
 		btnGrafico = new JButton("");
+		btnGrafico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Object[] itens = {"Gráfico por Turma", "Gráfico por Disciplina", "Gráfico por Disciplina e Professor"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/positive-dynamic--v1.png")));
+					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha o tipo de gráfico", "Gráficos", JOptionPane.INFORMATION_MESSAGE, icon, itens, itens[0]);
+					String opcao = selectedValue.toString();
+					
+					if (opcao.equals("Gráfico por Turma")) {
+						String status = "Ativo";
+						List<Curso> lista = new ArrayList<Curso>();
+						CursoDAO cursoDao = new CursoDAO();
+						lista = cursoDao.ListarTodos2(status);
+						
+						Object[] itens1 = {lista.toString()};
+						ImageIcon icon2 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/positive-dynamic--v1.png")));
+						Object selectedValue1 = JOptionPane.showInputDialog (null, "Escolha o Curso", "Gráficos", JOptionPane.INFORMATION_MESSAGE, icon2, itens1, itens1[0]);
+						String opcao1 = selectedValue1.toString();
+					}
+					else if (opcao.equals("Gráfico por Disciplina")) {
+						
+					}
+					else if (opcao.equals("Gráfico por Disciplina e Professor")) {
+						
+					}
+				}
+				catch (Exception e) {
+					Object[] options = {"OK"};
+					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
+					JOptionPane.showOptionDialog(null, "Erro ao Gerar Gráfico!."
+							+ "\n\nErro: " + e, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+				}
+			}
+		});
 		btnGrafico.setToolTipText("Gr\u00E1fico");
 		btnGrafico.setIcon(new ImageIcon(Tela_DadosAulas.class.getResource("/br/com/exemplo/view/images/positive-dynamic--v1.png")));
 		btnGrafico.setFont(new Font("Arial", Font.PLAIN, 14));

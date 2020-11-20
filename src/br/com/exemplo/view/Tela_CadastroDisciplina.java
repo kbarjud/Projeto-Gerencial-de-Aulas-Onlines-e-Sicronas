@@ -452,29 +452,77 @@ public class Tela_CadastroDisciplina extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
-					String nomeDisciplina = txtDisciplina.getText();
-					String nomeCurso = cmbCurso.getSelectedItem().toString();
-					String status = "Ativo";
-					
-					CursoDisciplina cursoDisciplina = new CursoDisciplina();
-					CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
-					
-					Disciplina disciplina = new Disciplina();
-					DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-					disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
-					
-					CursoDAO cursoDao = new CursoDAO();
-					Curso curso = new Curso();
-					
-					if (disciplina.getNomeDisciplina().equals("")) {
-						disciplina.setNomeDisciplina(nomeDisciplina);
-						disciplina.setStatus("Ativo");
+					if (txtDisciplina.getText().equals("")) {
+						Object[] options = {"OK"};
+						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+						JOptionPane.showOptionDialog(null, "Informe a disciplina antes de prosseguir", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
-						disciplinaDao.Salvar(disciplina);
+					}
+					else {
+						String nomeDisciplina = txtDisciplina.getText();
+						String nomeCurso = cmbCurso.getSelectedItem().toString();
+						String status = "Ativo";
 						
+						CursoDisciplina cursoDisciplina = new CursoDisciplina();
+						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+						
+						Disciplina disciplina = new Disciplina();
+						DisciplinaDAO disciplinaDao = new DisciplinaDAO();
 						disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
 						
-						if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+						CursoDAO cursoDao = new CursoDAO();
+						Curso curso = new Curso();
+						
+						if (disciplina.getNomeDisciplina().equals("")) {
+							disciplina.setNomeDisciplina(nomeDisciplina);
+							disciplina.setStatus("Ativo");
+							
+							disciplinaDao.Salvar(disciplina);
+							
+							disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
+							
+							if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+								int idDisciplina = disciplina.getIdDisciplina();
+								cursoDisciplina.setIdDisciplina(idDisciplina);
+								
+								cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
+								cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
+								
+								curso = cursoDao.Consultar1(nomeCurso, status);
+								 
+								if (nomeCurso.equals(curso.getNomeCurso())) {
+									int idCurso = curso.getIdCurso();
+									cursoDisciplina.setIdCurso(idCurso);	
+									
+									cursoDisciplina.setStatus("Ativo");
+									
+									cursoDisciplinaDao.Salvar(cursoDisciplina);
+														
+									Object[] options = {"OK"};
+									ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+									
+									List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+									lista = cursoDisciplinaDao.ListarTodos5(nomeCurso, nomeDisciplina);
+									DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+									model.setNumRows(0);
+									for (CursoDisciplina cursoDisciplina1 : lista) {
+										model.addRow (new Object[] {
+												cursoDisciplina1.getNomeCurso(),
+												cursoDisciplina1.getNomeDisciplina(),
+												cursoDisciplina1.getStatus(),
+												cursoDisciplina1.getIdCursoDisciplina(),
+											});
+									} 
+								}
+								else {
+									Object[] options = {"OK"};
+									ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+									JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+								}
+							}
+						}
+						else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())){
 							int idDisciplina = disciplina.getIdDisciplina();
 							cursoDisciplina.setIdDisciplina(idDisciplina);
 							
@@ -486,7 +534,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 							if (nomeCurso.equals(curso.getNomeCurso())) {
 								int idCurso = curso.getIdCurso();
 								cursoDisciplina.setIdCurso(idCurso);	
-								
 								cursoDisciplina.setStatus("Ativo");
 								
 								cursoDisciplinaDao.Salvar(cursoDisciplina);
@@ -514,48 +561,10 @@ public class Tela_CadastroDisciplina extends JFrame {
 								JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							}
 						}
+						txtDisciplina.setText(null);
+						cmbCurso.setSelectedIndex(0);
 					}
-					else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())){
-						int idDisciplina = disciplina.getIdDisciplina();
-						cursoDisciplina.setIdDisciplina(idDisciplina);
-						
-						cursoDisciplina.setNomeCurso(cmbCurso.getSelectedItem().toString());
-						cursoDisciplina.setNomeDisciplina(txtDisciplina.getText());
-						
-						curso = cursoDao.Consultar1(nomeCurso, status);
-						 
-						if (nomeCurso.equals(curso.getNomeCurso())) {
-							int idCurso = curso.getIdCurso();
-							cursoDisciplina.setIdCurso(idCurso);	
-							cursoDisciplina.setStatus("Ativo");
-							
-							cursoDisciplinaDao.Salvar(cursoDisciplina);
-												
-							Object[] options = {"OK"};
-							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							
-							List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
-							lista = cursoDisciplinaDao.ListarTodos5(nomeCurso, nomeDisciplina);
-							DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
-							model.setNumRows(0);
-							for (CursoDisciplina cursoDisciplina1 : lista) {
-								model.addRow (new Object[] {
-										cursoDisciplina1.getNomeCurso(),
-										cursoDisciplina1.getNomeDisciplina(),
-										cursoDisciplina1.getStatus(),
-										cursoDisciplina1.getIdCursoDisciplina(),
-									});
-							} 
-						}
-						else {
-							Object[] options = {"OK"};
-							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-							JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-						}
-					}
-					txtDisciplina.setText(null);
-					cmbCurso.setSelectedIndex(0);
+					
 				} catch (Exception e1) {
 					Object[] options = {"OK"};
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));

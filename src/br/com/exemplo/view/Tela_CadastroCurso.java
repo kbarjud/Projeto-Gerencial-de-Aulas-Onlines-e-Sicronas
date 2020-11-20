@@ -325,36 +325,44 @@ public class Tela_CadastroCurso extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try { 
-					Curso curso = new Curso();
-					
-					if (txtCurso.getText().equals(null)) {
+					if (txtCurso.getText().equals("")) {
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-						JOptionPane.showOptionDialog(null, "Digite o nome do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						JOptionPane.showOptionDialog(null, "Informe o curso antes de prosseguir", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						
 					}
 					else {
-						curso.setNomeCurso(txtCurso.getText());
-						curso.setStatus("Ativo");
+						Curso curso = new Curso();
 						
-						CursoDAO cursoDao = new CursoDAO();
-						cursoDao.Salvar(curso);
-						
-						List<Curso> lista = new ArrayList<Curso>();
-						lista = cursoDao.ListarTodos3(txtCurso.getText());
-						DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
-						model.setNumRows(0);
-						for (Curso curso1 : lista) {
-							model.addRow (new Object[] {
-									curso1.getIdCurso(),
-									curso1.getNomeCurso(),
-									curso1.getStatus(),
-								});
-						} 
-						Object[] options = {"OK"};
-						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-						JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-						
-						txtCurso.setText(null);
+						if (txtCurso.getText().equals(null)) {
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Digite o nome do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						}
+						else {
+							curso.setNomeCurso(txtCurso.getText());
+							curso.setStatus("Ativo");
+							
+							CursoDAO cursoDao = new CursoDAO();
+							cursoDao.Salvar(curso);
+							
+							List<Curso> lista = new ArrayList<Curso>();
+							lista = cursoDao.ListarTodos3(txtCurso.getText());
+							DefaultTableModel model = (DefaultTableModel) tabCurso.getModel();
+							model.setNumRows(0);
+							for (Curso curso1 : lista) {
+								model.addRow (new Object[] {
+										curso1.getIdCurso(),
+										curso1.getNomeCurso(),
+										curso1.getStatus(),
+									});
+							} 
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							
+							txtCurso.setText(null);
+						}
 					}
 				} catch (Exception e1) {
 					Object[] options = {"OK"};

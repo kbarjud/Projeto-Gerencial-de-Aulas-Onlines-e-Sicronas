@@ -1259,7 +1259,7 @@ public class Tela_CadastroAula extends JFrame {
 					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data;
 					data = formatarData.format(dteDataAula.getDate());
-					data.toString();
+					//data.toString();
 					
 					DadosAula dadosAula = new DadosAula();
 					dadosAula.setCurso(cmbCurso.getSelectedItem().toString());
@@ -1672,7 +1672,7 @@ public class Tela_CadastroAula extends JFrame {
 					SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 					String data, dataAtividade;
 					data = formatarData.format(dteDataAula.getDate());
-					data.toString();
+					//data.toString();
 					
 					DadosAula dadosAula = new DadosAula();
 					dadosAula.setCurso(cmbCurso.getSelectedItem().toString());

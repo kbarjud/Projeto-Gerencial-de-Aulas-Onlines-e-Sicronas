@@ -244,7 +244,7 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(txtQtdAluno);
 		
 		btnSalvar = new JButton("");
-		btnSalvar.setToolTipText("Bot\u00E3o Salvar");
+		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/save.png")));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -452,7 +452,7 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(cmbSemestreLetivo);
 		
 		btnNovoSemestre = new JButton("Novo Semestre");
-		btnNovoSemestre.setToolTipText("Bot\u00E3o Novo Semestre");
+		btnNovoSemestre.setToolTipText("");
 		btnNovoSemestre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -527,7 +527,7 @@ public class Tela_CadastroTurma extends JFrame {
 		contentPane.add(lblDisciplina);
 		
 		btnVoltar = new JButton("");
-		btnVoltar.setToolTipText("Bot\u00E3o Voltar");
+		btnVoltar.setToolTipText("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tela_CadastroTurma telaCadastroTurma = new Tela_CadastroTurma();
@@ -660,7 +660,7 @@ public class Tela_CadastroTurma extends JFrame {
 				}
 			}
 		});
-		btnAlterar.setToolTipText("Bot\u00E3o Alterar");
+		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/pencil.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAlterar.setBounds(290, 416, 60, 43);
@@ -671,7 +671,8 @@ public class Tela_CadastroTurma extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Object[] itens = {"Turma Especifica", "Curso", "Curso e Disciplina", "Turma", "Periodo", "Listar Todas as Turmas"};
-					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Turmas", JOptionPane.INFORMATION_MESSAGE, null, itens, itens[0]);
+					ImageIcon icon2 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+					Object selectedValue = JOptionPane.showInputDialog (null, "Escolha um Tipo de Consulta", "Consultar Turmas", JOptionPane.INFORMATION_MESSAGE, icon2, itens, itens[0]);
 					String opcao = selectedValue.toString();
 					
 					Turma turma = new Turma();
@@ -932,14 +933,14 @@ public class Tela_CadastroTurma extends JFrame {
 				}
 			}
 		});
-		btnConsultar.setToolTipText("Bot\u00E3o Consultar");
+		btnConsultar.setToolTipText("Consultar");
 		btnConsultar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/search.png")));
 		btnConsultar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnConsultar.setBounds(360, 416, 60, 43);
 		contentPane.add(btnConsultar);
 		
 		btnSair = new JButton("");
-		btnSair.setToolTipText("Bot\u00E3o Sair");
+		btnSair.setToolTipText("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -976,7 +977,7 @@ public class Tela_CadastroTurma extends JFrame {
 				((DefaultTableModel) tabTurma.getModel()).setRowCount(0);
 			}
 		});
-		btnNovo.setToolTipText("Bot\u00E3o Novo");
+		btnNovo.setToolTipText("Novo");
 		btnNovo.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/new.png")));
 		btnNovo.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnNovo.setBounds(80, 416, 60, 43);
@@ -1070,7 +1071,7 @@ public class Tela_CadastroTurma extends JFrame {
 			}
 		});
 		btnDesativar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-off.png")));
-		btnDesativar.setToolTipText("Bot\u00E3o Desativar");
+		btnDesativar.setToolTipText("Desativar");
 		btnDesativar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnDesativar.setBounds(220, 416, 60, 43);
 		contentPane.add(btnDesativar);
@@ -1161,7 +1162,7 @@ public class Tela_CadastroTurma extends JFrame {
 			}
 		});
 		btnAtivar.setIcon(new ImageIcon(Tela_CadastroTurma.class.getResource("/br/com/exemplo/view/images/toggle-on.png")));
-		btnAtivar.setToolTipText("Bot\u00E3o Ativar");
+		btnAtivar.setToolTipText("Ativar");
 		btnAtivar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnAtivar.setBounds(150, 416, 60, 43);
 		contentPane.add(btnAtivar);
