@@ -82,6 +82,7 @@ public class Tela_Grafico2 extends JFrame {
 				try {
 					Tela_Grafico2 frame = new Tela_Grafico2();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -93,10 +94,12 @@ public class Tela_Grafico2 extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_Grafico2() {
-		setTitle("S. Ger. Registros de Aulas");
+		setTitle("Gerar Gr\u00E1fico");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_Grafico1.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 275, 296);
+		this.setLocationRelativeTo(null); 
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
 		setContentPane(contentPane);

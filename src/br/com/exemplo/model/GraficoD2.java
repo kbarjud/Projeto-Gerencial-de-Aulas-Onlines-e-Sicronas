@@ -23,6 +23,7 @@ public class GraficoD2 extends JFrame {
 				try {
 					GraficoD2 frame = new GraficoD2();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -40,6 +41,8 @@ public class GraficoD2 extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GraficoD3.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		this.setLocationRelativeTo(null); 
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -47,7 +50,7 @@ public class GraficoD2 extends JFrame {
 	}
 	
 	public void GerarGrafico2(ChartPanel painel){
-		setSize(800,700);
+		setSize(1050, 720);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(painel);
 		//add(painel);

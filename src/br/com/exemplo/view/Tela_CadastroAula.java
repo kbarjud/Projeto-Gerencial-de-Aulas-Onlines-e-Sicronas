@@ -996,13 +996,13 @@ public class Tela_CadastroAula extends JFrame {
 		});
 		cmbCurso.setForeground(Color.BLACK);
 		cmbCurso.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbCurso.setBounds(56, 13, 135, 21);
+		cmbCurso.setBounds(89, 13, 365, 21);
 		curso.add(cmbCurso);
 		
 		lblDisciplina = new JLabel("Disciplina");
 		lblDisciplina.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDisciplina.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblDisciplina.setBounds(198, 12, 67, 21);
+		lblDisciplina.setBounds(10, 43, 67, 21);
 		curso.add(lblDisciplina);
 		
 		cmbDisciplina = new JComboBox();
@@ -1072,13 +1072,13 @@ public class Tela_CadastroAula extends JFrame {
 		});
 		cmbDisciplina.setForeground(Color.BLACK);
 		cmbDisciplina.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbDisciplina.setBounds(267, 13, 187, 21);
+		cmbDisciplina.setBounds(89, 44, 365, 21);
 		curso.add(cmbDisciplina);
 		
 		lblTurma = new JLabel("Turma");
 		lblTurma.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTurma.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblTurma.setBounds(68, 58, 48, 21);
+		lblTurma.setBounds(69, 78, 48, 21);
 		curso.add(lblTurma);
 		
 		cmbTurma = new JComboBox();
@@ -1138,41 +1138,41 @@ public class Tela_CadastroAula extends JFrame {
 		});
 		cmbTurma.setForeground(Color.BLACK);
 		cmbTurma.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbTurma.setBounds(128, 60, 94, 21);
+		cmbTurma.setBounds(129, 78, 94, 21);
 		curso.add(cmbTurma);
 		
 		lblPeriodo = new JLabel("Periodo");
 		lblPeriodo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPeriodo.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblPeriodo.setBounds(232, 58, 48, 21);
+		lblPeriodo.setBounds(233, 78, 48, 21);
 		curso.add(lblPeriodo);
 		
 		cmbPeriodo = new JComboBox();
 		cmbPeriodo.setForeground(Color.BLACK);
 		cmbPeriodo.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbPeriodo.setBounds(290, 60, 95, 21);
+		cmbPeriodo.setBounds(291, 78, 95, 21);
 		curso.add(cmbPeriodo);
 		
 		lblSemestre = new JLabel("Semestre Letivo");
 		lblSemestre.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSemestre.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblSemestre.setBounds(10, 109, 119, 21);
+		lblSemestre.setBounds(10, 113, 119, 21);
 		curso.add(lblSemestre);
 		
 		cmbSemestreLetivo = new JComboBox();
 		cmbSemestreLetivo.setForeground(Color.BLACK);
 		cmbSemestreLetivo.setFont(new Font("Arial", Font.PLAIN, 14));
-		cmbSemestreLetivo.setBounds(139, 110, 105, 21);
+		cmbSemestreLetivo.setBounds(139, 114, 105, 21);
 		curso.add(cmbSemestreLetivo);
 		
 		lblDataDaAula = new JLabel("Data da Aula");
 		lblDataDaAula.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataDaAula.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblDataDaAula.setBounds(254, 109, 88, 21);
+		lblDataDaAula.setBounds(254, 113, 88, 21);
 		curso.add(lblDataDaAula);
 		
 		dteDataAula = new JDateChooser();
-		dteDataAula.setBounds(346, 110, 108, 21);
+		dteDataAula.setBounds(346, 114, 108, 21);
 		curso.add(dteDataAula);
 		
 		lblTeveAula = new JLabel("Teve Aula?");

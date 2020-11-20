@@ -57,6 +57,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class Tela_Grafico1 extends JFrame {
 
@@ -84,6 +86,7 @@ public class Tela_Grafico1 extends JFrame {
 				try {
 					Tela_Grafico1 frame = new Tela_Grafico1();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -95,10 +98,12 @@ public class Tela_Grafico1 extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_Grafico1() {
-		setTitle("S. Ger. Registros de Aulas");
+		setTitle("Gerar Gr\u00E1fico");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tela_Grafico1.class.getResource("/br/com/exemplo/view/images/graduated.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 275, 360);
+		this.setLocationRelativeTo(null); 
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102), new Color(204, 102, 102)));
 		setContentPane(contentPane);
@@ -111,6 +116,24 @@ public class Tela_Grafico1 extends JFrame {
 		contentPane.add(lblCurso);
 		
 		cmbCurso = new JComboBox();
+		cmbCurso.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String status = "Ativo";
+					String disciplina = "%%";
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		cmbCurso.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent arg0) {
 				try {
@@ -121,6 +144,15 @@ public class Tela_Grafico1 extends JFrame {
 					lista = cursoDao.ListarTodos2(status);
 					DefaultComboBoxModel model = new DefaultComboBoxModel(lista.toArray());
 					cmbCurso.setModel(model);
+					
+					String nomeCurso = cmbCurso.getSelectedItem().toString();
+					String disciplina = "%%";
+					
+					List<Turma> lista2 = new ArrayList<Turma>();
+					TurmaDAO turmaDao = new TurmaDAO();
+					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+					cmbTurma.setModel(model2);
 				}
 				catch (Exception e) {
 					e.getMessage();
@@ -328,26 +360,6 @@ public class Tela_Grafico1 extends JFrame {
 		contentPane.add(btnGrafico);
 		
 		cmbTurma = new JComboBox();
-		cmbTurma.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				try {
-					String status = "Ativo";
-					
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos8(status);
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
 		cmbTurma.setForeground(Color.BLACK);
 		cmbTurma.setFont(new Font("Arial", Font.PLAIN, 14));
 		cmbTurma.setBounds(79, 156, 100, 21);

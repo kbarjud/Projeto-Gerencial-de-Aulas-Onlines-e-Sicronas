@@ -43,15 +43,13 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.styledxmlparser.jsoup.nodes.Element;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
@@ -259,23 +257,30 @@ public class Tela_DadosAulas extends JFrame {
 					
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
-					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista2 = new ArrayList<Turma>();
+						TurmaDAO turmaDao = new TurmaDAO();
+						lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+						cmbTurma.setModel(model2);
+						
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -300,23 +305,30 @@ public class Tela_DadosAulas extends JFrame {
 					
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
-					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista2 = new ArrayList<Turma>();
+						TurmaDAO turmaDao = new TurmaDAO();
+						lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+						cmbTurma.setModel(model2);
+						
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -335,23 +347,30 @@ public class Tela_DadosAulas extends JFrame {
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					String status = "Ativo";
 					
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
-					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista2 = new ArrayList<Turma>();
+						TurmaDAO turmaDao = new TurmaDAO();
+						lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+						cmbTurma.setModel(model2);
+						
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -369,23 +388,30 @@ public class Tela_DadosAulas extends JFrame {
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					String status = "Ativo";
 					
-					List<Turma> lista2 = new ArrayList<Turma>();
-					TurmaDAO turmaDao = new TurmaDAO();
-					lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
-					cmbTurma.setModel(model2);
-					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista2 = new ArrayList<Turma>();
+						TurmaDAO turmaDao = new TurmaDAO();
+						lista2 = turmaDao.ListarTodos2(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model2 = new DefaultComboBoxModel(lista2.toArray());
+						cmbTurma.setModel(model2);
+						
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -493,8 +519,9 @@ public class Tela_DadosAulas extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//((DefaultTableModel) tabDadosAulas.getModel()).setRowCount(0);
 				cmbCurso.setSelectedIndex(0);
-				cmbDisciplina.setSelectedIndex(0);
+				cmbDisciplina.setSelectedIndex(-1);
 				cmbTurma.setSelectedIndex(0);
 				cmbProfessor.setSelectedIndex(0);
 				cmbPeriodo.setSelectedIndex(0);
@@ -545,42 +572,87 @@ public class Tela_DadosAulas extends JFrame {
 					dataFormatada.toString();
 					
 					String nomeDocumento = "PDF " + txtConsulta.getText() + " " + dataFormatada;
-					PdfWriter.getInstance(document, new FileOutputStream("PDF\\" + nomeDocumento + ".pdf"));
+					PdfWriter.getInstance(document, new FileOutputStream("PDF\\" + nomeDocumento + ".pdf")); //0x32, 0xa8, 0x9b
 					document.open();
-
-					document.add(new Paragraph ("PDF " + txtConsulta.getText() + "\n\n"));
+					
+					Paragraph titulo = (new Paragraph (new Phrase(14F, "Relatório de Aulas\n\n", FontFactory.getFont(FontFactory.HELVETICA, 18F, Font.ITALIC, new BaseColor(0x32, 0x87, 0xa8)))));
+					titulo.setAlignment(Element.ALIGN_CENTER);
+					document.add(titulo);
 					 for (int i = 0; i < tabDadosAulas.getModel().getRowCount(); i++) {
-						 	document.add(new Paragraph ("----------------------------------------------------------------------------------------------------------------------------------\n\n"));
-							document.add(new Paragraph ("Curso: " + tabDadosAulas.getValueAt(i, 0) + "\n"));
-						 	document.add(new Paragraph ("Disciplina: " + tabDadosAulas.getValueAt(i, 1) + "\n"));
-						 	document.add(new Paragraph ("Turma: " + tabDadosAulas.getValueAt(i, 2) + "\n"));
-						 	document.add(new Paragraph ("Periodo: " + tabDadosAulas.getValueAt(i, 3) + "\n"));
-						 	document.add(new Paragraph ("Semestre: " + tabDadosAulas.getValueAt(i, 4) + "\n"));
-						 	document.add(new Paragraph ("Data Aula: " + tabDadosAulas.getValueAt(i, 5) + "\n"));
-						 	document.add(new Paragraph ("Teve Aula? " + tabDadosAulas.getValueAt(i, 6) + "\n"));
-						 	document.add(new Paragraph ("Justificativa: " + tabDadosAulas.getValueAt(i, 7) + "\n"));
-						 	document.add(new Paragraph ("Horario de Inicio: " + tabDadosAulas.getValueAt(i, 8) + "\n"));
-						 	document.add(new Paragraph ("Horario de Fim: " + tabDadosAulas.getValueAt(i, 9) + "\n"));
-						 	document.add(new Paragraph ("Assunto: " + tabDadosAulas.getValueAt(i, 10) + "\n"));
-						 	document.add(new Paragraph ("Quantidade de Alunos: " + tabDadosAulas.getValueAt(i, 11) + "\n"));
-						 	document.add(new Paragraph ("Materiais Disponibilizados: " + tabDadosAulas.getValueAt(i, 12) + "\n"));
-						 	document.add(new Paragraph ("Link Sessão: " + tabDadosAulas.getValueAt(i, 13) + "\n"));
-						 	document.add(new Paragraph ("Link Gravação: " + tabDadosAulas.getValueAt(i, 14) + "\n"));
-						 	document.add(new Paragraph ("OBS: " + tabDadosAulas.getValueAt(i, 15) + "\n"));
+						 	document.add(new Paragraph (new Phrase("----------------------------------------------------------------------------------------------------------------------------------\n\n", FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.BOLD, new BaseColor(0x00, 0x00, 0x00)))));
+							Phrase curso = new Phrase("Curso: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								curso.add(new Chunk(tabDadosAulas.getValueAt(i, 0) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (curso));
+							Phrase disciplina = new Phrase("Disciplina: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								disciplina.add(new Chunk(tabDadosAulas.getValueAt(i, 1) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (disciplina));
+							Phrase turma = new Phrase("Turma: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								turma.add(new Chunk(tabDadosAulas.getValueAt(i, 2) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (turma));
+							Phrase periodo = new Phrase("Periodo: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								periodo.add(new Chunk(tabDadosAulas.getValueAt(i, 3) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (periodo));
+							Phrase semestre = new Phrase("Semestre: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								semestre.add(new Chunk(tabDadosAulas.getValueAt(i, 4) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (semestre));
+							Phrase dataAula = new Phrase("Data Aula: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								dataAula.add(new Chunk(tabDadosAulas.getValueAt(i, 5) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (dataAula));
+							Phrase teveAula = new Phrase("Teve Aula?: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								teveAula.add(new Chunk(tabDadosAulas.getValueAt(i, 6) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (teveAula));
+							Phrase justificativa = new Phrase("Justificativa: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								justificativa.add(new Chunk(tabDadosAulas.getValueAt(i, 7) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (justificativa));
+							Phrase horarioInicio = new Phrase("Horário Inicio: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								horarioInicio.add(new Chunk(tabDadosAulas.getValueAt(i, 8) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (horarioInicio));
+							Phrase horarioFim = new Phrase("Horário Fim: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								horarioFim.add(new Chunk(tabDadosAulas.getValueAt(i, 9) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (horarioFim));
+							Phrase assunto = new Phrase("Assunto: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								assunto.add(new Chunk(tabDadosAulas.getValueAt(i, 10) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (assunto));
+							Phrase qtdAlunos = new Phrase("Quantidade de Alunos: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								qtdAlunos.add(new Chunk(tabDadosAulas.getValueAt(i, 11) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (qtdAlunos));
+							Phrase materiaisDisponibilizados = new Phrase("Materiais Disponibilizados: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								materiaisDisponibilizados.add(new Chunk(tabDadosAulas.getValueAt(i, 12) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (materiaisDisponibilizados));
+							Phrase linkSessao = new Phrase("Link Sessão: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								linkSessao.add(new Chunk(tabDadosAulas.getValueAt(i, 13) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (linkSessao));
+							Phrase linkGravacao = new Phrase("Link Gravação: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								linkGravacao.add(new Chunk(tabDadosAulas.getValueAt(i, 14) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (linkGravacao));
+							Phrase obs = new Phrase("Observação: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+								obs.add(new Chunk(tabDadosAulas.getValueAt(i, 15) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+								document.add(new Paragraph (obs));
 						 	
 						 	if (tabDadosAulas.getValueAt(i, 6).equals("Não") && tabDadosAulas.getValueAt(i, 16).equals("Não")) {
-								String atividadeSolicitada = "--------------------";
-								document.add(new Paragraph ("Atividade Solicitada? " + atividadeSolicitada + "\n"));
+						 		Phrase atividadeSolicitada = new Phrase("Atividade Solicitada?: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+						 			atividadeSolicitada.add(new Chunk("--------------------\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+						 			document.add(new Paragraph (atividadeSolicitada));
 							}
 						 	else if (tabDadosAulas.getValueAt(i, 6).equals("Sim") && tabDadosAulas.getValueAt(i, 16).equals("Não")) {
-						 		document.add(new Paragraph ("Atividade Solicitada? " + tabDadosAulas.getValueAt(i, 16) + "\n"));
+						 		Phrase atividadeSolicitada = new Phrase("Atividade Solicitada?: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+						 			atividadeSolicitada.add(new Chunk(tabDadosAulas.getValueAt(i, 16) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+						 			document.add(new Paragraph (atividadeSolicitada));
 						 	}
 						 	else if (tabDadosAulas.getValueAt(i, 6).equals("Sim") && tabDadosAulas.getValueAt(i, 16).equals("Sim")) {
-						 		document.add(new Paragraph ("Atividade Solicitada? " + tabDadosAulas.getValueAt(i, 16) + "\n"));
+						 		Phrase atividadeSolicitada = new Phrase("Atividade Solicitada?: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+					 				atividadeSolicitada.add(new Chunk(tabDadosAulas.getValueAt(i, 16) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+					 				document.add(new Paragraph (atividadeSolicitada));
 						 	}
-						 	document.add(new Paragraph ("Data Entrega: " + tabDadosAulas.getValueAt(i, 17) + "\n"));
-						 	document.add(new Paragraph ("Quantidade de Pessoas: " + tabDadosAulas.getValueAt(i, 18) + "\n"));
-						 	document.add(new Paragraph ("Descrição: " + tabDadosAulas.getValueAt(i, 19) + "\n\n"));		
+						 	Phrase dataEntrega = new Phrase("Data de Entrega: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+						 		dataEntrega.add(new Chunk(tabDadosAulas.getValueAt(i, 17) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+				 				document.add(new Paragraph (dataEntrega));
+				 			Phrase qtdPessoas = new Phrase("Quantidade de Pessoas: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+				 				qtdPessoas.add(new Chunk(tabDadosAulas.getValueAt(i, 18) + "\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+				 				document.add(new Paragraph (qtdPessoas));
+				 			Phrase descricao = new Phrase("Descrição?: ", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x32, 0x87, 0xa8)));
+				 				descricao.add(new Chunk(tabDadosAulas.getValueAt(i, 19) + "\n\n", FontFactory.getFont(FontFactory.HELVETICA, 14F, Font.PLAIN, new BaseColor(0x00, 0x00, 0x00))));
+				 				document.add(new Paragraph (descricao));	
 					 }
 					 document.close();
 					 Object[] options = {"OK"};
@@ -594,9 +666,7 @@ public class Tela_DadosAulas extends JFrame {
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
 					JOptionPane.showOptionDialog(null, "Erro ao Gerar PDF!. "
 							+ "\n\nErro: " + e, "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-				} finally {
-					
-				}
+				} 
 			}
 		});
 		btnPDF.setToolTipText("PDF");
@@ -625,53 +695,67 @@ public class Tela_DadosAulas extends JFrame {
 		
 		cmbTurma = new JComboBox();
 		cmbTurma.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
+			public void ancestorAdded(AncestorEvent arg0) {
 				try {
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					String turmaCod = cmbTurma.getSelectedItem().toString();
 					String status = "Ativo";
 					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos3(nomeCurso, disciplina, turmaCod, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos4(nomeCurso, disciplina, turmaCod, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("") && cmbTurma.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			public void ancestorMoved(AncestorEvent event) {
+			public void ancestorMoved(AncestorEvent arg0) {
 			}
-			public void ancestorRemoved(AncestorEvent event) {
+			public void ancestorRemoved(AncestorEvent arg0) {
 			}
 		});
 		cmbTurma.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+			public void itemStateChanged(ItemEvent arg0) {
 				try {
 					String nomeCurso = cmbCurso.getSelectedItem().toString();
 					String disciplina = cmbDisciplina.getSelectedItem().toString();
 					String turmaCod = cmbTurma.getSelectedItem().toString();
 					String status = "Ativo";
 					
-					List<Turma> lista3 = new ArrayList<Turma>();
-					TurmaDAO turmaDao3 = new TurmaDAO();
-					lista3 = turmaDao3.ListarTodos3(nomeCurso, disciplina, turmaCod, status);
-					DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
-					cmbSemestreLetivo.setModel(model3);
-					
-					List<Turma> lista4 = new ArrayList<Turma>();
-					TurmaDAO turmaDao4 = new TurmaDAO();
-					lista4 = turmaDao4.ListarTodos4(nomeCurso, disciplina, turmaCod, status);
-					DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-					cmbPeriodo.setModel(model4);
+					if (cmbDisciplina.getSelectedItem().toString().equals("") && cmbTurma.getSelectedItem().toString().equals("")) {
+						cmbTurma.setSelectedIndex(-1);
+						cmbSemestreLetivo.setSelectedIndex(-1);
+						cmbPeriodo.setSelectedIndex(-1);
+					}
+					else {
+						List<Turma> lista3 = new ArrayList<Turma>();
+						TurmaDAO turmaDao3 = new TurmaDAO();
+						lista3 = turmaDao3.ListarTodos5(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model3 = new DefaultComboBoxModel(lista3.toArray());
+						cmbSemestreLetivo.setModel(model3);
+						
+						List<Turma> lista4 = new ArrayList<Turma>();
+						TurmaDAO turmaDao4 = new TurmaDAO();
+						lista4 = turmaDao4.ListarTodos6(nomeCurso, disciplina, status);
+						DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+						cmbPeriodo.setModel(model4);
+					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1812,17 +1896,16 @@ public class Tela_DadosAulas extends JFrame {
 					String opcao = selectedValue.toString();
 					
 					if (opcao.equals("Gráfico por Turma")) {
-						String status = "Ativo";
-						List<Curso> lista = new ArrayList<Curso>();
-						CursoDAO cursoDao = new CursoDAO();
-						lista = cursoDao.ListarTodos2(status);
-						
+						Tela_Grafico1 telaGravico1 = new Tela_Grafico1();
+						telaGravico1.setVisible(true);
 					}
 					else if (opcao.equals("Gráfico por Disciplina")) {
-						
+						Tela_Grafico2 telaGravico2 = new Tela_Grafico2();
+						telaGravico2.setVisible(true);
 					}
 					else if (opcao.equals("Gráfico por Disciplina e Professor")) {
-						
+						Tela_Grafico3 telaGravico3 = new Tela_Grafico3();
+						telaGravico3.setVisible(true);
 					}
 				}
 				catch (Exception e) {
