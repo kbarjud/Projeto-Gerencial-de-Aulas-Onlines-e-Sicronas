@@ -359,7 +359,7 @@ public class TurmaDAO {
 	public List ListarTodos8(String status) throws Exception {
 		List<Turma> lista = new ArrayList<Turma>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM turma WHERE status LIKE ?");
+			ps = conn.prepareStatement ("SELECT * FROM turma WHERE status LIKE ? GROUP BY ORDER BY turma");
 			ps.setString(1, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {

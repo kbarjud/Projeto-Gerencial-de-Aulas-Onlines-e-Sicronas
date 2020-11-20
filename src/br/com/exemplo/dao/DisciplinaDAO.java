@@ -167,4 +167,21 @@ public class DisciplinaDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
+	public List ListarTodosAtivos() throws Exception {
+		List<Disciplina> lista = new ArrayList<Disciplina>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM disciplina WHERE status = ? ORDER BY disciplina");
+			ps.setString(1, "Ativo");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String nomeDisciplina = rs.getString ("disciplina");
+				disciplina = new Disciplina (nomeDisciplina);
+				lista.add(disciplina);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+
 }

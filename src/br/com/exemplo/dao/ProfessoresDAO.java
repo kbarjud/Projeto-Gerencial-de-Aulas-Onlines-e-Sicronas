@@ -255,4 +255,25 @@ public class ProfessoresDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
+	public List ListarTodosOB() throws Exception {
+		List<Professores> lista = new ArrayList<Professores>();
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM professores ORDER BY nome");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idProfessor = rs.getInt ("id_professor");
+				int codProfessor = rs.getInt ("cod_professor");
+				String nome = rs.getString ("nome");
+				String senha = rs.getString ("senha");
+				String email = rs.getString ("email");
+				String celular = rs.getString ("celular");
+				String status = rs.getString ("status");
+				professores = new Professores (idProfessor, codProfessor, nome, senha, email, celular, status);
+				lista.add(professores);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
 }

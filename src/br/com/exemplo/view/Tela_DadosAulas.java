@@ -1817,10 +1817,6 @@ public class Tela_DadosAulas extends JFrame {
 						CursoDAO cursoDao = new CursoDAO();
 						lista = cursoDao.ListarTodos2(status);
 						
-						Object[] itens1 = {lista.toString()};
-						ImageIcon icon2 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/positive-dynamic--v1.png")));
-						Object selectedValue1 = JOptionPane.showInputDialog (null, "Escolha o Curso", "Gráficos", JOptionPane.INFORMATION_MESSAGE, icon2, itens1, itens1[0]);
-						String opcao1 = selectedValue1.toString();
 					}
 					else if (opcao.equals("Gráfico por Disciplina")) {
 						
