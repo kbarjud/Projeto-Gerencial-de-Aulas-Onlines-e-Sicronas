@@ -105,6 +105,8 @@ public class Tela_DadosAulas extends JFrame {
 	private JButton btnConsultar;
 	private JButton btnGrafico;
 	private JTable tabDadosAulas;
+	private JTextField txtConsulta;
+	private JTextField txtObs;
 
 	/**
 	 * Launch the application.
@@ -702,7 +704,7 @@ public class Tela_DadosAulas extends JFrame {
 		lblNome_6 = new JLabel("Atividade Solicitada?");
 		lblNome_6.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome_6.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		lblNome_6.setBounds(155, 220, 150, 21);
+		lblNome_6.setBounds(168, 220, 143, 21);
 		contentPane.add(lblNome_6);
 		
 		btnSimAtividade = new JRadioButton("Sim");
@@ -714,7 +716,7 @@ public class Tela_DadosAulas extends JFrame {
 			}
 		});
 		btnSimAtividade.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		btnSimAtividade.setBounds(311, 216, 51, 29);
+		btnSimAtividade.setBounds(321, 216, 51, 29);
 		contentPane.add(btnSimAtividade);
 		
 		btnNaoAtividade = new JRadioButton("N\u00E3o");
@@ -726,7 +728,7 @@ public class Tela_DadosAulas extends JFrame {
 			}
 		});
 		btnNaoAtividade.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		btnNaoAtividade.setBounds(372, 216, 51, 29);
+		btnNaoAtividade.setBounds(377, 216, 51, 29);
 		contentPane.add(btnNaoAtividade);
 		
 		separator_5 = new JSeparator();
@@ -748,6 +750,7 @@ public class Tela_DadosAulas extends JFrame {
 					String data1, data2;
 					
 					if (opcao.equals("Aula Especifica")) {
+						txtConsulta.setText("Aula Especifica");
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = cmbDisciplina.getSelectedItem().toString();
 						String turmaCod = cmbTurma.getSelectedItem().toString();
@@ -827,6 +830,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Curso")) {
+						txtConsulta.setText("Curso");
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = "%%";
 						String turmaCod = "%%";
@@ -896,6 +900,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Curso e Periodo")) {
+						txtConsulta.setText("Curso e Periodo");
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = "%%";
 						String turmaCod = "%%";
@@ -950,6 +955,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Curso e Disciplina")) {
+						txtConsulta.setText("Curso e Disciplina");
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = cmbDisciplina.getSelectedItem().toString();
 						String turmaCod = "%%";
@@ -1017,6 +1023,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Curso, Disciplina e Periodo")) {
+						txtConsulta.setText("Curso, Disciplina e Periodo");
 						String nomeCurso = cmbCurso.getSelectedItem().toString();
 						String disciplina = cmbDisciplina.getSelectedItem().toString();
 						String turmaCod = "%%";
@@ -1083,6 +1090,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Turma")) {
+						txtConsulta.setText("Turma");
 						String nomeCurso = "%%";
 						String disciplina = "%%";
 						String turmaCod = cmbTurma.getSelectedItem().toString();
@@ -1151,6 +1159,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Professor")) {
+						txtConsulta.setText("Professor");
 						String nomeCurso = "%%";
 						String disciplina = "%%";
 						String turmaCod = "%%";
@@ -1232,6 +1241,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Periodo")) {
+						txtConsulta.setText("Periodo");
 						String nomeCurso = "%%";
 						String disciplina = "%%";
 						String turmaCod = "%%";
@@ -1300,6 +1310,7 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Semestre")) {
+						txtConsulta.setText("Semestre");
 						String nomeCurso = "%%";
 						String disciplina = "%%";
 						String turmaCod = "%%";
@@ -1368,7 +1379,9 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Data")) {
+						txtConsulta.setText("Data");
 						if (cmbData.getSelectedItem().toString().equals("Especifica")) {
+							txtObs.setText("Especifica");
 							String nomeCurso = "%%";
 							String disciplina = "%%";
 							String turmaCod = "%%";
@@ -1433,6 +1446,7 @@ public class Tela_DadosAulas extends JFrame {
 							}
 						}
 						else if (cmbData.getSelectedItem().toString().equals("Intervalo")) {
+							txtObs.setText("Intervalo");
 							data1 = formatarData.format(dteDataAula.getDate());
 							//data1.toString();
 							data2 = formatarData.format(dteDataAula2.getDate());
@@ -1489,7 +1503,9 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Aula Realizada")) {
+						txtConsulta.setText("Aula Realizada");
 						if (btnSimAula.isSelected()) {
+							txtObs.setText("Sim Aula");
 							boolean teveAula = true;
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1541,6 +1557,7 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else if (btnNaoAula.isSelected()) {
+							txtObs.setText("Não Aula");
 							boolean teveAula = false;
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1598,7 +1615,9 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Atividade Solicitada")) {
+						txtConsulta.setText("Atividade Solicitada");
 						if (btnSimAtividade.isSelected()) {
+							txtObs.setText("Sim Atividade");
 							boolean atividadeSolicitada = true;
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1650,6 +1669,7 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else if (btnNaoAtividade.isSelected()) {
+							txtObs.setText("Não Atividade");
 							boolean atividadeSolicitada = false;
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1707,8 +1727,10 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Quantidade de Alunos")) {
+						txtConsulta.setText("Quantidade de Alunos");
 						int qtdAlunos = Integer.parseInt(txtQtdAluno.getText());
 						if (cmbAlunos.getSelectedItem().toString().equals("Igual a")) {
+							txtObs.setText("Igual a");
 							String parametro = "Igual a";
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1759,6 +1781,7 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else if (cmbAlunos.getSelectedItem().toString().equals("Maior que")) {
+							txtObs.setText("Maior que");
 							String parametro = "Maior que";
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1809,6 +1832,7 @@ public class Tela_DadosAulas extends JFrame {
 							btnNaoAtividade.setSelected(false);
 						}
 						else if (cmbAlunos.getSelectedItem().toString().equals("Menor que")) {
+							txtObs.setText("Menor que");
 							String parametro = "Menor que";
 							
 							List<DadosAula> lista = new ArrayList<DadosAula>();
@@ -1865,8 +1889,12 @@ public class Tela_DadosAulas extends JFrame {
 						}
 					}
 					else if (opcao.equals("Listar Todas as Aulas")) {
+						txtConsulta.setText("Listar Todas as Aulas");
+						
+						String semestre = cmbSemestreLetivo.getSelectedItem().toString();
+						
 						List<DadosAula> lista = new ArrayList<DadosAula>();
-						lista = dadosAulaDao.ListarTodos();
+						lista = dadosAulaDao.ListarTodos7(semestre);
 						DefaultTableModel model = (DefaultTableModel) tabDadosAulas.getModel();
 						model.setNumRows(0);
 						for (DadosAula dadosAula1 : lista) {
@@ -1940,5 +1968,19 @@ public class Tela_DadosAulas extends JFrame {
 		btnGrafico.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnGrafico.setBounds(405, 497, 60, 43);
 		contentPane.add(btnGrafico);
+		
+		txtConsulta = new JTextField();
+		txtConsulta.setVisible(false);
+		txtConsulta.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtConsulta.setColumns(10);
+		txtConsulta.setBounds(434, 219, 150, 23);
+		contentPane.add(txtConsulta);
+		
+		txtObs = new JTextField();
+		txtObs.setVisible(false);
+		txtObs.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtObs.setColumns(10);
+		txtObs.setBounds(10, 219, 150, 23);
+		contentPane.add(txtObs);
 	}
 }

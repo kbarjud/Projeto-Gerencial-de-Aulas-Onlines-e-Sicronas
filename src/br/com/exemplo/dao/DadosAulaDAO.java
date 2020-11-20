@@ -196,8 +196,8 @@ public class DadosAulaDAO {
 	}
 	public DadosAula Consultar2 (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
-					+ " WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? AND id_professor LIKE ?"); 
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA "  
+					+ " FROM dados_aulas WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? AND id_professor LIKE ?"); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, nomeDisciplina);
 			ps.setString (3, turma);
@@ -213,7 +213,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -225,7 +225,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -241,8 +241,8 @@ public class DadosAulaDAO {
 	}
 	public DadosAula Consultar3 (String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data) throws Exception {
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
-					+ " WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? "); 
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA "
+					+ " FROM dados_aulas WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? "); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, nomeDisciplina);
 			ps.setString (3, turma);
@@ -257,7 +257,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -269,7 +269,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -286,7 +286,7 @@ public class DadosAulaDAO {
 	public List ListarTodos() throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas");
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int idAula = rs.getInt ("id_aula");
@@ -295,7 +295,7 @@ public class DadosAulaDAO {
 				String turma = rs.getString ("turma");
 				String periodo = rs.getString ("periodo");
 				String semestreLetivo = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -307,7 +307,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -325,7 +325,7 @@ public class DadosAulaDAO {
 	public List ListarTodos1(int idAula) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ " WHERE id_aula=?");
 			ps.setInt (1, idAula);
 			rs = ps.executeQuery();
@@ -336,7 +336,7 @@ public class DadosAulaDAO {
 				String turma = rs.getString ("turma");
 				String periodo = rs.getString ("periodo");
 				String semestreLetivo = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -348,7 +348,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -366,7 +366,7 @@ public class DadosAulaDAO {
 	public List ListarTodos2(String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data, int idProfessor) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ "WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? AND id_professor LIKE ?"); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, nomeDisciplina);
@@ -383,7 +383,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -395,7 +395,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -413,7 +413,7 @@ public class DadosAulaDAO {
 	public List ListarTodos3(String nomeCurso, String nomeDisciplina, String turma, String periodo, String semestreLetivo, String data) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas "
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ "WHERE curso LIKE ? AND disciplina LIKE ? AND turma LIKE ? AND periodo LIKE ? AND semestre_letivo LIKE ? AND data_aula LIKE ? "); 
 			ps.setString (1, nomeCurso);
 			ps.setString (2, nomeDisciplina);
@@ -429,7 +429,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -441,7 +441,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -459,7 +459,7 @@ public class DadosAulaDAO {
 	public List ListarTodos3(String dataMinima, String dataMaxima) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ " WHERE data_aula BETWEEN ? AND ?");
 			ps.setString (1, dataMinima);
 			ps.setString (2, dataMaxima);			
@@ -471,7 +471,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -483,7 +483,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -501,7 +501,7 @@ public class DadosAulaDAO {
 	public List ListarTodos4(boolean teveAula) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ " WHERE teve_aula LIKE ? ");
 			ps.setBoolean (1, teveAula);			
 			rs = ps.executeQuery();
@@ -512,7 +512,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula1 = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -524,7 +524,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -542,7 +542,7 @@ public class DadosAulaDAO {
 	public List ListarTodos5(boolean atividadeSolicitada) throws Exception {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 					+ " WHERE atividade_solicitada LIKE ?");
 			ps.setBoolean (1, atividadeSolicitada);			
 			rs = ps.executeQuery();
@@ -553,7 +553,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula1 = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -565,7 +565,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -584,17 +584,17 @@ public class DadosAulaDAO {
 		List<DadosAula> lista = new ArrayList<DadosAula>();
 		try {
 			if (parametro.equals("Igual a")) {
-				ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+				ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 						+ " WHERE qtd_alunos LIKE ?");
 				ps.setInt (1, qtdAluno);	
 			}
 			else if (parametro.equals("Maior que")){
-				ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+				ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 						+ " WHERE qtd_alunos >= ? ");
 				ps.setInt (1, qtdAluno);	
 			}
 			else if (parametro.equals("Menor que")) {
-				ps = conn.prepareStatement ("SELECT * FROM dados_aulas"
+				ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
 						+ " WHERE qtd_alunos <= ?");
 				ps.setInt (1, qtdAluno);	
 			}		
@@ -606,7 +606,7 @@ public class DadosAulaDAO {
 				String turma1 = rs.getString ("turma");
 				String periodo1 = rs.getString ("periodo");
 				String semestreLetivo1 = rs.getString ("semestre_letivo");
-				String dataAula = rs.getString ("data_aula");
+				String dataAula = rs.getString ("DATA_FORMATADA");
 				boolean teveAula1 = rs.getBoolean ("teve_aula");
 				String justificativa = rs.getString ("justificativa");
 				String horarioInicio = rs.getString ("horario_inicio");
@@ -618,7 +618,7 @@ public class DadosAulaDAO {
 				String linkGravacao = rs.getString ("link_gravacao");
 				String obs = rs.getString ("obs");
 				boolean atividadeSolicitada1 = rs.getBoolean ("atividade_solicitada");
-				String dataEntrega = rs.getString ("data_entrega");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
 				String qtdPessoas = rs.getString ("qtd_pessoas");
 				String descricao = rs.getString ("descricao");
 				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
@@ -631,6 +631,47 @@ public class DadosAulaDAO {
 			return lista;
 		}catch (Exception e) {
 			throw new Exception (e.getMessage()); 
+		}
+	}
+	public List ListarTodos7(String semestre) throws Exception {
+		List<DadosAula> lista = new ArrayList<DadosAula>();
+		try {
+			ps = conn.prepareStatement ("SELECT * , DATE_FORMAT(DATA_AULA, '%d/%m/%Y') AS DATA_FORMATADA, DATE_FORMAT(DATA_ENTREGA, '%d/%m/%Y') AS DATA_ENTREGA_FORMATADA FROM dados_aulas "
+					+ " WHERE semestre_letivo=?");
+			ps.setString (1, semestre);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int idAula1 = rs.getInt ("id_aula");
+				String curso = rs.getString ("curso");
+				String disciplina = rs.getString ("disciplina");
+				String turma = rs.getString ("turma");
+				String periodo = rs.getString ("periodo");
+				String semestreLetivo = rs.getString ("semestre_letivo");
+				String dataAula = rs.getString ("DATA_FORMATADA");
+				boolean teveAula = rs.getBoolean ("teve_aula");
+				String justificativa = rs.getString ("justificativa");
+				String horarioInicio = rs.getString ("horario_inicio");
+				String horarioTermino = rs.getString ("horario_termino");
+				String assunto = rs.getString ("assunto");
+				int qtdAlunos = rs.getInt ("qtd_alunos");
+				String materiaisDisponibilizados = rs.getString ("materiais_disponibilizados");
+				String linkSessao = rs.getString ("link_sessao");
+				String linkGravacao = rs.getString ("link_gravacao");
+				String obs = rs.getString ("obs");
+				boolean atividadeSolicitada = rs.getBoolean ("atividade_solicitada");
+				String dataEntrega = rs.getString ("DATA_ENTREGA_FORMATADA");
+				String qtdPessoas = rs.getString ("qtd_pessoas");
+				String descricao = rs.getString ("descricao");
+				int idCursoDisciplina = rs.getInt ("id_curso_disciplina");
+				int idTurma = rs.getInt ("id_turma");
+				int idProfessor = rs.getInt ("id_professor");
+				int idSemestre = rs.getInt ("id_semestre");
+				dadosAula = new DadosAula (idAula1, curso, disciplina, turma, periodo, semestreLetivo, dataAula, teveAula, justificativa, horarioInicio, horarioTermino, assunto, qtdAlunos, materiaisDisponibilizados, linkSessao, linkGravacao, obs, atividadeSolicitada, dataEntrega, qtdPessoas, descricao, idCursoDisciplina, idTurma, idProfessor, idSemestre);
+				lista.add(dadosAula);
+			}
+			return lista;
+		}catch (Exception e) {
+			throw new Exception (e.getMessage());
 		}
 	}
 }
