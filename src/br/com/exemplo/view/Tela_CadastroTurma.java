@@ -453,53 +453,82 @@ public class Tela_CadastroTurma extends JFrame {
 					String semestre = (String) JOptionPane.showInputDialog(null, "Informe o Semestre Letivo: ", "Semestre Letivo", JOptionPane.OK_CANCEL_OPTION, icon1, null, null);
 				
 					String status = "Ativo";
+					String status1 = "Desativado";
+					String semestre1 = "%%";
 					
 					SemestreLetivo semestreLetivo = new SemestreLetivo();
+					SemestreLetivo semestreLetivo1 = new SemestreLetivo();
+					SemestreLetivo semestreLetivo2 = new SemestreLetivo();
 					SemestreLetivoDAO semestreLetivoDao = new SemestreLetivoDAO();
-					semestreLetivo = semestreLetivoDao.Consultar3();
+					semestreLetivo = semestreLetivoDao.Consultar2(semestre, status);
+					semestreLetivo1 = semestreLetivoDao.Consultar2(semestre, status1);
+					semestreLetivo2 = semestreLetivoDao.Consultar4(status);
 					
 					if (semestre.equals("")) {
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 						JOptionPane.showOptionDialog(null, "Digite o semestre para prosseguir!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-						
 					}
 					else {
-						if (semestreLetivo.getSemestre().equals("")) {
-							semestreLetivo.setIdSemestre(1);
-							semestreLetivo.setSemestre(semestre);
-							semestreLetivo.setStatus("Ativo");
-							
-							semestreLetivoDao.Salvar(semestreLetivo);
-							
+						if (semestre.equals(semestreLetivo.getSemestre())) {
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							String status1 = "Ativo";
-							
-							List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
-							SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
-							lista4 = semestreLetivoDAO.ListarTodos4(status1);
-							DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-							cmbSemestreLetivo.setModel(model4);
-						}
+							JOptionPane.showOptionDialog(null, "Esse semestre já existe no banco e esta ativo", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						} 
 						else {
-							semestreLetivo.setIdSemestre(1);
-							semestreLetivo.setSemestre(semestre);
-							semestreLetivo.setStatus("Ativo");
-							
-							semestreLetivoDao.Alterar(semestreLetivo);
-							
-							Object[] options = {"OK"};
-							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							String status1 = "Ativo";
-							
-							List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
-							SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
-							lista4 = semestreLetivoDAO.ListarTodos4(status1);
-							DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
-							cmbSemestreLetivo.setModel(model4);
+							if (semestre.equals(semestreLetivo1.getSemestre())) {
+								int idSemestre = semestreLetivo1.getIdSemestre();
+								semestreLetivo1.setStatus("Ativo");
+								semestreLetivo1.setSemestre(semestre);
+								semestreLetivo1.setIdSemestre(idSemestre);
+								
+								semestreLetivoDao.Alterar(semestreLetivo1);
+								
+								int idSemestreAntigo = semestreLetivo2.getIdSemestre();
+								String semestreAntigo = semestreLetivo2.getSemestre();
+								
+								semestreLetivo2.setStatus("Desativado");
+								semestreLetivo2.setSemestre(semestreAntigo);
+								semestreLetivo2.setIdSemestre(idSemestreAntigo);
+								
+								semestreLetivoDao.Alterar(semestreLetivo2);
+								
+								List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
+								SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
+								lista4 = semestreLetivoDAO.ListarTodos4(status);
+								DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+								cmbSemestreLetivo.setModel(model4);
+								
+								Object[] options = {"OK"};
+								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+			
+							}
+							else {
+								int idSemestre = semestreLetivo2.getIdSemestre();
+								String semestreAntigo = semestreLetivo2.getSemestre();
+								
+								semestreLetivo2.setStatus("Desativado");
+								semestreLetivo2.setSemestre(semestreAntigo);
+								semestreLetivo2.setIdSemestre(idSemestre);
+								
+								semestreLetivoDao.Alterar(semestreLetivo2);
+								
+								semestreLetivo.setSemestre(semestre);
+								semestreLetivo.setStatus("Ativo");
+								
+								semestreLetivoDao.Salvar(semestreLetivo);
+								
+								Object[] options = {"OK"};
+								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+								JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+			
+								List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
+								SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
+								lista4 = semestreLetivoDAO.ListarTodos4(status);
+								DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+								cmbSemestreLetivo.setModel(model4);
+							}
 						}
 					}
 				} catch (Exception e1) {

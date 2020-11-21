@@ -71,10 +71,10 @@ public class SemestreLetivoDAO {
 				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status);
 			}
 			else {
-				int idSemestre1 = rs.getInt ("");
-				String semestre = rs.getString ("");
-				String status = rs.getString ("");
-				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status);
+				int idSemestre1 = 0;
+				String semestre1 = "";
+				String status1 = "";
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
 			}
 				return semestreLetivo;
 		} catch (Exception e) {
@@ -114,6 +114,29 @@ public class SemestreLetivoDAO {
 				String semestre1 = rs.getString ("semestre_letivo");
 				String status1 = rs.getString ("status");
 				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
+			}
+			else {
+				int idSemestre1 = 0;
+				String semestre1 = "";
+				String status1 = "";
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre1, status1);
+			}
+				return semestreLetivo;
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+	}
+	public SemestreLetivo Consultar4 (String status) throws Exception {
+		try {
+			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo "
+					+ " WHERE status LIKE ? "); 
+			ps.setString (1, status);
+			rs= ps.executeQuery();
+			if(rs.next()) {
+				int idSemestre1 = rs.getInt ("id_semestre");
+				String semestre = rs.getString ("semestre_letivo");
+				String status1 = rs.getString ("status");
+				semestreLetivo = new SemestreLetivo (idSemestre1, semestre, status1);
 			}
 			else {
 				int idSemestre1 = 0;
