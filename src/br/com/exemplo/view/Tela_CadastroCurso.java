@@ -361,7 +361,6 @@ public class Tela_CadastroCurso extends JFrame {
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
-							txtCurso.setText(null);
 						}
 					}
 				} catch (Exception e1) {
@@ -417,6 +416,7 @@ public class Tela_CadastroCurso extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabCurso.getModel()).setRowCount(0);
 				txtCurso.setText(null);
 				((DefaultTableModel) tabCurso.getModel()).setRowCount(0);
 			}
@@ -450,9 +450,7 @@ public class Tela_CadastroCurso extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar o curso" + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar o curso " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
 							CursoDAO cursoDao = new CursoDAO();
@@ -461,8 +459,7 @@ public class Tela_CadastroCurso extends JFrame {
 							Object[] options1 = {"OK"};
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O curso foi ativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
-							
-							txtCurso.setText(null);
+						
 							
 							String status1 = "Ativo";
 							
@@ -521,9 +518,7 @@ public class Tela_CadastroCurso extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo desativar o curso" + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo desativar o curso " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
 						if (resposta == JOptionPane.YES_OPTION) {
@@ -534,8 +529,6 @@ public class Tela_CadastroCurso extends JFrame {
 							Object[] options1 = {"OK"};
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O curso foi desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
-							
-							txtCurso.setText(null);
 							
 							String status1 = "Desativado";
 							

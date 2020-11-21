@@ -519,7 +519,7 @@ public class Tela_DadosAulas extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//((DefaultTableModel) tabDadosAulas.getModel()).setRowCount(0);
+				((DefaultTableModel) tabDadosAulas.getModel()).setRowCount(0);
 				cmbCurso.setSelectedIndex(0);
 				cmbDisciplina.setSelectedIndex(-1);
 				cmbTurma.setSelectedIndex(0);

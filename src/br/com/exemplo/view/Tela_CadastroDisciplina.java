@@ -284,36 +284,103 @@ public class Tela_CadastroDisciplina extends JFrame {
 					String cursoNome = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 0));
 					String disciplinaNome = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 1));
 					
-					if (cursoNome.equals(cmbCurso.getSelectedItem().toString()) && disciplinaNome.equals(txtDisciplina.getText())) {
+					if (txtDisciplina.getText().equals("")) {
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-						JOptionPane.showOptionDialog(null, "Por favor altere o curso ou a disciplina antes de prosseguir!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						JOptionPane.showOptionDialog(null, "Por favor informe o novo nome da disciplina antes de prosseguir", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 					
 					}
 					else {
-						String nomeCurso = cmbCurso.getSelectedItem().toString();
-						String nomeDisciplina = txtDisciplina.getText();
-						String status = "Ativo";
+						if (cursoNome.equals(cmbCurso.getSelectedItem().toString()) && disciplinaNome.equals(txtDisciplina.getText())) {
+							Object[] options = {"OK"};
+							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+							JOptionPane.showOptionDialog(null, "Por favor altere o curso ou a disciplina antes de prosseguir!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
-						Disciplina disciplina = new Disciplina();
-						DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-						disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
-						
-						CursoDisciplina cursoDisciplina = new CursoDisciplina();
-						CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
-						
-						Curso curso = new Curso();
-						CursoDAO cursoDao = new CursoDAO();
-						curso = cursoDao.Consultar1(nomeCurso, status);
-						
-						if (disciplina.getNomeDisciplina().equals("")) {
-							disciplina.setNomeDisciplina (txtDisciplina.getText());
-							disciplina.setStatus("Ativo");
+						}
+						else {
+							String nomeCurso = cmbCurso.getSelectedItem().toString();
+							String nomeDisciplina = txtDisciplina.getText();
+							String status = "Ativo";
 							
-							disciplinaDao.Salvar(disciplina);
+							Disciplina disciplina = new Disciplina();
+							DisciplinaDAO disciplinaDao = new DisciplinaDAO();
 							disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
 							
-							if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+							CursoDisciplina cursoDisciplina = new CursoDisciplina();
+							CursoDisciplinaDAO cursoDisciplinaDao = new CursoDisciplinaDAO();
+							
+							Curso curso = new Curso();
+							CursoDAO cursoDao = new CursoDAO();
+							curso = cursoDao.Consultar1(nomeCurso, status);
+							
+							if (disciplina.getNomeDisciplina().equals("")) {
+								String discCurso = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+								int idDiscCurso = Integer.parseInt(discCurso);
+								
+								cursoDisciplina = cursoDisciplinaDao.Consultar(idDiscCurso);
+								
+								if (idDiscCurso == cursoDisciplina.getIdCursoDisciplina()) {
+									int idDisciplina = cursoDisciplina.getIdDisciplina();
+									disciplina.setNomeDisciplina(txtDisciplina.getText());
+									disciplina.setIdDisciplina(idDisciplina);
+									disciplina.setStatus("Ativo");
+									
+									disciplinaDao.Alterar(disciplina);
+									
+									disciplina = disciplinaDao.Consultar2(nomeDisciplina, status);
+									
+									if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
+										int idDisciplina1 = disciplina.getIdDisciplina();
+										cursoDisciplina.setIdDisciplina(idDisciplina1);
+										cursoDisciplina.setNomeDisciplina(nomeDisciplina);
+										
+										if (nomeCurso.equals(curso.getNomeCurso())) {
+											int idCurso = curso.getIdCurso();
+											cursoDisciplina.setIdCurso(idCurso);
+											cursoDisciplina.setNomeCurso(nomeCurso);
+											
+											String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
+											int idCursoDisciplina = Integer.parseInt(teste);
+											cursoDisciplina.setStatus ("Ativo");
+											cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
+											
+											cursoDisciplinaDao.Alterar(cursoDisciplina);
+											
+											List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
+											lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
+											
+											DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
+											model.setNumRows(0);
+											for (CursoDisciplina cursoDisciplina1 : lista) {
+												model.addRow (new Object[] {
+														cursoDisciplina1.getNomeCurso(),
+														cursoDisciplina1.getNomeDisciplina(),
+														cursoDisciplina1.getStatus(),
+														cursoDisciplina1.getIdCursoDisciplina(),
+													});
+											}
+											
+											Object[] options = {"OK"};
+											ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+										
+										}
+										else {
+											Object[] options = {"OK"};
+											ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+											JOptionPane.showOptionDialog(null, "Erro ao pegar ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+										
+										}
+									}
+									else {
+										Object[] options = {"OK"};
+										ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
+										JOptionPane.showOptionDialog(null, "Erro ao pegar ID da disciplina!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+								
+									}
+								}
+							}
+							else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
 								int idDisciplina = disciplina.getIdDisciplina();
 								cursoDisciplina.setIdDisciplina(idDisciplina);
 								cursoDisciplina.setNomeDisciplina(nomeDisciplina);
@@ -362,56 +429,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 								JOptionPane.showOptionDialog(null, "Erro ao pegar ID da disciplina!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							
 							}
-						}
-						
-						else if (nomeDisciplina.equals(disciplina.getNomeDisciplina())) {
-							int idDisciplina = disciplina.getIdDisciplina();
-							cursoDisciplina.setIdDisciplina(idDisciplina);
-							cursoDisciplina.setNomeDisciplina(nomeDisciplina);
-							
-							if (nomeCurso.equals(curso.getNomeCurso())) {
-								int idCurso = curso.getIdCurso();
-								cursoDisciplina.setIdCurso(idCurso);
-								cursoDisciplina.setNomeCurso(nomeCurso);
-								
-								String teste = String.valueOf(tabDisciplina.getValueAt(tabDisciplina.getSelectedRow(), 3));
-								int idCursoDisciplina = Integer.parseInt(teste);
-								cursoDisciplina.setStatus ("Ativo");
-								cursoDisciplina.setIdCursoDisciplina(idCursoDisciplina);
-								
-								cursoDisciplinaDao.Alterar(cursoDisciplina);
-								
-								List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
-								lista = cursoDisciplinaDao.ListarTodos1(idCursoDisciplina);
-								
-								DefaultTableModel model = (DefaultTableModel) tabDisciplina.getModel();
-								model.setNumRows(0);
-								for (CursoDisciplina cursoDisciplina1 : lista) {
-									model.addRow (new Object[] {
-											cursoDisciplina1.getNomeCurso(),
-											cursoDisciplina1.getNomeDisciplina(),
-											cursoDisciplina1.getStatus(),
-											cursoDisciplina1.getIdCursoDisciplina(),
-										});
-								}
-								
-								Object[] options = {"OK"};
-								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-								JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							
-							}
-							else {
-								Object[] options = {"OK"};
-								ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-								JOptionPane.showOptionDialog(null, "Erro ao pegar ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-							
-							}
-						}
-						else {
-							Object[] options = {"OK"};
-							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
-							JOptionPane.showOptionDialog(null, "Erro ao pegar ID da disciplina!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-						
 						}
 					}
 				} catch(Exception e1) {
@@ -561,8 +578,6 @@ public class Tela_CadastroDisciplina extends JFrame {
 								JOptionPane.showOptionDialog(null, "Erro ao pegar o ID do curso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 							}
 						}
-						txtDisciplina.setText(null);
-						cmbCurso.setSelectedIndex(0);
 					}
 					
 				} catch (Exception e1) {
@@ -620,6 +635,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabDisciplina.getModel()).setRowCount(0);
 				cmbCurso.setSelectedIndex(0);
 				txtDisciplina.setText(null);
 				((DefaultTableModel) tabDisciplina.getModel()).setRowCount(0);
@@ -655,9 +671,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar a disciplina " + nomeDisciplina + " do curso " + nomeCurso + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar a disciplina " + nomeDisciplina + " do curso " + nomeCurso + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
 							
@@ -730,9 +744,7 @@ public class Tela_CadastroDisciplina extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo desativar a disciplina " + nomeDisciplina + " do curso " + nomeCurso + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo desativar a disciplina " + nomeDisciplina + " do curso " + nomeCurso + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
 						if (resposta == JOptionPane.YES_OPTION) {

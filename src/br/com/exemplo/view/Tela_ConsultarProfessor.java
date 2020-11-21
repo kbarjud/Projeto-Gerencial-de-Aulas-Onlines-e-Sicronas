@@ -208,6 +208,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabProfessor.getModel()).setRowCount(0);
 				cmbProfessor.setSelectedIndex(0);
 				((DefaultTableModel) tabProfessor.getModel()).setRowCount(0);
 			}
@@ -258,9 +259,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo desativar o professor " + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo desativar o professor " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
 						if (resposta == JOptionPane.YES_OPTION) {
@@ -271,8 +270,6 @@ public class Tela_ConsultarProfessor extends JFrame {
 							Object[] options1 = {"OK"};
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O professor foi desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
-							
-							cmbProfessor.setSelectedIndex(0);
 							
 							String status1 = "Desativado";
 							
@@ -356,9 +353,7 @@ public class Tela_ConsultarProfessor extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar o professor " + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar o professor " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
 							
@@ -368,8 +363,6 @@ public class Tela_ConsultarProfessor extends JFrame {
 							Object[] options1 = {"OK"};
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O professor foi ativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
-							
-							cmbProfessor.setSelectedIndex(0);
 							
 							String status1 = "Ativo";
 							

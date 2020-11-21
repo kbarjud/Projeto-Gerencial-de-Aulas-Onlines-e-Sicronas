@@ -236,12 +236,13 @@ public class ProfessoresDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public Professores Login (int codProfessor, String senha) throws Exception {
+	public Professores Login (int codProfessor, String senha, String status) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM professores "
-					+ " WHERE cod_professor=? AND senha=?"); 
+					+ " WHERE cod_professor=? AND senha=? AND status=?"); 
 			ps.setInt (1, codProfessor);
 			ps.setString (2, senha);
+			ps.setString (3, status);
 			rs= ps.executeQuery();
 			if(rs.next()) {
 				int idProfessor = rs.getInt ("id_professor");

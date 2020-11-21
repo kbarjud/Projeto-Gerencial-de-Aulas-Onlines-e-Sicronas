@@ -217,6 +217,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 				cmbCoordenador.setSelectedIndex(0);
 				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 			}
@@ -267,9 +268,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo desativar o coordenador " + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo desativar o coordenador " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
 						if (resposta == JOptionPane.YES_OPTION) {
@@ -281,8 +280,6 @@ public class Tela_ConsultarCoordenador extends JFrame {
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O coordenador foi desativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							
-							
-							cmbCoordenador.setSelectedIndex(0);
 							
 							String status1 = "Desativado";
 							
@@ -365,9 +362,7 @@ public class Tela_ConsultarCoordenador extends JFrame {
 						String nome = String.valueOf(tabCoordenador.getValueAt(tabCoordenador.getSelectedRow(), 3));
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar o coordenador " + nome + "?"
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar o coordenador " + nome + "?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
 							
@@ -378,8 +373,6 @@ public class Tela_ConsultarCoordenador extends JFrame {
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "O coordenador foi ativado!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							
-							
-							cmbCoordenador.setSelectedIndex(0);
 							
 							String status1 = "Ativo";
 							

@@ -162,10 +162,11 @@ public class Tela_InicialProfessor extends JFrame {
 				try {
 					int codProfessor = Integer.parseInt(txtCodProfessor.getText());
 					String senha = String.valueOf(passSenha.getPassword());
+					String status = "Ativo";
 					
 					ProfessoresDAO professorDAO = new ProfessoresDAO();
 					Professores professor = new Professores();
-					professor = professorDAO.Login(codProfessor, senha);
+					professor = professorDAO.Login(codProfessor, senha, status);
 					 
 					if (codProfessor == professor.getCodProfessor() && senha.equals(professor.getSenha())) {
 						String nome = professor.getNome();
@@ -319,12 +320,13 @@ public class Tela_InicialProfessor extends JFrame {
 				try {
 					int codProfessor = Integer.parseInt(txtCodProfessor.getText());
 					String senha = String.valueOf(passSenha.getPassword());
+					String status = "Ativo";
 					
 					ProfessoresDAO professorDAO = new ProfessoresDAO();
 					Professores professor = new Professores();
-					professor = professorDAO.Login(codProfessor, senha);
+					professor = professorDAO.Login(codProfessor, senha, status);
 					 
-					if (codProfessor == professor.getCodProfessor() && senha.equals(professor.getSenha())) {
+					if (codProfessor == professor.getCodProfessor() && senha.equals(professor.getSenha()) && status.equals(professor.getStatus())) {
 						String nome = professor.getNome();
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/gender-neutral-user--v1.png")));
@@ -454,6 +456,7 @@ public class Tela_InicialProfessor extends JFrame {
 		btnNovo.setToolTipText("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				((DefaultTableModel) tabProfessor.getModel()).removeRow(0);
 				txtCodProfessor.setText(null);
 				passSenha.setText(null);
 				((DefaultTableModel) tabProfessor.getModel()).removeRow(0);

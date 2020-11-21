@@ -153,7 +153,7 @@ public class CursoDAO {
 	public List ListarTodos2(String status) throws Exception {
 		List<Curso> lista = new ArrayList<Curso>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso WHERE status LIKE ? GROUP BY curso");
+			ps = conn.prepareStatement ("SELECT * FROM curso WHERE status LIKE ? GROUP BY  curso");
 			ps.setString (1, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -169,7 +169,7 @@ public class CursoDAO {
 	public List ListarTodos3(String nomeCurso) throws Exception {
 		List<Curso> lista = new ArrayList<Curso>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso WHERE curso LIKE ? GROUP BY curso");
+			ps = conn.prepareStatement ("SELECT * FROM curso WHERE curso LIKE ? GROUP BY  curso");
 			ps.setString (1, nomeCurso);
 			rs = ps.executeQuery();
 			while (rs.next()) {

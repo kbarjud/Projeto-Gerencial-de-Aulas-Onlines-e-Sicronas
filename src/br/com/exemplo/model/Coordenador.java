@@ -25,12 +25,13 @@ public class Coordenador {
 		this.status = status;
 	}
 	
-	public Coordenador(int idProfessor, int codCoordenador, String senha, String nome) {
+	public Coordenador(int idProfessor, int codCoordenador, String senha, String nome, String status) {
 		super();
 		this.idCoordenador = idCoordenador;
 		this.codCoordenador = codCoordenador;
 		this.senha = senha;
 		this.nome = nome;
+		this.status = status;
 	}
 	
 	public Coordenador(String nome) {

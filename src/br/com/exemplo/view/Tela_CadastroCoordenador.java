@@ -275,11 +275,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 					Object[] options = {"OK"};
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 					JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
-					txtCodCoordenador.setText(null);
-					passSenha.setText(null);
-					txtNomeCoordenador.setText(null);
-					txtEmail.setText(null);
-					ftfCelular.setText(null);
+					
 				} catch (Exception e1) {
 					Object[] options = {"OK"};
 					ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/error.png")));
@@ -299,6 +295,7 @@ public class Tela_CadastroCoordenador extends JFrame {
 		btnNovo.setToolTipText("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabCoordenador.getModel()).setRowCount(0);
 				txtCodCoordenador.setText(null);
 				passSenha.setText(null);
 				txtNomeCoordenador.setText(null);

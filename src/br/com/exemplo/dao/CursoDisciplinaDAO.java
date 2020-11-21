@@ -192,7 +192,7 @@ public class CursoDisciplinaDAO {
 	public List ListarTodos2() throws Exception {
 		List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina GROUP BY curso");
+			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina GROUP BY ORDER BY curso");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String nomeCurso = rs.getString ("curso");
@@ -267,7 +267,7 @@ public class CursoDisciplinaDAO {
 	public List ListarTodos6(String status) throws Exception {
 		List<CursoDisciplina> lista = new ArrayList<CursoDisciplina>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina WHERE status LIKE ? ORDER BY curso, disciplina");
+			ps = conn.prepareStatement ("SELECT * FROM curso_disciplina WHERE status LIKE ? ORDER BY GROUP BY curso, disciplina");
 			ps.setString (1, status);
 			rs = ps.executeQuery();
 			while (rs.next()) {

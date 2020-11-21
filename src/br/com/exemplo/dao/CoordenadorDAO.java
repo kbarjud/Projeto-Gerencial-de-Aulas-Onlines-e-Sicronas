@@ -226,19 +226,21 @@ public class CoordenadorDAO {
 			throw new Exception (e.getMessage());
 		}
 	}
-	public Coordenador Login (int codCoordenador, String senha) throws Exception {
+	public Coordenador Login (int codCoordenador, String senha, String status) throws Exception {
 		try {
 			ps = conn.prepareStatement ("SELECT * FROM coordenador "
-					+ " WHERE cod_coordenador=? AND senha=?"); 
+					+ " WHERE cod_coordenador=? AND senha=? AND status=?"); 
 			ps.setInt (1, codCoordenador);
 			ps.setString (2, senha);
+			ps.setString (3, status);
 			rs= ps.executeQuery();
 			if(rs.next()) {
 				int idCoordenador = rs.getInt ("id_coordenador");
 				int codCoordenador1 = rs.getInt ("cod_coordenador");
 				String senha1 = rs.getString ("senha");
 				String nome = rs.getString ("nome");
-				coordenador = new Coordenador (idCoordenador, codCoordenador1, senha1, nome);
+				String status1 = rs.getString ("status");
+				coordenador = new Coordenador (idCoordenador, codCoordenador1, senha1, nome, status1);
 			}
 				return coordenador;
 		} catch (Exception e) {

@@ -345,13 +345,6 @@ public class Tela_CadastroTurma extends JFrame {
 									turma1.getIdTurma(),
 								});
 						} 
-						
-						cmbCurso.setSelectedIndex(0);
-						cmbDisciplina.setSelectedIndex(0);
-						txtTurma.setText(null);
-						txtQtdAluno.setText(null);
-						cmbPeriodo.setSelectedIndex(0);
-						cmbSemestreLetivo.setSelectedIndex(0);
 					}
 				} catch (Exception e1) {
 					Object[] options = {"OK"};
@@ -482,7 +475,13 @@ public class Tela_CadastroTurma extends JFrame {
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							String status1 = "Ativo";
 							
+							List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
+							SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
+							lista4 = semestreLetivoDAO.ListarTodos4(status1);
+							DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+							cmbSemestreLetivo.setModel(model4);
 						}
 						else {
 							semestreLetivo.setIdSemestre(1);
@@ -494,7 +493,13 @@ public class Tela_CadastroTurma extends JFrame {
 							Object[] options = {"OK"};
 							ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "Salvo com sucesso!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+							String status1 = "Ativo";
 							
+							List<SemestreLetivo> lista4 = new ArrayList<SemestreLetivo>();
+							SemestreLetivoDAO semestreLetivoDAO = new SemestreLetivoDAO();
+							lista4 = semestreLetivoDAO.ListarTodos4(status1);
+							DefaultComboBoxModel model4 = new DefaultComboBoxModel(lista4.toArray());
+							cmbSemestreLetivo.setModel(model4);
 						}
 					}
 				} catch (Exception e1) {
@@ -732,12 +737,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						turma = turmaDao.Consultar1 (nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
 						if (nomeCurso.equals(turma.getNomeCurso())) {
-							cmbCurso.setSelectedItem(turma.getNomeCurso());
-							cmbDisciplina.setSelectedItem(null);
-							txtTurma.setText(null);
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(null);
-							cmbSemestreLetivo.setSelectedItem(null);
+							
 							
 							List<Turma> lista = new ArrayList<Turma>();
 							lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
@@ -773,12 +773,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						turma = turmaDao.Consultar1 (nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
 						if (nomeCurso.equals(turma.getNomeCurso()) && disciplina.equals(disciplina)) {
-							cmbCurso.setSelectedItem(turma.getNomeCurso());
-							cmbDisciplina.setSelectedItem(turma.getDisciplina());
-							txtTurma.setText(null);
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(null);
-							cmbSemestreLetivo.setSelectedItem(null);
+							
 							
 							List<Turma> lista = new ArrayList<Turma>();
 							lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
@@ -814,12 +809,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						turma = turmaDao.Consultar1 (nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
 						if (turmaCod.equals(turma.getTurmaCod())) {
-							cmbCurso.setSelectedItem(null);
-							cmbDisciplina.setSelectedItem(null);
-							txtTurma.setText(turma.getTurmaCod());
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(null);
-							cmbSemestreLetivo.setSelectedItem(null);
+							
 							
 							List<Turma> lista = new ArrayList<Turma>();
 							lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
@@ -855,12 +845,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						turma = turmaDao.Consultar1 (nomeCurso, disciplina, turmaCod, periodo, semestreLetivo, status);
 						if (periodo.equals(turma.getPeriodo())) {
-							cmbCurso.setSelectedItem(null);
-							cmbDisciplina.setSelectedItem(null);
-							txtTurma.setText(null);
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(turma.getPeriodo());
-							cmbSemestreLetivo.setSelectedItem(null);
+							
 							
 							List<Turma> lista = new ArrayList<Turma>();
 							lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
@@ -894,13 +879,6 @@ public class Tela_CadastroTurma extends JFrame {
 						String semestreLetivo = "%%";
 						String status = "%%";
 					
-						cmbCurso.setSelectedItem(null);
-						cmbDisciplina.setSelectedItem(null);
-						txtTurma.setText(turma.getTurmaCod());
-						txtQtdAluno.setText(null);
-						cmbPeriodo.setSelectedItem(null);
-						cmbSemestreLetivo.setSelectedItem(null);
-						
 						List<Turma> lista = new ArrayList<Turma>();
 						lista = turmaDao.ListarTodos7(nomeCurso, disciplina, turmaCod, semestreLetivo, periodo, status);
 						DefaultTableModel model = (DefaultTableModel) tabTurma.getModel();
@@ -966,6 +944,7 @@ public class Tela_CadastroTurma extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabTurma.getModel()).setRowCount(0);
 				txtTurma.setText(null);
 				txtQtdAluno.setText(null);
 				cmbCurso.setSelectedIndex(0);
@@ -1012,9 +991,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar a turma " + turmaCod + ", do curso " + nomeCurso + ", disciplina " + nomeDisciplina + ", periodo " + periodo + ", semestre " + semestre
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar a turma " + turmaCod + ", do curso " + nomeCurso + ", disciplina " + nomeDisciplina + ", periodo " + periodo + ", semestre " + semestre, "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 							
 						if (resposta == JOptionPane.YES_OPTION) {
@@ -1024,13 +1001,6 @@ public class Tela_CadastroTurma extends JFrame {
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "A turma foi desativada!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
 							
-							
-							cmbCurso.setSelectedItem(null);
-							cmbDisciplina.setSelectedItem(null);
-							txtTurma.setText(null);
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(null);
-							cmbSemestreLetivo.setSelectedItem(null);
 							
 							String cursoNome = "%%";
 							String disciplina = "%%";
@@ -1104,9 +1074,7 @@ public class Tela_CadastroTurma extends JFrame {
 						
 						Object[] options = {"Salvar", "Cancelar"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/comments.png")));
-						int resposta = JOptionPane.showOptionDialog(null, "====================================================="
-								+ "\nDeseja mesmo ativar a turma " + turmaCod + " do curso " + nomeCurso + ", disciplina " + nomeDisciplina + ", periodo " + periodo + ", semestre " + semestre
-								+ "\n=====================================================", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+						int resposta = JOptionPane.showOptionDialog(null, "Deseja mesmo ativar a turma " + turmaCod + " do curso " + nomeCurso + ", disciplina " + nomeDisciplina + ", periodo " + periodo + ", semestre " + semestre, "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
 						
 						if (resposta == JOptionPane.YES_OPTION) {
 							turmaDao.AtivarDesativar(turma);
@@ -1114,14 +1082,6 @@ public class Tela_CadastroTurma extends JFrame {
 							Object[] options1 = {"OK"};
 							ImageIcon icon1 = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/high-priority.png")));
 							JOptionPane.showOptionDialog(null, "A turma foi ativada!", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1[0]);
-							
-							
-							cmbCurso.setSelectedItem(null);
-							cmbDisciplina.setSelectedItem(null);
-							txtTurma.setText(null);
-							txtQtdAluno.setText(null);
-							cmbPeriodo.setSelectedItem(null);
-							cmbSemestreLetivo.setSelectedItem(null);
 							
 							String cursoNome = "%%";
 							String disciplina = "%%";

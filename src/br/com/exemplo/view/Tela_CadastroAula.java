@@ -471,12 +471,13 @@ public class Tela_CadastroAula extends JFrame {
 								
 								int codProf = Integer.parseInt(txtCodProfessor.getText());
 								String senha = txtSenhaProf.getText();
+								String status1 = "Ativo";
 								
 								ProfessoresDAO professoresDao = new ProfessoresDAO();
 								Professores professores = new Professores();
-								professores = professoresDao.Login(codProf, senha);
+								professores = professoresDao.Login(codProf, senha, status);
 								 
-								if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+								if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 									int idProfessor = professores.getIdProfessor();
 									dadosAula.setIdProfessor(idProfessor);
 									
@@ -611,12 +612,13 @@ public class Tela_CadastroAula extends JFrame {
 								
 								int codProf = Integer.parseInt(txtCodProfessor.getText());
 								String senha = txtSenhaProf.getText();
+								String status1 = "Ativo";
 								
 								ProfessoresDAO professoresDao = new ProfessoresDAO();
 								Professores professores = new Professores();
-								professores = professoresDao.Login(codProf, senha);
+								professores = professoresDao.Login(codProf, senha, status);
 								 
-								if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+								if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 									int idProfessor = professores.getIdProfessor();
 									dadosAula.setIdProfessor(idProfessor);
 									
@@ -747,12 +749,13 @@ public class Tela_CadastroAula extends JFrame {
 							
 							int codProf = Integer.parseInt(txtCodProfessor.getText());
 							String senha = txtSenhaProf.getText();
+							String status1 = "Ativo";
 							
 							ProfessoresDAO professoresDao = new ProfessoresDAO();
 							Professores professores = new Professores();
-							professores = professoresDao.Login(codProf, senha);
+							professores = professoresDao.Login(codProf, senha, status);
 							 
-							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 								int idProfessor = professores.getIdProfessor();
 								dadosAula.setIdProfessor(idProfessor);
 								
@@ -1285,12 +1288,13 @@ public class Tela_CadastroAula extends JFrame {
 						
 						int codProf = Integer.parseInt(txtCodProfessor.getText());
 						String senha = txtSenhaProf.getText();
+						String status1 = "Ativo";
 						
 						ProfessoresDAO professoresDao = new ProfessoresDAO();
 						Professores professores = new Professores();
-						professores = professoresDao.Login(codProf, senha);
+						professores = professoresDao.Login(codProf, senha, status);
 						 
-						if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+						if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 							int idProfessor = professores.getIdProfessor();
 							dadosAula.setIdProfessor(idProfessor);
 							
@@ -1730,12 +1734,13 @@ public class Tela_CadastroAula extends JFrame {
 							
 							int codProf = Integer.parseInt(txtCodProfessor.getText());
 							String senha = txtSenhaProf.getText();
+							String status1 = "Ativo";
 							
 							ProfessoresDAO professoresDao = new ProfessoresDAO();
 							Professores professores = new Professores();
-							professores = professoresDao.Login(codProf, senha);
+							professores = professoresDao.Login(codProf, senha, status);
 							 
-							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 								int idProfessor = professores.getIdProfessor();
 								dadosAula.setIdProfessor(idProfessor);
 								
@@ -1868,12 +1873,13 @@ public class Tela_CadastroAula extends JFrame {
 							
 							int codProf = Integer.parseInt(txtCodProfessor.getText());
 							String senha = txtSenhaProf.getText();
+							String status1 = "Ativo";
 							
 							ProfessoresDAO professoresDao = new ProfessoresDAO();
 							Professores professores = new Professores();
-							professores = professoresDao.Login(codProf, senha);
+							professores = professoresDao.Login(codProf, senha, status);
 							 
-							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha())) {
+							if (codProf == professores.getCodProfessor() && senha.equals(professores.getSenha()) && status.equals(professores.getStatus())) {
 								int idProfessor = professores.getIdProfessor();
 								dadosAula.setIdProfessor(idProfessor);
 								

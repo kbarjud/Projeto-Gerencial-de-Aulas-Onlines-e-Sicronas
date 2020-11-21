@@ -161,12 +161,13 @@ public class Tela_InicialCoordenador extends JFrame {
 				try {
 					int codCoordenador = Integer.parseInt(txtCodCoordenador.getText());
 					String senha = String.valueOf(passSenha.getPassword());
+					String status = "Ativo";
 					
 					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 					Coordenador coordenador = new Coordenador();
-					coordenador = coordenadorDao.Login(codCoordenador, senha);
-					 
-					if (codCoordenador == coordenador.getCodCoordenador() && senha.equals(coordenador.getSenha())) {
+					coordenador = coordenadorDao.Login(codCoordenador, senha, status);
+					
+					if ((codCoordenador == coordenador.getCodCoordenador()) && (senha.equals(coordenador.getSenha())) && (status.equals(coordenador.getStatus()))) {
 						String nome = coordenador.getNome();
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/gender-neutral-user--v1.png")));
@@ -259,12 +260,13 @@ public class Tela_InicialCoordenador extends JFrame {
 				try {
 					int codCoordenador = Integer.parseInt(txtCodCoordenador.getText());
 					String senha = String.valueOf(passSenha.getPassword());
+					String status = "Ativo";
 					
 					CoordenadorDAO coordenadorDao = new CoordenadorDAO();
 					Coordenador coordenador = new Coordenador();
-					coordenador = coordenadorDao.Login(codCoordenador, senha);
+					coordenador = coordenadorDao.Login(codCoordenador, senha, status);
 					 
-					if (codCoordenador == coordenador.getCodCoordenador() && senha.equals(coordenador.getSenha())) {
+					if (codCoordenador == coordenador.getCodCoordenador() && senha.equals(coordenador.getSenha()) && status.equals(coordenador.getStatus())) {
 						String nome = coordenador.getNome();
 						Object[] options = {"OK"};
 						ImageIcon icon = new ImageIcon(getToolkit().createImage(getClass().getResource("/br/com/exemplo/view/images/gender-neutral-user--v1.png")));
@@ -404,6 +406,7 @@ public class Tela_InicialCoordenador extends JFrame {
 		btnNovo = new JButton("");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) tabCoordenador.getModel()).removeRow(0);
 				txtCodCoordenador.setText(null);
 				passSenha.setText(null);
 				((DefaultTableModel) tabCoordenador.getModel()).removeRow(0);

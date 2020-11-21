@@ -165,7 +165,7 @@ public class SemestreLetivoDAO {
 	public List ListarTodos3() throws Exception {
 		List<SemestreLetivo> lista = new ArrayList<SemestreLetivo>();
 		try {
-			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo GROUP BY semestre_letivo");
+			ps = conn.prepareStatement ("SELECT * FROM semestre_letivo ");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String semestre = rs.getString ("semestre_letivo");
